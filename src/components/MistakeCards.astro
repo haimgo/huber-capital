@@ -1,0 +1,26 @@
+---
+const {
+  mistakes,
+  eyebrow = 'לפני שמשקיעים',
+  heading = 'שלוש טעויות שעולות למשקיעים ביוקר',
+  closing = 'הליווי שלנו נועד למנוע בדיוק את אלה.',
+} = Astro.props;
+---
+<section class="py-24 md:py-32 border-b hair reveal">
+  <div class="max-w-container mx-auto px-6 sm:px-8">
+    <div class="text-center mb-12 md:mb-16">
+      <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-4">{eyebrow}</p>
+      <h2 class="font-head text-4xl md:text-5xl">{heading}</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      {mistakes.map((m) => (
+        <div class="border hair bg-panel p-8 md:p-9 text-right">
+          <div class="font-cormorant text-4xl text-gold/70 mb-5">{m.n}</div>
+          <h3 class="font-head text-2xl mb-3">{m.title}</h3>
+          <p class="font-light text-mute leading-relaxed">{m.text}</p>
+        </div>
+      ))}
+    </div>
+    {closing && <p class="text-center text-ivory/80 font-light text-lg mt-12">{closing}</p>}
+  </div>
+</section>

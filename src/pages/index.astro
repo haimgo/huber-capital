@@ -1,13 +1,36 @@
 ---
-// Temporary scaffold page — replaced in Task 0.4 with the real Émeraude home.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import StatBar from '../components/StatBar.astro';
+import MistakeCards from '../components/MistakeCards.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import AboutGilad from '../components/AboutGilad.astro';
+import PressCards from '../components/PressCards.astro';
+import CTA from '../components/CTA.astro';
+import { stats, mistakes, process, press } from '../data/content.js';
 ---
-<html lang="he" dir="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Huber Capital</title>
-  </head>
-  <body class="bg-emer text-ivory">
-    <h1 class="font-head text-4xl text-gold p-10">Huber Capital — בקרוב</h1>
-  </body>
-</html>
+<BaseLayout>
+  <Hero
+    eyebrow='נדל"ן להשקעה · דובאי'
+    title={`השקעה בדובאי<br/>החל מ-<span class="text-gold">200,000₪</span> הון עצמי`}
+    sub="פוטנציאל עליית ערך של כ-10% בשנה — בליווי מלא A-Z, משלב האפיון ועד מסירת המפתח."
+  />
+
+  <!-- Manifesto -->
+  <section class="py-24 md:py-28 text-center border-b hair reveal">
+    <div class="max-w-4xl mx-auto px-6 sm:px-8">
+      <p class="font-head text-3xl md:text-[40px] leading-[1.5]">אני לא מוכר נכסים — <span class="text-gold">אני בוחן השקעות.</span></p>
+      <p class="text-mute font-light mt-6 text-lg">זו לא עוד עסקה. זה תהליך שמטרתו לייצר עבורך הצלחה.</p>
+    </div>
+  </section>
+
+  <StatBar stats={stats} eyebrow="ההזדמנות" heading={'שוק הנדל"ן בדובאי בצמיחה מתמדת'} />
+  <MistakeCards mistakes={mistakes} />
+  <ProcessSteps steps={process} />
+  <AboutGilad />
+  <PressCards press={press} />
+  <CTA
+    title={`מוכנים לבחון את<br/>ההשקעה הבאה שלכם?`}
+    sub="שיחת אפיון ראשונית, ללא התחייבות — נבין יחד מה נכון עבורכם."
+  />
+</BaseLayout>

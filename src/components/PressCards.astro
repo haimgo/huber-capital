@@ -1,0 +1,20 @@
+---
+const { press, eyebrow = 'בתקשורת', heading = 'מדברים עלינו' } = Astro.props;
+---
+<section class="py-24 md:py-32 border-b hair reveal">
+  <div class="max-w-container mx-auto px-6 sm:px-8">
+    <div class="text-center mb-12 md:mb-16">
+      <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-4">{eyebrow}</p>
+      <h2 class="font-head text-4xl md:text-5xl">{heading}</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      {press.map((p) => (
+        <a href={p.url} class="block border hair bg-panel p-8 md:p-9 text-right hover:border-gold/50 transition">
+          <span class="tracking-[.28em] uppercase text-[11px] text-gold">{p.outlet}</span>
+          <p class="font-head text-2xl mt-4 leading-snug">&ldquo;{p.title}&rdquo;</p>
+          <span class="text-mute text-[12px] font-light mt-5 inline-block">לכתבה ←</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

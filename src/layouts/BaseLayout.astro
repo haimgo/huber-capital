@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const {
+  title = 'Huber Capital — הובר קפיטל · השקעות נדל"ן בדובאי',
+  description = 'ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע. החל מ-200,000₪ הון עצמי, בליווי מלא A-Z.',
+  ogImage = '/assets/og.jpg',
+} = Astro.props;
+
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="he_IL" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Frank+Ruhl+Libre:wght@400;500;700&family=Assistant:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-emer text-ivory font-body antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:bg-gold focus:text-emer focus:px-4 focus:py-2 text-[12px]"
+      >דלג לתוכן</a
+    >
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script is:inline>
+      (function () {
+        function reveal() {
+          var els = document.querySelectorAll('.reveal');
+          if (!('IntersectionObserver' in window)) {
+            els.forEach(function (e) { e.classList.add('in'); });
+            return;
+          }
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.classList.add('in');
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { threshold: 0.12 }
+          );
+          els.forEach(function (e) { io.observe(e); });
+        }
+        function menu() {
+          var btn = document.getElementById('menu-btn');
+          var m = document.getElementById('mobile-menu');
+          if (btn && m) {
+            btn.addEventListener('click', function () {
+              m.classList.toggle('hidden');
+              btn.setAttribute('aria-expanded', m.classList.contains('hidden') ? 'false' : 'true');
+            });
+          }
+        }
+        if (document.readyState !== 'loading') { reveal(); menu(); }
+        else document.addEventListener('DOMContentLoaded', function () { reveal(); menu(); });
+      })();
+    </script>
+  </body>
+</html>

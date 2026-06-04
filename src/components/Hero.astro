@@ -1,0 +1,28 @@
+---
+import { site } from '../data/site.js';
+const {
+  eyebrow,
+  title,
+  sub,
+  image = '/assets/hero.jpg',
+  primaryLabel = 'לשיחת ייעוץ ראשונית',
+  primaryHref = site.phoneHref,
+  height = 'h-[640px] md:h-[720px]',
+} = Astro.props;
+---
+<section class={`relative ${height} flex items-center overflow-hidden`}>
+  <img src={image} alt="" class="absolute inset-0 w-full h-full object-cover lux-img" />
+  <div class="absolute inset-0" style="background:linear-gradient(to left,rgba(14,36,29,.97) 0%,rgba(14,36,29,.8) 45%,rgba(14,36,29,.4) 100%)"></div>
+  <div class="relative max-w-container mx-auto px-6 sm:px-8 w-full">
+    <div class="max-w-xl text-right mr-0 ml-auto">
+      {eyebrow && <p class="tracking-[.45em] uppercase text-gold text-[12px] mb-7">{eyebrow}</p>}
+      <h1 class="font-head text-4xl md:text-6xl leading-[1.15] mb-8" set:html={title}></h1>
+      <div class="w-20 h-px bg-gold/60 mb-8"></div>
+      {sub && <p class="font-light text-ivory/80 text-lg md:text-xl leading-relaxed mb-11">{sub}</p>}
+      <div class="flex flex-row-reverse gap-7 items-center">
+        <a href={primaryHref} class="border border-gold/50 px-9 md:px-10 py-4 text-[11px] tracking-[.3em] uppercase hover:bg-gold hover:text-emer transition duration-300">{primaryLabel}</a>
+        <a href={site.whatsapp} class="text-[11px] tracking-[.3em] uppercase text-ivory/85 border-b border-gold/40 pb-1.5 hover:text-gold transition">וואטסאפ</a>
+      </div>
+    </div>
+  </div>
+</section>
