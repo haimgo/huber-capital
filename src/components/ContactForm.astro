@@ -1,0 +1,88 @@
+---
+// TODO (CONTENT-TODO): replace REPLACE_ME with the real Formspree form id, pointed at the client's business email.
+const FORMSPREE = 'https://formspree.io/f/REPLACE_ME';
+const inputCls = 'w-full bg-panel border hair px-4 py-3 text-ivory placeholder:text-mute/60 focus:border-gold focus:outline-none transition';
+const labelCls = 'block tracking-[.2em] uppercase text-[11px] text-mute mb-2';
+---
+<form id="contact-form" action={FORMSPREE} method="POST" novalidate class="space-y-6 text-right">
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+  <div>
+    <label for="cf-name" class={labelCls}>שם מלא *</label>
+    <input id="cf-name" name="name" type="text" required class={inputCls} />
+    <p class="error-msg hidden text-[#e07a6f] text-[12px] mt-1.5">נא להזין שם.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-6">
+    <div>
+      <label for="cf-phone" class={labelCls}>טלפון *</label>
+      <input id="cf-phone" name="phone" type="tel" required dir="ltr" class={`${inputCls} text-right`} />
+      <p class="error-msg hidden text-[#e07a6f] text-[12px] mt-1.5">נא להזין מספר טלפון.</p>
+    </div>
+    <div>
+      <label for="cf-email" class={labelCls}>אימייל</label>
+      <input id="cf-email" name="email" type="email" dir="ltr" class={`${inputCls} text-right`} />
+      <p class="error-msg hidden text-[#e07a6f] text-[12px] mt-1.5">כתובת אימייל אינה תקינה.</p>
+    </div>
+  </div>
+
+  <div>
+    <label for="cf-budget" class={labelCls}>תקציב השקעה (הון עצמי)</label>
+    <select id="cf-budget" name="budget" class={inputCls}>
+      <option value="">בחר/י טווח</option>
+      <option>200,000 – 500,000 ₪</option>
+      <option>500,000 – 1,000,000 ₪</option>
+      <option>1,000,000 – 2,000,000 ₪</option>
+      <option>מעל 2,000,000 ₪</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="cf-message" class={labelCls}>פרטים נוספים *</label>
+    <textarea id="cf-message" name="message" rows="4" required class={inputCls}></textarea>
+    <p class="error-msg hidden text-[#e07a6f] text-[12px] mt-1.5">נא להוסיף הודעה.</p>
+  </div>
+
+  <p id="cf-error" class="hidden text-[#e07a6f] text-sm"></p>
+  <button type="submit" class="border border-gold/50 px-10 py-4 text-[11px] tracking-[.3em] uppercase hover:bg-gold hover:text-emer transition duration-300">שליחה לשיחת אפיון</button>
+</form>
+
+<script>
+  const form = document.getElementById('contact-form');
+  if (form) {
+    const field = (id) => document.getElementById(id);
+    const setErr = (el, show) => {
+      const msg = el.parentElement.querySelector('.error-msg');
+      if (msg) msg.classList.toggle('hidden', !show);
+      el.classList.toggle('input-error', show);
+    };
+    const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = field('cf-name');
+      const phone = field('cf-phone');
+      const email = field('cf-email');
+      const message = field('cf-message');
+      let ok = true;
+      [[name, name.value.trim() !== ''], [phone, phone.value.trim() !== ''], [message, message.value.trim() !== '']]
+        .forEach(([el, valid]) => { setErr(el, !valid); if (!valid) ok = false; });
+      const emailVal = email.value.trim();
+      if (emailVal && !emailOk(emailVal)) { setErr(email, true); ok = false; } else { setErr(email, false); }
+      if (!ok) return;
+
+      const gen = document.getElementById('cf-error');
+      gen.classList.add('hidden');
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) { window.location.href = '/thank-you'; return; }
+      } catch (_) { /* fallthrough to error */ }
+      gen.textContent = 'אירעה שגיאה בשליחה. נסו שוב או חייגו אלינו ישירות.';
+      gen.classList.remove('hidden');
+    });
+  }
+</script>

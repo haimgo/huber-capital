@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site.js';
+---
+<BaseLayout
+  title="צור קשר · Huber Capital"
+  description="השאירו פרטים לשיחת אפיון ראשונית, ללא התחייבות, או חייגו אלינו ישירות — 058-440-5858."
+>
+  <section class="border-b hair">
+    <div class="max-w-container mx-auto px-6 sm:px-8 py-20 md:py-28 text-center">
+      <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-5">צור קשר</p>
+      <h1 class="font-head text-4xl md:text-6xl mb-6">נתחיל בשיחה</h1>
+      <p class="font-light text-ivory/75 text-lg max-w-2xl mx-auto">השאירו פרטים לשיחת אפיון ראשונית, ללא התחייבות — או חייגו וכִתבו לנו ישירות.</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="max-w-container mx-auto px-6 sm:px-8 grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <div class="text-right order-2 md:order-1 space-y-8">
+        <div>
+          <p class="tracking-[.3em] uppercase text-[11px] text-gold mb-2">טלפון</p>
+          <a href={site.phoneHref} dir="ltr" class="font-head text-3xl text-ivory hover:text-gold transition inline-block">{site.phone}</a>
+        </div>
+        <div class="border-t hair pt-8">
+          <p class="tracking-[.3em] uppercase text-[11px] text-gold mb-2">וואטסאפ</p>
+          <a href={site.whatsapp} class="font-light text-ivory/85 hover:text-gold transition">שליחת הודעה מהירה ←</a>
+        </div>
+        <div class="border-t hair pt-8">
+          <p class="tracking-[.3em] uppercase text-[11px] text-gold mb-2">מיקום</p>
+          <p class="font-light text-ivory/75">{site.location}</p>
+        </div>
+        <div class="border-t hair pt-8">
+          <p class="font-light text-mute leading-relaxed">נשמח לענות על כל שאלה ולתאם עבורכם שיחת אפיון ראשונית — הבנת התקציב, המטרות ורמת הסיכון.</p>
+        </div>
+      </div>
+
+      <div class="order-1 md:order-2">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
