@@ -1,0 +1,11 @@
+# build output
+node_modules/
+dist/
+.astro/
+
+# os / editor
+.DS_Store
+*.log
+
+# design scratch (reference only; not part of the site)
+_mockups/

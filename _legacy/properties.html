@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>נכסים — הובר קפיטל דובאי</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+        colors: { "on-surface": "#1b1c1c", "on-surface-variant": "#4d4635", "surface": "#fbf9f9", "background": "#FFFFFF", "outline": "#7f7663", "outline-variant": "#d0c5af", "primary": "#d4af37", "on-primary": "#ffffff", "secondary": "#5f5e5e", "surface-variant": "#fdfbf7", "surface-container-low": "#f5f3f3", "inverse-surface": "#303031", "inverse-on-surface": "#f2f0f0" },
+        spacing: { "section-gap": "120px", "margin-desktop": "64px", "margin-mobile": "24px" },
+        fontFamily: { "display-lg": ["Playfair Display"], "display-lg-mobile": ["Playfair Display"], "headline-lg": ["Playfair Display"], "headline-md": ["Playfair Display"], "body-md": ["Manrope"], "body-lg": ["Manrope"], "label-md": ["Manrope"], "label-sm": ["Manrope"] },
+        fontSize: { "display-lg-mobile": ["40px", {lineHeight:"48px", letterSpacing:"-0.01em", fontWeight:"700"}], "display-lg": ["64px", {lineHeight:"72px", letterSpacing:"-0.02em", fontWeight:"700"}], "headline-lg": ["32px", {lineHeight:"40px", fontWeight:"600"}], "headline-md": ["24px", {lineHeight:"32px", fontWeight:"500"}], "body-lg": ["18px", {lineHeight:"28px", fontWeight:"400"}], "body-md": ["16px", {lineHeight:"24px", fontWeight:"400"}], "label-md": ["14px", {lineHeight:"20px", letterSpacing:"0.05em", fontWeight:"600"}], "label-sm": ["12px", {lineHeight:"16px", letterSpacing:"0.08em", fontWeight:"500"}] }
+    }}}
+</script>
+<style>
+    .property-card-shadow { box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08); }
+    .property-card-shadow:hover { box-shadow: 0 20px 40px -15px rgba(212,175,55,0.15); }
+    html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary/20 overflow-x-hidden">
+<!-- HEADER -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<nav class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-row-reverse justify-between items-center h-20">
+<div class="flex items-center gap-12 flex-row-reverse">
+<a href="index.html"><img alt="HUBER CAPITAL DUBAI" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLszgDbWkyt9KIl-mkgt5t02zeeBPtX1ywAgrVjyVYcsm30sF_nGzYtVAEypAUbWsjmtS-Z82U8RsONhfNCQhbOvDRP58kKVW3r7qbny8RZdtqqoRwnJqaGfX-RrkdyNYdpfbdiN9Hjorpqxv2qmcpPP5R5CJLWaWdc8xtyXP47f2lfI5r6nJwaA_wa9qrQbiaMGd-0Fx1Um8TTvToflll-L_6QRnvzh2VjaUucBuvxCQYwIXMCWjNomP_bL"/></a>
+<div class="hidden md:flex items-center gap-8 flex-row-reverse">
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="index.html">בית</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-primary border-b border-primary pb-1" href="properties.html">נכסים</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="investments.html">השקעות</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="advisory.html">ייעוץ</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="contact.html">צור קשר</a>
+</div>
+</div>
+<div class="flex items-center gap-4 flex-row-reverse">
+<a href="contact.html" class="hidden sm:inline-block bg-primary text-on-primary font-label-md px-6 py-2.5 tracking-wider hover:opacity-80 transition-opacity duration-300">בירור פרימיום</a>
+<button id="menu-btn" class="md:hidden text-on-surface" aria-label="תפריט"><span class="material-symbols-outlined text-3xl">menu</span></button>
+</div>
+</nav>
+<div id="mobile-menu" class="md:hidden hidden bg-surface border-t border-outline-variant/30">
+<div class="flex flex-col px-margin-mobile py-6 gap-5 text-right">
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="index.html">בית</a>
+<a class="font-label-md uppercase tracking-widest text-primary" href="properties.html">נכסים</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="investments.html">השקעות</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="advisory.html">ייעוץ</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="contact.html">צור קשר</a>
+</div>
+</div>
+</header>
+
+<main class="pt-20">
+<!-- PAGE HEADER -->
+<section class="bg-inverse-surface text-inverse-on-surface py-24">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+<span class="font-label-sm text-primary tracking-[0.3em] uppercase block mb-4">THE COLLECTION</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-5xl mb-6">קולקציית הנכסים</h1>
+<p class="font-body-lg text-inverse-on-surface/70 max-w-2xl mx-auto">מבחר אקסקלוסיבי של נכסי אולטרה-יוקרה במיקומים הנחשקים ביותר בדובאי. רבים מהם אינם מפורסמים בשוק החופשי.</p>
+</div>
+</section>
+
+<!-- FILTERS -->
+<section class="bg-surface-variant border-b border-outline-variant/20 sticky top-20 z-40">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col md:flex-row gap-4 md:items-center justify-between">
+<div class="flex flex-wrap gap-4">
+<select id="filter-location" class="bg-white border border-outline-variant/40 text-on-surface font-body-md px-4 py-2.5 focus:ring-primary focus:border-primary rounded-none">
+<option value="all">כל המיקומים</option>
+<option value="Palm Jumeirah">Palm Jumeirah</option>
+<option value="Downtown Dubai">Downtown Dubai</option>
+<option value="Emirates Hills">Emirates Hills</option>
+<option value="Dubai Marina">Dubai Marina</option>
+<option value="Jumeirah Bay">Jumeirah Bay</option>
+</select>
+<select id="filter-price" class="bg-white border border-outline-variant/40 text-on-surface font-body-md px-4 py-2.5 focus:ring-primary focus:border-primary rounded-none">
+<option value="all">כל טווחי המחיר</option>
+<option value="0-10">עד $10M</option>
+<option value="10-20">$10M – $20M</option>
+<option value="20-999">מעל $20M</option>
+</select>
+<select id="filter-beds" class="bg-white border border-outline-variant/40 text-on-surface font-body-md px-4 py-2.5 focus:ring-primary focus:border-primary rounded-none">
+<option value="all">כל מספרי החדרים</option>
+<option value="3">3+ חדרים</option>
+<option value="5">5+ חדרים</option>
+<option value="7">7+ חדרים</option>
+</select>
+</div>
+<div class="font-label-sm uppercase tracking-widest text-on-surface-variant"><span id="result-count">0</span> נכסים</div>
+</div>
+</section>
+
+<!-- GRID -->
+<section class="py-section-gap bg-background">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop">
+<div id="property-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+<div id="no-results" class="hidden text-center py-20"><span class="material-symbols-outlined text-5xl text-outline-variant mb-4">search_off</span><p class="font-headline-md text-on-surface-variant">לא נמצאו נכסים התואמים את הסינון</p></div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="py-section-gap bg-surface-variant border-t border-outline-variant/10">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">מחפשים משהו ספציפי?</h2>
+<p class="text-on-surface-variant font-body-lg mb-10 max-w-2xl mx-auto">חלק ניכר מהנכסים שלנו שמורים ללקוחות פרטיים בלבד. ספרו לנו מה אתם מחפשים ונציג בפניכם הזדמנויות סגורות.</p>
+<a href="contact.html" class="inline-block bg-primary text-on-primary font-label-md px-12 py-5 uppercase tracking-widest hover:opacity-90 transition-all">פנייה לקטלוג הפרטי</a>
+</div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-surface-container-low border-t border-outline-variant/20">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-right">
+<div class="flex flex-col items-center md:items-start"><img alt="HUBER CAPITAL DUBAI" class="h-10 mb-8" src="https://lh3.googleusercontent.com/aida/AP1WRLszgDbWkyt9KIl-mkgt5t02zeeBPtX1ywAgrVjyVYcsm30sF_nGzYtVAEypAUbWsjmtS-Z82U8RsONhfNCQhbOvDRP58kKVW3r7qbny8RZdtqqoRwnJqaGfX-RrkdyNYdpfbdiN9Hjorpqxv2qmcpPP5R5CJLWaWdc8xtyXP47f2lfI5r6nJwaA_wa9qrQbiaMGd-0Fx1Um8TTvToflll-L_6QRnvzh2VjaUucBuvxCQYwIXMCWjNomP_bL"/><p class="text-on-surface-variant font-body-md leading-relaxed">סוכנות הנדל"ן המובילה בדובאי לנכסי אולטרה-יוקרה והשקעות אסטרטגיות.</p></div>
+<div><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">ניווט</h4><ul class="space-y-4"><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="properties.html">נכסים</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="investments.html">השקעות</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="advisory.html">ייעוץ</a></li></ul></div>
+<div><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">מידע</h4><ul class="space-y-4"><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">מדיניות פרטיות</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">תנאי שימוש</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">הצהרת נגישות</a></li></ul></div>
+<div class="flex flex-col items-center md:items-start"><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">צור קשר</h4><p class="text-on-surface-variant font-body-md mb-2">Level 42, Burj Khalifa Tower</p><p class="text-on-surface-variant font-body-md mb-4">Downtown Dubai, UAE</p><p class="text-primary font-label-md font-bold" dir="ltr">+971 4 000 0000</p></div>
+</div>
+<div class="mt-20 pt-8 border-t border-outline-variant/10 text-center"><p class="text-on-surface-variant font-label-sm tracking-widest uppercase">© 2024 Huber Capital Dubai. כל הזכויות שמורות.</p></div>
+</div>
+</footer>
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    const IMG = [
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuARrYzuDtvUEGBXfXuK6_omcgr9IUzegEGJPL4_35shUpomjZampnvkEO2jAbgGMrL4BxGGR5AvsPshkJN7CpXaxNhwXC9KfW7qV327MTIgOZRR7fnHeFbI3v_Pr9TcSnE4dffe1OcuSheY52qBHoYaIXt6Pr6OTfUWN5sVve2VigJGcDCPCL83lUqqKpv_oOkdIp6E0VHjpOUCaczV4BEekFtVTBa-n-PddFWbIw9xysx-IdfsqvFom-eU64k0-XOMVInJzZCu4hsZ",
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuAF9aABYo_QOUSJGFAeHai5V6NHgn4jMOxLXPrO9iNUBD_nW7YGAXYziGUf4f86CeUe0nTyK-tQQKLLSFtBbgFnCf8_nG8eXwjvYR11zN5ZvE81SS_8_3kl-agsVK6nqN2yeL5vgDcAz5_I2ratipI7HLDwQB6QStirDBn6idmp-tIwWuSFb26P85yKYZUI_8G0az2P3Y3lwEzs4oyG34bKQf-8ITSikDmNS4D0Az-qnf2bGu5Udx5FAB89brLokoV42nEY_mYZv8Xw",
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuB374KWKjDla5i0WgKdNfsZpn4fv6a2dS-kcCkGqD-BzQ65SI2gGCFIrr-3r8SRjiL5czK2dIHtur9RXKEYlfbp4DKSX-zdoLwvqwNQXEgrlRe1J7eD53n7v8XKH7BfZiOFmVwfGo7PPO3jdf2pfmab0cD094ZFTGtvTY1He-K_rV62Q1HwT-9r0y0NtIwNddYIDXABLcWo47QIYiNSrjE3qmSCVxaXOLjX962xVv-epVghcztXZtEJC4vMEb35iIOKtdn_tFr6jftt",
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuBRc05DKsN0EhIApx1W5wGuZTb6blUZ0fHOOMQsBiCbRe2cttI_hS66oG3uzV4h62IuCDycrFXPfaIBGYqyek4CDMKMwEvICxn7ZTkPM_wxy_EB9EXa-tzH4MEeDXpAzNBJ76RkpQlfS45Lu8WYPAFDlZAIesAXCg3OI1c4uI5VW9qSfC_ITzHiHpckHn3uWw0R2iRuXSJjhHmW0Xz1GchKxXqXy7Dv1egQCMW4WKVxz1dQmjSBHtdxiJDVV-0kQc1-8Vrn9FSXv5Ug"
+    ];
+    const properties = [
+        { name:"The Emerald Villa", loc:"Palm Jumeirah", price:12.5, beds:5, area:700, img:IMG[0] },
+        { name:"Sky Mansion", loc:"Downtown Dubai", price:8.9, beds:3, area:390, img:IMG[1] },
+        { name:"Desert Rose Estate", loc:"Emirates Hills", price:24, beds:7, area:1100, img:IMG[2] },
+        { name:"Marina Pearl Penthouse", loc:"Dubai Marina", price:6.4, beds:4, area:420, img:IMG[3] },
+        { name:"Azure Signature Villa", loc:"Palm Jumeirah", price:18.7, beds:6, area:920, img:IMG[2] },
+        { name:"The Boulevard Residence", loc:"Downtown Dubai", price:15.2, beds:5, area:610, img:IMG[1] },
+        { name:"Sanctuary at the Hills", loc:"Emirates Hills", price:32, beds:8, area:1450, img:IMG[0] },
+        { name:"Bay Island Mansion", loc:"Jumeirah Bay", price:42, beds:7, area:1600, img:IMG[2] },
+        { name:"Coastal Glass House", loc:"Dubai Marina", price:9.8, beds:4, area:480, img:IMG[3] }
+    ];
+
+    const grid = document.getElementById('property-grid');
+    const noResults = document.getElementById('no-results');
+    const countEl = document.getElementById('result-count');
+    const fLoc = document.getElementById('filter-location');
+    const fPrice = document.getElementById('filter-price');
+    const fBeds = document.getElementById('filter-beds');
+
+    function money(n){ return "$" + (n*1000000).toLocaleString('en-US'); }
+
+    function card(p){
+        return `<a href="contact.html" class="group bg-white property-card-shadow transition-all duration-500 border border-outline-variant/30 overflow-hidden block">
+            <div class="aspect-[4/5] overflow-hidden"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="${p.name}" src="${p.img}"/></div>
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-4"><span class="font-label-md text-primary">${money(p.price)}</span><span class="text-on-surface-variant font-label-sm uppercase tracking-tighter">${p.loc}</span></div>
+                <h3 class="font-headline-md text-on-surface mb-6">${p.name}</h3>
+                <div class="pt-6 border-t border-outline-variant/20 flex justify-between items-center text-on-surface-variant font-label-sm"><span>${p.beds} חדרי שינה • ${p.area.toLocaleString()} מ"ר</span><span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_back</span></div>
+            </div>
+        </a>`;
+    }
+
+    function render(){
+        const loc = fLoc.value, price = fPrice.value, beds = fBeds.value;
+        const filtered = properties.filter(p => {
+            if (loc !== 'all' && p.loc !== loc) return false;
+            if (beds !== 'all' && p.beds < parseInt(beds)) return false;
+            if (price !== 'all'){ const [lo,hi] = price.split('-').map(Number); if (p.price < lo || p.price >= hi) return false; }
+            return true;
+        });
+        grid.innerHTML = filtered.map(card).join('');
+        countEl.textContent = filtered.length;
+        noResults.classList.toggle('hidden', filtered.length !== 0);
+    }
+    [fLoc, fPrice, fBeds].forEach(el => el.addEventListener('change', render));
+    render();
+</script>
+</body></html>

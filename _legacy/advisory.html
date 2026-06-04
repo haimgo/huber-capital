@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ייעוץ — הובר קפיטל דובאי</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+        colors: { "on-surface": "#1b1c1c", "on-surface-variant": "#4d4635", "surface": "#fbf9f9", "background": "#FFFFFF", "outline": "#7f7663", "outline-variant": "#d0c5af", "primary": "#d4af37", "on-primary": "#ffffff", "secondary": "#5f5e5e", "surface-variant": "#fdfbf7", "surface-container-low": "#f5f3f3", "inverse-surface": "#303031", "inverse-on-surface": "#f2f0f0" },
+        spacing: { "section-gap": "120px", "margin-desktop": "64px", "margin-mobile": "24px" },
+        fontFamily: { "display-lg": ["Playfair Display"], "display-lg-mobile": ["Playfair Display"], "headline-lg": ["Playfair Display"], "headline-md": ["Playfair Display"], "body-md": ["Manrope"], "body-lg": ["Manrope"], "label-md": ["Manrope"], "label-sm": ["Manrope"] },
+        fontSize: { "display-lg-mobile": ["40px", {lineHeight:"48px", letterSpacing:"-0.01em", fontWeight:"700"}], "display-lg": ["64px", {lineHeight:"72px", letterSpacing:"-0.02em", fontWeight:"700"}], "headline-lg": ["32px", {lineHeight:"40px", fontWeight:"600"}], "headline-md": ["24px", {lineHeight:"32px", fontWeight:"500"}], "body-lg": ["18px", {lineHeight:"28px", fontWeight:"400"}], "body-md": ["16px", {lineHeight:"24px", fontWeight:"400"}], "label-md": ["14px", {lineHeight:"20px", letterSpacing:"0.05em", fontWeight:"600"}], "label-sm": ["12px", {lineHeight:"16px", letterSpacing:"0.08em", fontWeight:"500"}] }
+    }}}
+</script>
+<style>
+    html { scroll-behavior: smooth; }
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary/20 overflow-x-hidden">
+<!-- HEADER -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<nav class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-row-reverse justify-between items-center h-20">
+<div class="flex items-center gap-12 flex-row-reverse">
+<a href="index.html"><img alt="HUBER CAPITAL DUBAI" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLszgDbWkyt9KIl-mkgt5t02zeeBPtX1ywAgrVjyVYcsm30sF_nGzYtVAEypAUbWsjmtS-Z82U8RsONhfNCQhbOvDRP58kKVW3r7qbny8RZdtqqoRwnJqaGfX-RrkdyNYdpfbdiN9Hjorpqxv2qmcpPP5R5CJLWaWdc8xtyXP47f2lfI5r6nJwaA_wa9qrQbiaMGd-0Fx1Um8TTvToflll-L_6QRnvzh2VjaUucBuvxCQYwIXMCWjNomP_bL"/></a>
+<div class="hidden md:flex items-center gap-8 flex-row-reverse">
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="index.html">בית</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="properties.html">נכסים</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="investments.html">השקעות</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-primary border-b border-primary pb-1" href="advisory.html">ייעוץ</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="contact.html">צור קשר</a>
+</div>
+</div>
+<div class="flex items-center gap-4 flex-row-reverse">
+<a href="contact.html" class="hidden sm:inline-block bg-primary text-on-primary font-label-md px-6 py-2.5 tracking-wider hover:opacity-80 transition-opacity duration-300">בירור פרימיום</a>
+<button id="menu-btn" class="md:hidden text-on-surface" aria-label="תפריט"><span class="material-symbols-outlined text-3xl">menu</span></button>
+</div>
+</nav>
+<div id="mobile-menu" class="md:hidden hidden bg-surface border-t border-outline-variant/30">
+<div class="flex flex-col px-margin-mobile py-6 gap-5 text-right">
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="index.html">בית</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="properties.html">נכסים</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="investments.html">השקעות</a>
+<a class="font-label-md uppercase tracking-widest text-primary" href="advisory.html">ייעוץ</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="contact.html">צור קשר</a>
+</div>
+</div>
+</header>
+
+<main class="pt-20">
+<!-- HEADER -->
+<section class="bg-inverse-surface text-inverse-on-surface py-24">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+<span class="font-label-sm text-primary tracking-[0.3em] uppercase block mb-4">ADVISORY & SERVICES</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-5xl mb-6">ייעוץ ושירותים</h1>
+<p class="font-body-lg text-inverse-on-surface/70 max-w-2xl mx-auto">ליווי אישי לאורך כל מסע הרכישה — מהשיחה הראשונה ועד מסירת המפתח וניהול הנכס.</p>
+</div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="py-section-gap bg-white">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16 reveal"><span class="font-label-sm text-primary tracking-[0.3em] uppercase block mb-4">WHAT WE DO</span><h2 class="font-headline-lg text-headline-lg">השירותים שלנו</h2></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 reveal">
+<div class="p-12 border border-outline-variant/30 hover:bg-surface-variant transition-colors duration-500"><span class="material-symbols-outlined text-5xl text-primary mb-8">account_balance</span><h3 class="font-headline-md mb-4">ייעוץ אסטרטגי</h3><p class="text-on-surface-variant leading-relaxed">ניתוח נתונים מעמיק והיכרות אינטימית עם השוק המקומי, לבחירת ההשקעה הנכונה.</p></div>
+<div class="p-12 border border-outline-variant/30 hover:bg-surface-variant transition-colors duration-500"><span class="material-symbols-outlined text-5xl text-primary mb-8">handshake</span><h3 class="font-headline-md mb-4">ניהול עסקה</h3><p class="text-on-surface-variant leading-relaxed">משא ומתן, בדיקות משפטיות וליווי מלא של תהליך הרכישה מתחילתו ועד סופו.</p></div>
+<div class="p-12 border border-outline-variant/30 hover:bg-surface-variant transition-colors duration-500"><span class="material-symbols-outlined text-5xl text-primary mb-8">key</span><h3 class="font-headline-md mb-4">ניהול נכסים</h3><p class="text-on-surface-variant leading-relaxed">תחזוקה, השכרה וטיפול שוטף בנכס — כדי שתיהנו מההשקעה ללא טרחה.</p></div>
+<div class="p-12 border border-outline-variant/30 hover:bg-surface-variant transition-colors duration-500"><span class="material-symbols-outlined text-5xl text-primary mb-8">flight_takeoff</span><h3 class="font-headline-md mb-4">רילוקיישן</h3><p class="text-on-surface-variant leading-relaxed">ליווי תהליכי ויזת זהב, פתיחת חשבונות ומעבר חלק של המשפחה לדובאי.</p></div>
+<div class="p-12 border border-outline-variant/30 hover:bg-surface-variant transition-colors duration-500"><span class="material-symbols-outlined text-5xl text-primary mb-8">design_services</span><h3 class="font-headline-md mb-4">עיצוב והתאמה</h3><p class="text-on-surface-variant leading-relaxed">שיתוף פעולה עם מעצבי פנים מובילים להתאמה אישית מלאה של הנכס.</p></div>
+<div class="p-12 border border-outline-variant/30 hover:bg-surface-variant transition-colors duration-500"><span class="material-symbols-outlined text-5xl text-primary mb-8">verified_user</span><h3 class="font-headline-md mb-4">דיסקרטיות מלאה</h3><p class="text-on-surface-variant leading-relaxed">שמירה קפדנית על פרטיות הלקוח וגישה לנכסים שאינם מפורסמים בשוק.</p></div>
+</div>
+</div>
+</section>
+
+<!-- PROCESS TIMELINE -->
+<section class="py-section-gap bg-surface-variant">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-20 reveal"><span class="font-label-sm text-primary tracking-[0.3em] uppercase block mb-4">THE PROCESS</span><h2 class="font-headline-lg text-headline-lg">תהליך העבודה</h2></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 reveal">
+<div class="relative"><div class="font-display-lg text-6xl text-primary/30 mb-4">01</div><h3 class="font-headline-md mb-3">היכרות</h3><p class="text-on-surface-variant leading-relaxed">פגישת ייעוץ ראשונית להבנת המטרות, התקציב והעדפות סגנון החיים שלכם.</p></div>
+<div class="relative"><div class="font-display-lg text-6xl text-primary/30 mb-4">02</div><h3 class="font-headline-md mb-3">אסטרטגיה</h3><p class="text-on-surface-variant leading-relaxed">בניית תכנית מותאמת אישית והצגת מבחר נכסים תואמים, כולל הזדמנויות סגורות.</p></div>
+<div class="relative"><div class="font-display-lg text-6xl text-primary/30 mb-4">03</div><h3 class="font-headline-md mb-3">עסקה</h3><p class="text-on-surface-variant leading-relaxed">משא ומתן, בדיקות נאותות וליווי משפטי מלא עד לחתימה ולהעברת הבעלות.</p></div>
+<div class="relative"><div class="font-display-lg text-6xl text-primary/30 mb-4">04</div><h3 class="font-headline-md mb-3">ליווי מתמשך</h3><p class="text-on-surface-variant leading-relaxed">ניהול הנכס, ייעוץ שוטף וליווי לאורך כל תקופת ההחזקה.</p></div>
+</div>
+</div>
+</section>
+
+<!-- QUOTE -->
+<section class="py-section-gap bg-white">
+<div class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop text-center reveal">
+<span class="material-symbols-outlined text-5xl text-primary mb-8">format_quote</span>
+<p class="font-headline-md italic text-on-surface leading-relaxed mb-8">אנחנו מאמינים שרכישת נכס יוקרה היא לא עסקה — היא מערכת יחסים. כל לקוח מקבל יחס אישי, דיסקרטי וללא פשרות.</p>
+<div class="w-16 h-px bg-primary mx-auto mb-6"></div>
+<span class="font-label-md text-on-surface tracking-widest uppercase">צוות הובר קפיטל</span>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="py-section-gap bg-inverse-surface text-inverse-on-surface text-center">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop reveal">
+<h2 class="font-headline-lg text-headline-lg mb-6">נתחיל בשיחה</h2>
+<p class="text-inverse-on-surface/70 font-body-lg mb-10 max-w-2xl mx-auto">פגישת הייעוץ הראשונה היא ללא עלות וללא התחייבות. נשמח להכיר אתכם ולהבין כיצד נוכל לסייע.</p>
+<a href="contact.html" class="inline-block bg-primary text-on-primary font-label-md px-12 py-5 uppercase tracking-widest hover:opacity-90 transition-all">קביעת פגישה</a>
+</div>
+</section>
+</main>
+
+<footer class="bg-surface-container-low border-t border-outline-variant/20">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-right">
+<div class="flex flex-col items-center md:items-start"><img alt="HUBER CAPITAL DUBAI" class="h-10 mb-8" src="https://lh3.googleusercontent.com/aida/AP1WRLszgDbWkyt9KIl-mkgt5t02zeeBPtX1ywAgrVjyVYcsm30sF_nGzYtVAEypAUbWsjmtS-Z82U8RsONhfNCQhbOvDRP58kKVW3r7qbny8RZdtqqoRwnJqaGfX-RrkdyNYdpfbdiN9Hjorpqxv2qmcpPP5R5CJLWaWdc8xtyXP47f2lfI5r6nJwaA_wa9qrQbiaMGd-0Fx1Um8TTvToflll-L_6QRnvzh2VjaUucBuvxCQYwIXMCWjNomP_bL"/><p class="text-on-surface-variant font-body-md leading-relaxed">סוכנות הנדל"ן המובילה בדובאי לנכסי אולטרה-יוקרה והשקעות אסטרטגיות.</p></div>
+<div><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">ניווט</h4><ul class="space-y-4"><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="properties.html">נכסים</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="investments.html">השקעות</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="advisory.html">ייעוץ</a></li></ul></div>
+<div><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">מידע</h4><ul class="space-y-4"><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">מדיניות פרטיות</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">תנאי שימוש</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">הצהרת נגישות</a></li></ul></div>
+<div class="flex flex-col items-center md:items-start"><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">צור קשר</h4><p class="text-on-surface-variant font-body-md mb-2">Level 42, Burj Khalifa Tower</p><p class="text-on-surface-variant font-body-md mb-4">Downtown Dubai, UAE</p><p class="text-primary font-label-md font-bold" dir="ltr">+971 4 000 0000</p></div>
+</div>
+<div class="mt-20 pt-8 border-t border-outline-variant/10 text-center"><p class="text-on-surface-variant font-label-sm tracking-widest uppercase">© 2024 Huber Capital Dubai. כל הזכויות שמורות.</p></div>
+</div>
+</footer>
+
+<script>
+    const menuBtn = document.getElementById('menu-btn'); const mobileMenu = document.getElementById('mobile-menu');
+    if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); observer.unobserve(e.target); } }); }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body></html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>צור קשר — הובר קפיטל דובאי</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+        colors: { "on-surface": "#1b1c1c", "on-surface-variant": "#4d4635", "surface": "#fbf9f9", "background": "#FFFFFF", "outline": "#7f7663", "outline-variant": "#d0c5af", "primary": "#d4af37", "on-primary": "#ffffff", "secondary": "#5f5e5e", "surface-variant": "#fdfbf7", "surface-container-low": "#f5f3f3", "inverse-surface": "#303031", "inverse-on-surface": "#f2f0f0", "error": "#ba1a1a" },
+        spacing: { "section-gap": "120px", "margin-desktop": "64px", "margin-mobile": "24px" },
+        fontFamily: { "display-lg": ["Playfair Display"], "display-lg-mobile": ["Playfair Display"], "headline-lg": ["Playfair Display"], "headline-md": ["Playfair Display"], "body-md": ["Manrope"], "body-lg": ["Manrope"], "label-md": ["Manrope"], "label-sm": ["Manrope"] },
+        fontSize: { "display-lg-mobile": ["40px", {lineHeight:"48px", letterSpacing:"-0.01em", fontWeight:"700"}], "display-lg": ["64px", {lineHeight:"72px", letterSpacing:"-0.02em", fontWeight:"700"}], "headline-lg": ["32px", {lineHeight:"40px", fontWeight:"600"}], "headline-md": ["24px", {lineHeight:"32px", fontWeight:"500"}], "body-lg": ["18px", {lineHeight:"28px", fontWeight:"400"}], "body-md": ["16px", {lineHeight:"24px", fontWeight:"400"}], "label-md": ["14px", {lineHeight:"20px", letterSpacing:"0.05em", fontWeight:"600"}], "label-sm": ["12px", {lineHeight:"16px", letterSpacing:"0.08em", fontWeight:"500"}] }
+    }}}
+</script>
+<style> html { scroll-behavior: smooth; } </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary/20 overflow-x-hidden">
+<!-- HEADER -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<nav class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-row-reverse justify-between items-center h-20">
+<div class="flex items-center gap-12 flex-row-reverse">
+<a href="index.html"><img alt="HUBER CAPITAL DUBAI" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLszgDbWkyt9KIl-mkgt5t02zeeBPtX1ywAgrVjyVYcsm30sF_nGzYtVAEypAUbWsjmtS-Z82U8RsONhfNCQhbOvDRP58kKVW3r7qbny8RZdtqqoRwnJqaGfX-RrkdyNYdpfbdiN9Hjorpqxv2qmcpPP5R5CJLWaWdc8xtyXP47f2lfI5r6nJwaA_wa9qrQbiaMGd-0Fx1Um8TTvToflll-L_6QRnvzh2VjaUucBuvxCQYwIXMCWjNomP_bL"/></a>
+<div class="hidden md:flex items-center gap-8 flex-row-reverse">
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="index.html">בית</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="properties.html">נכסים</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="investments.html">השקעות</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="advisory.html">ייעוץ</a>
+<a class="font-label-md text-label-md uppercase tracking-widest text-primary border-b border-primary pb-1" href="contact.html">צור קשר</a>
+</div>
+</div>
+<div class="flex items-center gap-4 flex-row-reverse">
+<a href="#contact-form" class="hidden sm:inline-block bg-primary text-on-primary font-label-md px-6 py-2.5 tracking-wider hover:opacity-80 transition-opacity duration-300">בירור פרימיום</a>
+<button id="menu-btn" class="md:hidden text-on-surface" aria-label="תפריט"><span class="material-symbols-outlined text-3xl">menu</span></button>
+</div>
+</nav>
+<div id="mobile-menu" class="md:hidden hidden bg-surface border-t border-outline-variant/30">
+<div class="flex flex-col px-margin-mobile py-6 gap-5 text-right">
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="index.html">בית</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="properties.html">נכסים</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="investments.html">השקעות</a>
+<a class="font-label-md uppercase tracking-widest text-on-surface-variant" href="advisory.html">ייעוץ</a>
+<a class="font-label-md uppercase tracking-widest text-primary" href="contact.html">צור קשר</a>
+</div>
+</div>
+</header>
+
+<main class="pt-20">
+<!-- HEADER -->
+<section class="bg-inverse-surface text-inverse-on-surface py-24">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+<span class="font-label-sm text-primary tracking-[0.3em] uppercase block mb-4">GET IN TOUCH</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-5xl mb-6">צרו קשר</h1>
+<p class="font-body-lg text-inverse-on-surface/70 max-w-2xl mx-auto">השאירו פרטים ונציג בכיר יחזור אליכם תוך 24 שעות, בדיסקרטיות מלאה.</p>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section class="py-section-gap bg-white" id="contact-form">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-20">
+<!-- FORM -->
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-8">שלחו פנייה</h2>
+<div class="w-24 h-px bg-primary mb-10"></div>
+<form id="contact" novalidate class="space-y-6">
+<div>
+<label class="block font-label-md text-on-surface mb-2">שם מלא *</label>
+<input type="text" name="name" class="w-full bg-surface-variant border border-outline-variant/40 px-4 py-3 focus:ring-primary focus:border-primary rounded-none" placeholder="השם שלכם"/>
+<p class="error-msg hidden text-error font-label-sm mt-1">נא להזין שם</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-md text-on-surface mb-2">דוא"ל *</label>
+<input type="email" name="email" class="w-full bg-surface-variant border border-outline-variant/40 px-4 py-3 focus:ring-primary focus:border-primary rounded-none" placeholder="name@example.com" dir="ltr"/>
+<p class="error-msg hidden text-error font-label-sm mt-1">נא להזין דוא"ל תקין</p>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2">טלפון</label>
+<input type="tel" name="phone" class="w-full bg-surface-variant border border-outline-variant/40 px-4 py-3 focus:ring-primary focus:border-primary rounded-none" placeholder="050-0000000" dir="ltr"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2">תקציב</label>
+<select name="budget" class="w-full bg-surface-variant border border-outline-variant/40 px-4 py-3 focus:ring-primary focus:border-primary rounded-none">
+<option value="">בחרו טווח תקציב</option>
+<option>עד $5M</option><option>$5M – $15M</option><option>$15M – $30M</option><option>מעל $30M</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2">הודעה *</label>
+<textarea name="message" rows="4" class="w-full bg-surface-variant border border-outline-variant/40 px-4 py-3 focus:ring-primary focus:border-primary rounded-none" placeholder="ספרו לנו מה אתם מחפשים..."></textarea>
+<p class="error-msg hidden text-error font-label-sm mt-1">נא לכתוב הודעה</p>
+</div>
+<button type="submit" class="w-full bg-primary text-on-primary font-label-md py-4 uppercase tracking-widest hover:opacity-90 transition-all">שליחת פנייה</button>
+<div id="success" class="hidden bg-primary/10 border border-primary p-6 text-center"><span class="material-symbols-outlined text-primary text-4xl mb-2">check_circle</span><p class="font-headline-md text-on-surface">תודה! הפנייה התקבלה.</p><p class="text-on-surface-variant mt-2">נציג שלנו יחזור אליכם בהקדם.</p></div>
+</form>
+</div>
+<!-- DETAILS -->
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-8">פרטי המשרד</h2>
+<div class="w-24 h-px bg-primary mb-10"></div>
+<div class="space-y-8">
+<div class="flex gap-4"><span class="material-symbols-outlined text-primary">location_on</span><div><h3 class="font-label-md text-on-surface mb-1 uppercase tracking-widest">כתובת</h3><p class="text-on-surface-variant">Level 42, Burj Khalifa Tower<br/>Downtown Dubai, UAE</p></div></div>
+<div class="flex gap-4"><span class="material-symbols-outlined text-primary">call</span><div><h3 class="font-label-md text-on-surface mb-1 uppercase tracking-widest">טלפון</h3><p class="text-primary font-bold" dir="ltr">+971 4 000 0000</p></div></div>
+<div class="flex gap-4"><span class="material-symbols-outlined text-primary">mail</span><div><h3 class="font-label-md text-on-surface mb-1 uppercase tracking-widest">דוא"ל</h3><p class="text-on-surface-variant" dir="ltr">private@hubercapital.ae</p></div></div>
+<div class="flex gap-4"><span class="material-symbols-outlined text-primary">schedule</span><div><h3 class="font-label-md text-on-surface mb-1 uppercase tracking-widest">שעות פעילות</h3><p class="text-on-surface-variant">ראשון–חמישי: 9:00–19:00<br/>או בתיאום אישי</p></div></div>
+</div>
+<div class="mt-12 aspect-[4/3] w-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" alt="מיקום המשרד" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzH--FeUiS2IqYEd-U6aSUPNVjApkh1kHhhhJ2sdG9NeApp0oxgWUzDX8Dl0kKw6kvAnAO1iMzy0fpm-7UWbkEn30VRlWzUeyaTPOp60g5Ovqkq9qTfzCU10_iM7D-EC0L_cDeIEdQnS2Jue_yNdCql3HNEAY-uBrD50JxWeZzpuRRcbpv8eKd-K3IlQjytr6iWyKgQXMSDhH2vo1AhjgGDy1o1kyS7fI4NNbimOzV_X4qXgQ6VeStJi45wZu_SUngPR8oX_mT1YbU"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="bg-surface-container-low border-t border-outline-variant/20">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-right">
+<div class="flex flex-col items-center md:items-start"><img alt="HUBER CAPITAL DUBAI" class="h-10 mb-8" src="https://lh3.googleusercontent.com/aida/AP1WRLszgDbWkyt9KIl-mkgt5t02zeeBPtX1ywAgrVjyVYcsm30sF_nGzYtVAEypAUbWsjmtS-Z82U8RsONhfNCQhbOvDRP58kKVW3r7qbny8RZdtqqoRwnJqaGfX-RrkdyNYdpfbdiN9Hjorpqxv2qmcpPP5R5CJLWaWdc8xtyXP47f2lfI5r6nJwaA_wa9qrQbiaMGd-0Fx1Um8TTvToflll-L_6QRnvzh2VjaUucBuvxCQYwIXMCWjNomP_bL"/><p class="text-on-surface-variant font-body-md leading-relaxed">סוכנות הנדל"ן המובילה בדובאי לנכסי אולטרה-יוקרה והשקעות אסטרטגיות.</p></div>
+<div><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">ניווט</h4><ul class="space-y-4"><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="properties.html">נכסים</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="investments.html">השקעות</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="advisory.html">ייעוץ</a></li></ul></div>
+<div><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">מידע</h4><ul class="space-y-4"><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">מדיניות פרטיות</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">תנאי שימוש</a></li><li><a class="text-on-surface-variant hover:text-primary transition-colors inline-block" href="#">הצהרת נגישות</a></li></ul></div>
+<div class="flex flex-col items-center md:items-start"><h4 class="font-label-md text-primary mb-8 tracking-widest uppercase">צור קשר</h4><p class="text-on-surface-variant font-body-md mb-2">Level 42, Burj Khalifa Tower</p><p class="text-on-surface-variant font-body-md mb-4">Downtown Dubai, UAE</p><p class="text-primary font-label-md font-bold" dir="ltr">+971 4 000 0000</p></div>
+</div>
+<div class="mt-20 pt-8 border-t border-outline-variant/10 text-center"><p class="text-on-surface-variant font-label-sm tracking-widest uppercase">© 2024 Huber Capital Dubai. כל הזכויות שמורות.</p></div>
+</div>
+</footer>
+
+<script>
+    const menuBtn = document.getElementById('menu-btn'); const mobileMenu = document.getElementById('mobile-menu');
+    if (menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    const form = document.getElementById('contact');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valid = true;
+        const fields = form.querySelectorAll('[name="name"], [name="email"], [name="message"]');
+        fields.forEach(f => {
+            const err = f.parentElement.querySelector('.error-msg');
+            let ok = f.value.trim() !== '';
+            if (f.name === 'email') ok = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value.trim());
+            if (err) err.classList.toggle('hidden', ok);
+            if (!ok) { valid = false; f.classList.add('border-error'); } else { f.classList.remove('border-error'); }
+        });
+        if (valid) {
+            form.querySelectorAll('input, textarea, select, button').forEach(el => el.style.display = 'none');
+            document.getElementById('success').classList.remove('hidden');
+        }
+    });
+</script>
+</body></html>
