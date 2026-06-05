@@ -24,6 +24,12 @@ body {
   border-color: #e07a6f !important;
 }
 
+/* keyboard focus visibility (a11y) */
+:focus-visible {
+  outline: 2px solid #c8aa6e;
+  outline-offset: 2px;
+}
+
 /* scroll-reveal */
 .reveal {
   opacity: 0;
