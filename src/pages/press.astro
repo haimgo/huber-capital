@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PressCards from '../components/PressCards.astro';
+import CTA from '../components/CTA.astro';
+import { press } from '../data/content.js';
+---
+<BaseLayout
+  title="בתקשורת · Huber Capital"
+  description='שוק הנדל"ן בדובאי בכותרות — סיקורים ב-ynet, TheMarker ו-Mako.'
+>
+  <PageHeader
+    eyebrow="בתקשורת"
+    title="מדברים עלינו"
+    sub={'שוק הנדל"ן בדובאי בכותרות.'}
+  />
+
+  <PressCards press={press} eyebrow="סיקורים" heading="בתקשורת" />
+
+  <CTA
+    title="רוצים לדעת מה זה אומר עבורכם?"
+    sub="נסביר בשיחת אפיון קצרה איך מגמות השוק מתורגמות להזדמנות."
+  />
+</BaseLayout>

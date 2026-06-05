@@ -1,0 +1,10 @@
+---
+const { eyebrow, title, sub } = Astro.props;
+---
+<section class="border-b hair">
+  <div class="max-w-container mx-auto px-6 sm:px-8 py-20 md:py-28 text-center">
+    {eyebrow && <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-5">{eyebrow}</p>}
+    <h1 class="font-head text-4xl md:text-6xl mb-6" set:html={title}></h1>
+    {sub && <p class="font-light text-ivory/75 text-lg max-w-2xl mx-auto">{sub}</p>}
+  </div>
+</section>

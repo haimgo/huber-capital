@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import AboutGilad from '../components/AboutGilad.astro';
+import CTA from '../components/CTA.astro';
+
+const values = [
+  { title: 'המשקיע לפני הכל', text: 'אני בוחן השקעות, לא מוכר נכסים. ההמלצה נקבעת לפי האינטרס שלכם בלבד.' },
+  { title: 'דיסקרטיות מלאה', text: 'כל תהליך נשמר אישי וחסוי, מהשיחה הראשונה ועד הביצוע.' },
+  { title: 'צוות מקומי בדובאי', text: 'נוכחות מקומית שמכירה את היזמים, את השוק ואת השטח.' },
+  { title: 'שקיפות בנתונים', text: 'החלטות מבוססות על נתונים מדויקים — לא על הבטחות.' },
+];
+---
+<BaseLayout
+  title="אודות · גלעד הובר · Huber Capital"
+  description="גלעד הובר — 30 שנות ניסיון עסקי, בית בדובאי, וגישה שמתחילה ונגמרת באינטרס של המשקיע."
+>
+  <PageHeader
+    eyebrow="אודות"
+    title="גלעד הובר"
+    sub="30 שנות ניסיון עסקי — ובית בדובאי."
+  />
+
+  <AboutGilad showLink={false} />
+
+  <section class="py-20 md:py-28 border-b hair reveal">
+    <div class="max-w-container mx-auto px-6 sm:px-8">
+      <div class="text-center mb-12 md:mb-16">
+        <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-4">הגישה שלנו</p>
+        <h2 class="font-head text-4xl md:text-5xl">מה מנחה אותנו</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        {values.map((v) => (
+          <div class="border hair bg-panel p-8 md:p-9 text-right">
+            <h3 class="font-head text-2xl mb-3">{v.title}</h3>
+            <p class="font-light text-mute leading-relaxed">{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    title="רוצים להכיר?"
+    sub="נתחיל בשיחה קצרה ונראה אם אנחנו מתאימים לעבוד יחד."
+  />
+</BaseLayout>
