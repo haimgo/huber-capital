@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SpaceBackground from '../components/SpaceBackground.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -31,21 +32,26 @@ const canonical = Astro.site
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Frank+Ruhl+Libre:wght@400;500;700&family=Assistant:wght@200;300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Heebo:wght@300;400;600;800&family=Space+Grotesk:wght@400;600&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="bg-emer text-ivory font-body antialiased">
+  <body class="bg-space text-fg font-body antialiased">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:bg-gold focus:text-emer focus:px-4 focus:py-2 text-[12px]"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:bg-cyan focus:text-space focus:px-4 focus:py-2 text-[12px]"
       >דלג לתוכן</a
     >
-    <Header />
-    <main id="main">
-      <slot />
-    </main>
-    <Footer />
+
+    <SpaceBackground />
+
+    <div class="relative" style="z-index:2">
+      <Header />
+      <main id="main">
+        <slot />
+      </main>
+      <Footer />
+    </div>
 
     <script is:inline>
       (function () {

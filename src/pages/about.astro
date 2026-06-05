@@ -16,23 +16,23 @@ const values = [
   description="גלעד הובר — 30 שנות ניסיון עסקי, בית בדובאי, וגישה שמתחילה ונגמרת באינטרס של המשקיע."
 >
   <PageHeader
-    eyebrow="אודות"
+    eyebrow="ABOUT"
     title="גלעד הובר"
     sub="30 שנות ניסיון עסקי — ובית בדובאי."
   />
 
   <AboutGilad showLink={false} />
 
-  <section class="py-20 md:py-28 border-b hair reveal">
-    <div class="max-w-container mx-auto px-6 sm:px-8">
+  <section class="px-6 py-16 md:py-24 reveal">
+    <div class="max-w-container mx-auto">
       <div class="text-center mb-12 md:mb-16">
-        <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-4">הגישה שלנו</p>
-        <h2 class="font-head text-4xl md:text-5xl">מה מנחה אותנו</h2>
+        <p class="eyebrow text-cyan text-[11px] mb-4">הגישה שלנו</p>
+        <h2 class="font-display font-bold text-4xl md:text-5xl">מה מנחה אותנו</h2>
       </div>
       <div class="grid sm:grid-cols-2 gap-6">
         {values.map((v) => (
-          <div class="border hair bg-panel p-8 md:p-9 text-right">
-            <h3 class="font-head text-2xl mb-3">{v.title}</h3>
+          <div class="glass rounded-3xl p-8 md:p-9 text-right">
+            <h3 class="font-display font-semibold text-2xl mb-3">{v.title}</h3>
             <p class="font-light text-mute leading-relaxed">{v.text}</p>
           </div>
         ))}

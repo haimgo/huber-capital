@@ -18,22 +18,22 @@ const includes = [
   description="תהליך מדויק של בחירה, בדיקה וביצוע — מאפיון הצרכים ועד מסירת המפתח וגם אחריה."
 >
   <PageHeader
-    eyebrow="התהליך"
+    eyebrow="THE PROCESS"
     title="מאפיון ועד ביצוע"
     sub="תהליך מדויק שמתחיל ונגמר באינטרס שלכם — בחירה, בדיקה וביצוע."
   />
 
   <ProcessSteps steps={process} eyebrow="ארבעה שלבים" heading="איך זה עובד" />
 
-  <section class="py-20 md:py-28 border-b hair reveal">
-    <div class="max-w-3xl mx-auto px-6 sm:px-8 text-right">
-      <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-5 text-center">הליווי המלא</p>
-      <h2 class="font-head text-3xl md:text-4xl mb-10 text-center">מה כולל הליווי</h2>
+  <section class="px-6 py-16 md:py-24 reveal">
+    <div class="max-w-3xl mx-auto glass rounded-[28px] p-10 md:p-14 text-right">
+      <p class="eyebrow text-cyan text-[11px] mb-5 text-center">הליווי המלא</p>
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-10 text-center">מה כולל הליווי</h2>
       <ul class="space-y-5">
         {includes.map((item, i) => (
-          <li class="flex flex-row-reverse items-start gap-4 border-b hair pb-5">
-            <span class="font-cormorant text-2xl text-gold/80 leading-none shrink-0">{String(i + 1).padStart(2, '0')}</span>
-            <span class="font-light text-ivory/85 text-lg leading-relaxed">{item}</span>
+          <li class="flex flex-row-reverse items-start gap-4 border-b border-white/10 pb-5">
+            <span class="font-display font-extrabold text-2xl neon leading-none shrink-0">{String(i + 1).padStart(2, '0')}</span>
+            <span class="font-light text-fg/85 text-lg leading-relaxed">{item}</span>
           </li>
         ))}
       </ul>

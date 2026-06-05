@@ -6,21 +6,21 @@ const {
   closing = 'הליווי שלנו נועד למנוע בדיוק את אלה.',
 } = Astro.props;
 ---
-<section class="py-24 md:py-32 border-b hair reveal">
-  <div class="max-w-container mx-auto px-6 sm:px-8">
-    <div class="text-center mb-12 md:mb-16">
-      <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-4">{eyebrow}</p>
-      <h2 class="font-head text-4xl md:text-5xl">{heading}</h2>
+<section class="px-6 py-16 md:py-24">
+  <div class="max-w-container mx-auto">
+    <div class="text-center mb-12 reveal">
+      <p class="eyebrow text-[11px] mb-3" style="color:#c98bff;">{eyebrow}</p>
+      <h2 class="font-display font-bold text-3xl md:text-5xl">{heading}</h2>
     </div>
-    <div class="grid md:grid-cols-3 gap-8">
-      {mistakes.map((m) => (
-        <div class="border hair bg-panel p-8 md:p-9 text-right">
-          <div class="font-cormorant text-4xl text-gold/70 mb-5">{m.n}</div>
-          <h3 class="font-head text-2xl mb-3">{m.title}</h3>
-          <p class="font-light text-mute leading-relaxed">{m.text}</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      {mistakes.map((m, i) => (
+        <div class="glass rounded-3xl p-8 text-right reveal" style={`transition-delay:${i * 0.08}s`}>
+          <div class="font-display font-extrabold text-4xl neon glow mb-4">{m.n}</div>
+          <h3 class="font-display font-semibold text-2xl mb-2">{m.title}</h3>
+          <p class="text-mute font-light leading-relaxed">{m.text}</p>
         </div>
       ))}
     </div>
-    {closing && <p class="text-center text-ivory/80 font-light text-lg mt-12">{closing}</p>}
+    {closing && <p class="text-center text-fg/80 font-light text-lg mt-10 reveal">{closing}</p>}
   </div>
 </section>

@@ -6,7 +6,7 @@ import { areas } from '../data/areas.js';
 
 const approach = [
   { n: '01', title: 'בחירה קפדנית', text: 'כל פרויקט נבחן לפי היזם, המיקום, התמחור והפוטנציאל — רק הטובים נכנסים לרשימה.' },
-  { n: '02', title: 'מחיר מתחת לשוק', text: 'גישה להזדמנויות ולתמחור preferential דרך קשרים ישירים מול יזמים.' },
+  { n: '02', title: 'מחיר מתחת לשוק', text: 'גישה להזדמנויות ולתמחור מועדף דרך קשרים ישירים מול יזמים.' },
   { n: '03', title: 'צוות מקומי בדובאי', text: 'נוכחות מקומית שמכירה את השוק, את היזמים ואת השטח — לא מרחוק.' },
 ];
 ---
@@ -15,37 +15,37 @@ const approach = [
   description="26 פרויקטים נבחרים וגישה למחיר מתחת לשוק, באזורי ההשקעה המובילים בדובאי."
 >
   <PageHeader
-    eyebrow="פרויקטים ואזורים"
+    eyebrow="PROJECTS // AREAS"
     title="פרויקטים נבחרים"
     sub={'26 פרויקטים שנבחנו לעומק — גישה למחיר מתחת לשוק, דרך צוות מקומי בדובאי.'}
   />
 
-  <section class="py-20 md:py-28 border-b hair reveal">
-    <div class="max-w-container mx-auto px-6 sm:px-8">
-      <div class="grid md:grid-cols-3 gap-8">
+  <section class="px-6 py-16 md:py-24 reveal">
+    <div class="max-w-container mx-auto">
+      <div class="grid md:grid-cols-3 gap-6">
         {approach.map((a) => (
-          <div class="border hair bg-panel p-8 md:p-9 text-right">
-            <div class="font-cormorant text-4xl text-gold/70 mb-5">{a.n}</div>
-            <h3 class="font-head text-2xl mb-3">{a.title}</h3>
+          <div class="glass rounded-3xl p-8 md:p-9 text-right">
+            <div class="font-display font-extrabold text-4xl neon glow mb-5">{a.n}</div>
+            <h3 class="font-display font-semibold text-2xl mb-3">{a.title}</h3>
             <p class="font-light text-mute leading-relaxed">{a.text}</p>
           </div>
         ))}
       </div>
-      <p class="text-center font-light text-ivory/75 text-lg mt-12 max-w-2xl mx-auto">הרשימה המלאה והפרויקטים העדכניים נמסרים בשיחת אפיון אישית — בהתאמה לתקציב ולמטרות שלכם.</p>
+      <p class="text-center font-light text-fg/75 text-lg mt-12 max-w-2xl mx-auto">הרשימה המלאה והפרויקטים העדכניים נמסרים בשיחת אפיון אישית — בהתאמה לתקציב ולמטרות שלכם.</p>
     </div>
   </section>
 
-  <section class="py-20 md:py-28 border-b hair reveal">
-    <div class="max-w-container mx-auto px-6 sm:px-8">
+  <section class="px-6 py-16 md:py-24 reveal">
+    <div class="max-w-container mx-auto">
       <div class="text-center mb-12 md:mb-16">
-        <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-4">אזורי השקעה</p>
-        <h2 class="font-head text-4xl md:text-5xl">אזורים מובילים בדובאי</h2>
+        <p class="eyebrow text-cyan text-[11px] mb-4">אזורי השקעה</p>
+        <h2 class="font-display font-bold text-4xl md:text-5xl">אזורים מובילים בדובאי</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {areas.map((a) => (
-          <div class="border hair bg-panel p-8 text-right">
-            <span class="tracking-[.26em] uppercase text-[11px] text-gold">{a.name}</span>
-            <h3 class="font-head text-2xl mt-2 mb-3">{a.he}</h3>
+          <div class="glass rounded-3xl p-8 text-right">
+            <span class="eyebrow text-[10px] text-cyan">{a.name}</span>
+            <h3 class="font-display font-semibold text-2xl mt-2 mb-3">{a.he}</h3>
             <p class="font-light text-mute leading-relaxed text-sm">{a.blurb}</p>
           </div>
         ))}

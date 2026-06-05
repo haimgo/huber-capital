@@ -2,42 +2,40 @@
 import { site } from '../data/site.js';
 const year = 2026;
 ---
-<footer class="py-16 md:py-20 bg-deep">
-  <div class="max-w-container mx-auto px-6 sm:px-8">
-    <div class="grid md:grid-cols-4 gap-12 text-right">
+<footer class="px-6 pb-12 pt-10">
+  <div class="max-w-container mx-auto glass rounded-[28px] p-10 md:p-12">
+    <div class="grid md:grid-cols-4 gap-10 text-right">
       <div class="md:col-span-2">
-        <div class="flex flex-row-reverse items-center gap-4 mb-6 justify-end md:justify-start">
-          <span class="w-10 h-10 border border-gold/50 grid place-items-center font-cormorant text-gold">HC</span>
-          <span class="font-cormorant text-xl tracking-[.26em] uppercase">Huber Capital</span>
+        <div class="flex flex-row-reverse items-center gap-3 mb-5 justify-end md:justify-start">
+          <span class="w-2 h-2 rounded-full" style="background:#2ee6ff;box-shadow:0 0 12px #2ee6ff;"></span>
+          <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
         </div>
-        <p class="font-light text-mute leading-relaxed max-w-sm">ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע, בגישה שמתחילה ונגמרת באינטרס שלכם.</p>
+        <p class="text-mute font-light leading-relaxed max-w-sm">ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע, בגישה שמתחילה ונגמרת באינטרס שלכם.</p>
       </div>
       <div>
-        <h4 class="tracking-[.28em] uppercase text-[11px] text-gold mb-5">ניווט</h4>
+        <h4 class="eyebrow text-[10px] text-cyan mb-4">ניווט</h4>
         <ul class="space-y-3 text-mute text-sm font-light">
-          <li><a href="/investment" class="hover:text-ivory transition">השקעה בדובאי</a></li>
-          <li><a href="/process" class="hover:text-ivory transition">התהליך</a></li>
-          <li><a href="/projects" class="hover:text-ivory transition">פרויקטים ואזורים</a></li>
-          <li><a href="/press" class="hover:text-ivory transition">בתקשורת</a></li>
+          <li><a href="/investment" class="hover:text-fg transition">השקעה בדובאי</a></li>
+          <li><a href="/process" class="hover:text-fg transition">התהליך</a></li>
+          <li><a href="/projects" class="hover:text-fg transition">פרויקטים</a></li>
+          <li><a href="/press" class="hover:text-fg transition">בתקשורת</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="tracking-[.28em] uppercase text-[11px] text-gold mb-5">צור קשר</h4>
-        <a href={site.phoneHref} dir="ltr" class="block text-ivory text-sm hover:text-gold transition">{site.phone}</a>
-        <a href={site.whatsapp} class="block text-mute text-sm font-light mt-2 hover:text-ivory transition">וואטסאפ</a>
+        <h4 class="eyebrow text-[10px] text-cyan mb-4">קשר</h4>
+        <a href={site.phoneHref} dir="ltr" class="block text-fg text-sm hover:text-cyan transition">{site.phone}</a>
+        <a href={site.whatsapp} class="block text-mute text-sm font-light mt-2 hover:text-fg transition">וואטסאפ</a>
         <p class="text-mute text-sm font-light mt-2">{site.location}</p>
       </div>
     </div>
-
-    <div class="border-t hair mt-14 pt-8 flex flex-col md:flex-row-reverse justify-between gap-4 text-[11px] text-mute">
-      <span class="tracking-[.22em] uppercase">© {year} Huber Capital · {site.owner}</span>
+    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row-reverse justify-between gap-4 text-[10px] text-mute">
+      <span class="eyebrow">© {year} Huber Capital · {site.owner}</span>
       <div class="flex flex-row-reverse gap-5">
-        <a href="/legal/privacy" class="hover:text-ivory transition">פרטיות</a>
-        <a href="/legal/terms" class="hover:text-ivory transition">תקנון</a>
-        <a href="/legal/accessibility" class="hover:text-ivory transition">נגישות</a>
+        <a href="/legal/privacy" class="hover:text-fg transition">פרטיות</a>
+        <a href="/legal/terms" class="hover:text-fg transition">תקנון</a>
+        <a href="/legal/accessibility" class="hover:text-fg transition">נגישות</a>
       </div>
     </div>
-
-    <p class="text-mute/70 text-[11px] font-light leading-relaxed mt-6 text-right max-w-3xl">* אין באמור משום הבטחת תשואה או ייעוץ השקעות. השקעה בנדל"ן בחו"ל כרוכה בסיכון. הנתונים מובאים לצורכי המחשה ועשויים להשתנות.</p>
+    <p class="text-mute/60 text-[10px] font-light leading-relaxed mt-5 text-right max-w-3xl">* אין באמור משום הבטחת תשואה או ייעוץ השקעות. השקעה בנדל"ן בחו"ל כרוכה בסיכון. הנתונים מובאים לצורכי המחשה בלבד.</p>
   </div>
 </footer>

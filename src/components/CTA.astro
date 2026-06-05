@@ -1,15 +1,13 @@
 ---
 import { site } from '../data/site.js';
-const { eyebrow = 'בואו נתחיל', title, sub } = Astro.props;
+const { eyebrow = 'BEGIN', title, sub } = Astro.props;
 ---
-<section class="py-28 md:py-36 text-center border-b hair reveal">
-  <div class="max-w-2xl mx-auto px-6 sm:px-8">
-    <p class="tracking-[.4em] uppercase text-gold text-[12px] mb-6">{eyebrow}</p>
-    <h2 class="font-head text-4xl md:text-6xl leading-tight mb-8" set:html={title}></h2>
-    {sub && <p class="font-light text-ivory/75 text-lg leading-relaxed mb-12">{sub}</p>}
-    <div class="flex flex-col sm:flex-row-reverse gap-6 justify-center items-center">
-      <a href={site.phoneHref} class="border border-gold/50 px-10 md:px-12 py-5 text-[11px] tracking-[.3em] uppercase hover:bg-gold hover:text-emer transition duration-300">לשיחת אפיון · {site.phone}</a>
-      <a href={site.whatsapp} class="text-[11px] tracking-[.3em] uppercase text-ivory/85 border-b border-gold/40 pb-1.5 hover:text-gold transition">וואטסאפ</a>
-    </div>
+<section class="px-6 py-24 md:py-32 text-center reveal">
+  <p class="eyebrow text-[11px] text-mute mb-5">{eyebrow}</p>
+  <h2 class="font-display font-extrabold text-4xl md:text-6xl mb-7 neon glow" set:html={title}></h2>
+  {sub && <p class="text-mute mb-10 text-lg font-light max-w-xl mx-auto">{sub}</p>}
+  <div class="flex flex-col sm:flex-row-reverse gap-5 justify-center items-center">
+    <a href={site.phoneHref} class="btn-neon rounded-full px-12 py-5 eyebrow text-sm text-fg">לשיחת אפיון · {site.phone}</a>
+    <a href={site.whatsapp} class="glass rounded-full px-10 py-5 eyebrow text-sm text-fg/80">וואטסאפ</a>
   </div>
 </section>

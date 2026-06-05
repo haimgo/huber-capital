@@ -1,23 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx,vue,svelte}'],
+  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
   theme: {
     extend: {
       colors: {
-        emer: '#0e241d',
-        panel: '#123026',
-        deep: '#0a1b13',
-        ivory: '#ece6da',
-        mute: '#93a89d',
-        gold: '#c8aa6e',
+        space: '#05060f',
+        space2: '#0a0b1a',
+        fg: '#e7ecff',
+        mute: '#8893b5',
+        cyan: '#2ee6ff',
+        magenta: '#e23bff',
+        violet: '#a855f7',
       },
       fontFamily: {
-        cormorant: ['"Cormorant Garamond"', 'serif'],
-        head: ['"Frank Ruhl Libre"', 'serif'],
-        body: ['Assistant', 'sans-serif'],
+        display: ['"Space Grotesk"', 'sans-serif'],
+        body: ['Heebo', 'sans-serif'],
+        mono: ['Orbitron', 'sans-serif'],
       },
       maxWidth: {
-        container: '1280px',
+        container: '1200px',
       },
     },
   },
