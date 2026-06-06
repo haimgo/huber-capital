@@ -1,0 +1,8 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import MediaManager from '../../components/admin/MediaManager';
+---
+<AdminLayout title="מדיה">
+  <p class="text-mute text-sm mb-6">העלו תמונות, העתיקו קישור והשתמשו בו ככיסוי לכתבות. תמונות נשמרות באחסון Supabase ונגישות לציבור.</p>
+  <MediaManager client:load />
+</AdminLayout>

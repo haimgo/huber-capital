@@ -1,0 +1,8 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminsManager from '../../components/admin/AdminsManager';
+---
+<AdminLayout title="מנהלים">
+  <p class="text-mute text-sm mb-6">הזמינו מנהלים נוספים בדוא"ל (יקבלו מייל להגדרת סיסמה) או הסירו מנהלים קיימים. פעולה זו דורשת שהמפתח <code class="text-cyan">SUPABASE_SERVICE_ROLE_KEY</code> מוגדר בסביבת השרת.</p>
+  <AdminsManager client:load />
+</AdminLayout>

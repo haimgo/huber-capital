@@ -1,0 +1,8 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import NewsEditor from '../../../components/admin/NewsEditor';
+---
+<AdminLayout title="חדשות">
+  <p class="text-mute text-sm mb-6">צרו ופרסמו כתבות. רק כתבות מסומנות כ"מפורסם" יופיעו באתר, בעמוד <code class="text-cyan">/news</code>.</p>
+  <NewsEditor client:load />
+</AdminLayout>
