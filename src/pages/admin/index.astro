@@ -1,0 +1,21 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+const cards = [
+  { href: '/admin/settings', t: 'הגדרות אתר', d: 'כותרות הירו, מנשר, קריאה לפעולה' },
+  { href: '/admin/lists/stats', t: 'רשימות תוכן', d: 'נתונים, תהליך, טעויות, אזורים, תקשורת' },
+  { href: '/admin/pages', t: 'טקסטים בעמודים', d: 'כותרות ופסקאות' },
+  { href: '/admin/news', t: 'חדשות', d: 'כתבות ועדכונים' },
+  { href: '/admin/media', t: 'מדיה', d: 'תמונות' },
+  { href: '/admin/admins', t: 'מנהלים', d: 'הוספה והסרה של מנהלים' },
+];
+---
+<AdminLayout title="לוח בקרה">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {cards.map((c) => (
+      <a href={c.href} class="glass rounded-2xl p-6 text-right hover:border-cyan/40 transition block">
+        <h2 class="font-display font-semibold text-xl mb-1">{c.t}</h2>
+        <p class="text-mute text-sm font-light">{c.d}</p>
+      </a>
+    ))}
+  </div>
+</AdminLayout>

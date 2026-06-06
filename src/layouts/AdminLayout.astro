@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+import SignOut from '../components/admin/SignOut';
+const { title = 'ניהול' } = Astro.props;
+const nav = [
+  { href: '/admin', label: 'דאשבורד' },
+  { href: '/admin/settings', label: 'הגדרות' },
+  { href: '/admin/lists/stats', label: 'רשימות' },
+  { href: '/admin/pages', label: 'טקסטים' },
+  { href: '/admin/news', label: 'חדשות' },
+  { href: '/admin/media', label: 'מדיה' },
+  { href: '/admin/admins', label: 'מנהלים' },
+];
+---
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>{title} · ניהול Huber Capital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Heebo:wght@300;400;600;800&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-space text-fg font-body antialiased min-h-screen">
+    <header class="border-b border-white/10 sticky top-0 bg-space/90 backdrop-blur z-20">
+      <div class="max-w-container mx-auto px-6 h-16 flex flex-row-reverse items-center justify-between gap-4">
+        <a href="/admin" class="eyebrow text-sm neon shrink-0">HUBER · ניהול</a>
+        <nav class="hidden md:flex flex-row-reverse gap-5 text-[11px] eyebrow text-mute">
+          {nav.map((n) => <a href={n.href} class="hover:text-fg transition">{n.label}</a>)}
+          <a href="/" class="hover:text-fg transition">לאתר ←</a>
+        </nav>
+        <SignOut client:load />
+      </div>
+    </header>
+    <main class="max-w-container mx-auto px-6 py-10">
+      <h1 class="font-display font-bold text-2xl md:text-3xl mb-8">{title}</h1>
+      <slot />
+    </main>
+  </body>
+</html>
