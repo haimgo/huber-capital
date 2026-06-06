@@ -2,6 +2,12 @@
 node_modules/
 dist/
 .astro/
+.vercel/
+
+# env (never commit secrets)
+.env
+.env.*
+!.env.example
 
 # os / editor
 .DS_Store
