@@ -1,0 +1,24 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ListEditor from '../../../components/admin/ListEditor';
+
+const { type } = Astro.params;
+const config: Record<string, { table: string; title: string; fields: any[] }> = {
+  stats: { table: 'stats', title: 'נתונים (סטטיסטיקות)', fields: [{ key: 'value', label: 'ערך' }, { key: 'label', label: 'תווית' }] },
+  process: { table: 'process_steps', title: 'שלבי התהליך', fields: [{ key: 'n', label: 'מספר' }, { key: 'title', label: 'כותרת' }, { key: 'text', label: 'טקסט', type: 'textarea' }] },
+  mistakes: { table: 'mistakes', title: 'טעויות נפוצות', fields: [{ key: 'n', label: 'מספר' }, { key: 'title', label: 'כותרת' }, { key: 'text', label: 'טקסט', type: 'textarea' }] },
+  areas: { table: 'areas', title: 'אזורי השקעה', fields: [{ key: 'name', label: 'שם (אנגלית)' }, { key: 'he', label: 'שם (עברית)' }, { key: 'blurb', label: 'תיאור', type: 'textarea' }] },
+  press: { table: 'press', title: 'בתקשורת', fields: [{ key: 'outlet', label: 'מקור' }, { key: 'title', label: 'כותרת', type: 'textarea' }, { key: 'url', label: 'קישור' }] },
+};
+const cfg = config[type ?? ''];
+if (!cfg) return Astro.redirect('/admin/lists/stats');
+const tabs = Object.entries(config).map(([k, v]) => ({ k, label: v.title }));
+---
+<AdminLayout title={cfg.title}>
+  <div class="flex flex-row-reverse flex-wrap gap-2 mb-6 text-[11px] eyebrow">
+    {tabs.map((t) => (
+      <a href={`/admin/lists/${t.k}`} class={`px-3 py-1.5 rounded-full glass transition ${t.k === type ? 'text-cyan' : 'text-mute hover:text-fg'}`}>{t.label}</a>
+    ))}
+  </div>
+  <ListEditor client:load table={cfg.table} fields={cfg.fields} />
+</AdminLayout>
