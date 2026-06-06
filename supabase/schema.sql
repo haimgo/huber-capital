@@ -6,9 +6,11 @@ create table if not exists site_settings (
   phone text, whatsapp text, location text,
   hero_eyebrow text, hero_title text, hero_sub text,
   manifesto_main text, manifesto_sub text,
-  cta_title text, cta_sub text,
+  cta_title text, cta_sub text, gilad_image text,
   constraint singleton check (id = 1)
 );
+-- gilad_image added later; ensure it exists on pre-existing databases:
+alter table site_settings add column if not exists gilad_image text;
 create table if not exists stats          (id bigint generated always as identity primary key, value text, label text, sort int default 0);
 create table if not exists process_steps  (id bigint generated always as identity primary key, n text, title text, "text" text, sort int default 0);
 create table if not exists mistakes       (id bigint generated always as identity primary key, n text, title text, "text" text, sort int default 0);

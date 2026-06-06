@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import AboutGilad from '../components/AboutGilad.astro';
 import CTA from '../components/CTA.astro';
+import { serverClient } from '../lib/supabase';
+import { getSettings } from '../lib/content';
+const settings = await getSettings(serverClient(Astro.cookies));
 
 const values = [
   { title: 'המשקיע לפני הכל', text: 'אני בוחן השקעות, לא מוכר נכסים. ההמלצה נקבעת לפי האינטרס שלכם בלבד.' },
@@ -21,7 +24,7 @@ const values = [
     sub="30 שנות ניסיון עסקי — ובית בדובאי."
   />
 
-  <AboutGilad showLink={false} />
+  <AboutGilad showLink={false} image={settings?.gilad_image} />
 
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto">

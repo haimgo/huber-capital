@@ -9,6 +9,7 @@ export interface Settings {
   manifesto_sub: string;
   cta_title: string;
   cta_sub: string;
+  gilad_image?: string | null;
 }
 export interface Stat { id: number; value: string; label: string; sort: number; }
 export interface Step { id: number; n: string; title: string; text: string; sort: number; }

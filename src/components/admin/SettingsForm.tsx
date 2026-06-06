@@ -9,6 +9,7 @@ const FIELDS: { key: string; label: string; type?: 'text' | 'textarea' }[] = [
   { key: 'manifesto_sub', label: 'מנשר — שורת משנה', type: 'textarea' },
   { key: 'cta_title', label: 'קריאה לפעולה — כותרת' },
   { key: 'cta_sub', label: 'קריאה לפעולה — תת-כותרת', type: 'textarea' },
+  { key: 'gilad_image', label: 'תמונת גלעד — קישור (העלו ב"מדיה" והדביקו כאן)' },
 ];
 
 export default function SettingsForm() {

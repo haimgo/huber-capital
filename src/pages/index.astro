@@ -33,7 +33,7 @@ const [stats, mistakes, process, press, s] = await Promise.all([
   <StatBar stats={stats} eyebrow="ההזדמנות" heading={'שוק הנדל"ן בדובאי בצמיחה מתמדת'} />
   <MistakeCards mistakes={mistakes} />
   <ProcessSteps steps={process} />
-  <AboutGilad />
+  <AboutGilad image={s?.gilad_image} />
   <PressCards press={press} />
   <CTA
     title={s?.cta_title ?? 'מוכנים לצאת למסע?'}
