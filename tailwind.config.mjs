@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        space: '#05060f',
-        space2: '#0a0b1a',
-        fg: '#e7ecff',
-        mute: '#8893b5',
-        cyan: '#2ee6ff',
-        magenta: '#e23bff',
-        violet: '#a855f7',
+        space: '#0b0a07',
+        space2: '#100d09',
+        fg: '#f1ebdf',
+        mute: '#a59b86',
+        cyan: '#ffd24a',
+        magenta: '#ff9d2f',
+        violet: '#d4a017',
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'sans-serif'],

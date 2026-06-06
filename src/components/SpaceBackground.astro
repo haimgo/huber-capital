@@ -2,9 +2,9 @@
 // Site-wide animated WebGL background: particle nebula + wireframe core + parallax.
 ---
 <canvas id="space-bg" class="fixed inset-0 w-full h-full" style="z-index:0"></canvas>
-<div class="fixed inset-0 pointer-events-none" style="z-index:1;background:radial-gradient(120% 75% at 50% 28%,transparent 38%,rgba(5,6,15,.82) 100%),linear-gradient(180deg,rgba(5,6,15,.5),rgba(5,6,15,0) 18%,rgba(5,6,15,0) 72%,rgba(5,6,15,.94));"></div>
-<div class="fixed pointer-events-none rounded-full" style="z-index:1;width:520px;height:520px;background:#0bd1ff;filter:blur(95px);opacity:.36;top:-130px;right:-110px;"></div>
-<div class="fixed pointer-events-none rounded-full" style="z-index:1;width:480px;height:480px;background:#c026ff;filter:blur(95px);opacity:.36;bottom:-150px;left:-120px;"></div>
+<div class="fixed inset-0 pointer-events-none" style="z-index:1;background:radial-gradient(120% 75% at 50% 28%,transparent 38%,rgba(11,10,7,.82) 100%),linear-gradient(180deg,rgba(11,10,7,.5),rgba(11,10,7,0) 18%,rgba(11,10,7,0) 72%,rgba(11,10,7,.94));"></div>
+<div class="fixed pointer-events-none rounded-full" style="z-index:1;width:520px;height:520px;background:#ffcf5a;filter:blur(95px);opacity:.36;top:-130px;right:-110px;"></div>
+<div class="fixed pointer-events-none rounded-full" style="z-index:1;width:480px;height:480px;background:#ff9d2f;filter:blur(95px);opacity:.36;bottom:-150px;left:-120px;"></div>
 
 <script>
   import * as THREE from 'three';
@@ -16,7 +16,7 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x05060f, 0.055);
+    scene.fog = new THREE.FogExp2(0x0b0a07, 0.055);
     const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.z = 7;
 
@@ -28,14 +28,14 @@
       const m = new THREE.PointsMaterial({ size, color, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false });
       return new THREE.Points(g, m);
     }
-    const p1 = makePoints(4200, 24, 0.05, 0x2ee6ff, 0.85);
-    const p2 = makePoints(2600, 18, 0.07, 0xc026ff, 0.8);
-    const p3 = makePoints(1600, 30, 0.04, 0xffffff, 0.5);
+    const p1 = makePoints(4200, 24, 0.05, 0xffd24a, 0.85);
+    const p2 = makePoints(2600, 18, 0.07, 0xffae3c, 0.8);
+    const p3 = makePoints(1600, 30, 0.04, 0xfff0c8, 0.5);
     scene.add(p1, p2, p3);
 
     const ico = new THREE.Mesh(
       new THREE.IcosahedronGeometry(3.3, 1),
-      new THREE.MeshBasicMaterial({ color: 0x7c3aed, wireframe: true, transparent: true, opacity: 0.16 })
+      new THREE.MeshBasicMaterial({ color: 0xd4a017, wireframe: true, transparent: true, opacity: 0.16 })
     );
     scene.add(ico);
 
