@@ -20,8 +20,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const { count } = await sb.from('admins').select('user_id', { count: 'exact', head: true });
   if ((count ?? 0) <= 1) return json({ error: 'לא ניתן להסיר את המנהל האחרון' }, 400);
 
-  const url = import.meta.env.PUBLIC_SUPABASE_URL;
-  const serviceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.PUBLIC_SUPABASE_URL ?? import.meta.env.PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceKey) {
     return json({ error: 'מפתח service_role לא הוגדר (SUPABASE_SERVICE_ROLE_KEY).' }, 500);
   }

@@ -16,8 +16,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   } catch {}
   if (!email) return json({ error: 'נא להזין אימייל' }, 400);
 
-  const url = import.meta.env.PUBLIC_SUPABASE_URL;
-  const serviceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.PUBLIC_SUPABASE_URL ?? import.meta.env.PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceKey) {
     return json({ error: 'מפתח service_role לא הוגדר (SUPABASE_SERVICE_ROLE_KEY).' }, 500);
   }
