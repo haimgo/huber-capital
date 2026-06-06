@@ -1,11 +1,12 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-// NOTE: @astrojs/sitemap is re-added in Phase 3 (Task 3.1) after resolving a build:done hook issue.
 
 // https://astro.build/config
+// Deployed to the GitHub Pages project URL: https://haimgo.github.io/huber-capital
+// For a custom domain (huber-capital.co.il) later: set `site` to it, remove `base`, add public/CNAME.
 export default defineConfig({
-  // TODO (Phase 5): set to the GitHub Pages URL or custom domain (e.g. https://huber-capital.co.il)
-  site: 'https://huber-capital.co.il',
+  site: 'https://haimgo.github.io',
+  base: '/huber-capital',
   output: 'static',
   integrations: [tailwind()],
 });

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site.js';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 ---
 <BaseLayout title="תודה · Huber Capital" description="קיבלנו את פנייתכם — ניצור קשר בהקדם.">
   <section class="min-h-[70vh] flex items-center justify-center text-center px-6 py-24">
@@ -12,7 +13,7 @@ import { site } from '../data/site.js';
         <a href={site.phoneHref} dir="ltr" class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{site.phone}</a>
         <a href={site.whatsapp} class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">וואטסאפ</a>
       </div>
-      <a href="/" class="inline-block mt-10 eyebrow text-[10px] text-mute hover:text-cyan transition">חזרה לדף הבית</a>
+      <a href={base} class="inline-block mt-10 eyebrow text-[10px] text-mute hover:text-cyan transition">חזרה לדף הבית</a>
     </div>
   </section>
 </BaseLayout>

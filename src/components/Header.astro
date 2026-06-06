@@ -1,5 +1,7 @@
 ---
 import { site } from '../data/site.js';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const link = (h) => (h === '/' ? base : base + h.replace(/^\//, '') + '/');
 const nav = [
   { href: '/', label: 'בית' },
   { href: '/investment', label: 'השקעה' },
@@ -8,23 +10,25 @@ const nav = [
   { href: '/about', label: 'אודות' },
   { href: '/contact', label: 'קשר' },
 ];
-const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+let p = Astro.url.pathname;
+if (base !== '/' && p.startsWith(base)) p = '/' + p.slice(base.length);
+const path = p.replace(/\/+$/, '') || '/';
 const isActive = (href) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
 ---
 <header class="sticky top-0 z-30">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-4">
     <div class="glass rounded-full px-5 py-3 flex flex-row-reverse items-center justify-between">
-      <a href="/" class="flex flex-row-reverse items-center gap-3">
+      <a href={link('/')} class="flex flex-row-reverse items-center gap-3">
         <span class="w-2 h-2 rounded-full" style="background:#2ee6ff;box-shadow:0 0 12px #2ee6ff;"></span>
         <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
       </a>
       <nav class="hidden md:flex flex-row-reverse gap-7 text-[11px] eyebrow text-mute">
         {nav.map((n) => (
-          <a href={n.href} class={`hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{n.label}</a>
+          <a href={link(n.href)} class={`hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{n.label}</a>
         ))}
       </nav>
       <div class="flex flex-row-reverse items-center gap-3">
-        <a href="/contact" class="hidden md:inline-block btn-neon rounded-full px-5 py-2 text-[11px] eyebrow text-fg">שיחת ייעוץ</a>
+        <a href={link('/contact')} class="hidden md:inline-block btn-neon rounded-full px-5 py-2 text-[11px] eyebrow text-fg">שיחת ייעוץ</a>
         <button id="menu-btn" aria-label="תפריט" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden text-cyan">
           <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M0 1h20M0 7h20M0 13h20"/></svg>
         </button>
@@ -33,7 +37,7 @@ const isActive = (href) => (href === '/' ? path === '/' : path === href || path.
     <div id="mobile-menu" class="hidden md:hidden glass rounded-2xl mt-2 px-5 py-2">
       <nav class="flex flex-col text-right text-[12px] eyebrow text-mute">
         {nav.map((n) => (
-          <a href={n.href} class={`py-3 border-b border-white/10 hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{n.label}</a>
+          <a href={link(n.href)} class={`py-3 border-b border-white/10 hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{n.label}</a>
         ))}
         <a href={site.whatsapp} class="py-3 text-cyan">וואטסאפ · {site.phone}</a>
       </nav>

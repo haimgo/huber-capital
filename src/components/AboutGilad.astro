@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const { showLink = true } = Astro.props;
 ---
 <section class="px-6 py-16 md:py-24">
@@ -7,6 +8,6 @@ const { showLink = true } = Astro.props;
     <h2 class="font-display font-bold text-3xl md:text-5xl mb-6">גלעד <span class="neon glow">הובר</span></h2>
     <p class="text-fg/70 text-lg leading-[1.9] font-light max-w-3xl mr-0 ml-auto mb-5">30 שנות ניסיון בעולם העסקים. לאחר שהעברתי את מרכז חיי לדובאי — ההחלטה הכי טובה שעשיתי — אני מלווה משקיעים ישראלים בגישה שמתחילה ונגמרת באינטרס שלהם.</p>
     <p class="text-fg/70 text-lg leading-[1.9] font-light max-w-3xl mr-0 ml-auto mb-8">צוות מקומי בדובאי, גישה לפרויקטים במחיר מתחת לשוק, ותהליך מדויק של בחירה, בדיקה וביצוע.</p>
-    {showLink && <a href="/about" class="btn-neon rounded-full px-7 py-3 eyebrow text-[11px] text-fg inline-block">עוד עליי ועל הצוות</a>}
+    {showLink && <a href={`${base}about/`} class="btn-neon rounded-full px-7 py-3 eyebrow text-[11px] text-fg inline-block">עוד עליי ועל הצוות</a>}
   </div>
 </section>

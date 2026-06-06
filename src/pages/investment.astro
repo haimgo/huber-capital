@@ -4,6 +4,7 @@ import PageHeader from '../components/PageHeader.astro';
 import StatBar from '../components/StatBar.astro';
 import CTA from '../components/CTA.astro';
 import { stats } from '../data/content.js';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 
 const advantages = [
   'ביקוש עולה ואוכלוסייה בצמיחה',
@@ -51,7 +52,7 @@ const advantages = [
       <p class="eyebrow text-cyan text-[11px] mb-5">הגישה שלנו</p>
       <h2 class="font-display font-bold text-3xl md:text-4xl mb-7">גישה ל-26 פרויקטים נבחרים</h2>
       <p class="font-light text-fg/70 text-lg leading-[1.95]">אנחנו לא עובדים מול "כל פרויקט". אנו בוחנים יזמים, מיקומים ונתונים — ומציעים גישה לפרויקטים נבחרים, לעיתים במחיר מתחת לשוק, דרך צוות מקומי בדובאי. כך מצמצמים סיכון וממקסמים פוטנציאל.</p>
-      <p class="text-mute/80 text-[12px] font-light leading-relaxed mt-8">השקעה בנדל"ן בחו"ל כרוכה בסיכון והמידע אינו מהווה ייעוץ השקעות. ראו <a href="/legal/terms" class="text-cyan underline">תנאי שימוש</a>.</p>
+      <p class="text-mute/80 text-[12px] font-light leading-relaxed mt-8">השקעה בנדל"ן בחו"ל כרוכה בסיכון והמידע אינו מהווה ייעוץ השקעות. ראו <a href={`${base}legal/terms/`} class="text-cyan underline">תנאי שימוש</a>.</p>
     </div>
   </section>
 

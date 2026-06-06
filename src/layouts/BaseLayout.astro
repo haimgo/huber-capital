@@ -4,15 +4,15 @@ import SpaceBackground from '../components/SpaceBackground.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const {
   title = 'Huber Capital — הובר קפיטל · השקעות נדל"ן בדובאי',
   description = 'ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע. החל מ-200,000₪ הון עצמי, בליווי מלא A-Z.',
-  ogImage = '/assets/og.jpg',
+  ogImage,
 } = Astro.props;
 
-const canonical = Astro.site
-  ? new URL(Astro.url.pathname, Astro.site).href
-  : Astro.url.pathname;
+const ogUrl = new URL(ogImage ?? `${base}assets/og.jpg`, Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -25,10 +25,10 @@ const canonical = Astro.site
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogUrl} />
     <meta property="og:locale" content="he_IL" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

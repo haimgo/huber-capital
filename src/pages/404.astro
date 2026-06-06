@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 ---
 <BaseLayout title="הדף לא נמצא · Huber Capital" description="הדף שחיפשתם לא נמצא.">
   <section class="min-h-[70vh] flex items-center justify-center text-center px-6 py-24">
@@ -7,7 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="font-display font-extrabold text-7xl md:text-8xl neon glow mb-4">404</p>
       <h1 class="font-display font-bold text-3xl md:text-5xl mb-6">הדף לא נמצא</h1>
       <p class="font-light text-mute text-lg mb-10">ייתכן שהקישור שגוי או שהדף הוסר. נשמח להחזיר אתכם הביתה.</p>
-      <a href="/" class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg inline-block">חזרה לדף הבית</a>
+      <a href={base} class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg inline-block">חזרה לדף הבית</a>
     </div>
   </section>
 </BaseLayout>

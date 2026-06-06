@@ -1,5 +1,7 @@
 ---
 import { site } from '../data/site.js';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const link = (h) => (h === '/' ? base : base + h.replace(/^\//, '') + '/');
 const year = 2026;
 ---
 <footer class="px-6 pb-12 pt-10">
@@ -15,10 +17,10 @@ const year = 2026;
       <div>
         <h4 class="eyebrow text-[10px] text-cyan mb-4">ניווט</h4>
         <ul class="space-y-3 text-mute text-sm font-light">
-          <li><a href="/investment" class="hover:text-fg transition">השקעה בדובאי</a></li>
-          <li><a href="/process" class="hover:text-fg transition">התהליך</a></li>
-          <li><a href="/projects" class="hover:text-fg transition">פרויקטים</a></li>
-          <li><a href="/press" class="hover:text-fg transition">בתקשורת</a></li>
+          <li><a href={link('/investment')} class="hover:text-fg transition">השקעה בדובאי</a></li>
+          <li><a href={link('/process')} class="hover:text-fg transition">התהליך</a></li>
+          <li><a href={link('/projects')} class="hover:text-fg transition">פרויקטים</a></li>
+          <li><a href={link('/press')} class="hover:text-fg transition">בתקשורת</a></li>
         </ul>
       </div>
       <div>
@@ -31,9 +33,9 @@ const year = 2026;
     <div class="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row-reverse justify-between gap-4 text-[10px] text-mute">
       <span class="eyebrow">© {year} Huber Capital · {site.owner}</span>
       <div class="flex flex-row-reverse gap-5">
-        <a href="/legal/privacy" class="hover:text-fg transition">פרטיות</a>
-        <a href="/legal/terms" class="hover:text-fg transition">תקנון</a>
-        <a href="/legal/accessibility" class="hover:text-fg transition">נגישות</a>
+        <a href={link('/legal/privacy')} class="hover:text-fg transition">פרטיות</a>
+        <a href={link('/legal/terms')} class="hover:text-fg transition">תקנון</a>
+        <a href={link('/legal/accessibility')} class="hover:text-fg transition">נגישות</a>
       </div>
     </div>
     <p class="text-mute/60 text-[10px] font-light leading-relaxed mt-5 text-right max-w-3xl">* אין באמור משום הבטחת תשואה או ייעוץ השקעות. השקעה בנדל"ן בחו"ל כרוכה בסיכון. הנתונים מובאים לצורכי המחשה בלבד.</p>
