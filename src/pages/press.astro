@@ -3,7 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PressCards from '../components/PressCards.astro';
 import CTA from '../components/CTA.astro';
-import { press } from '../data/content.js';
+import { serverClient } from '../lib/supabase';
+import { getPress } from '../lib/content';
+const sb = serverClient(Astro.cookies);
+const press = await getPress(sb);
 ---
 <BaseLayout
   title="בתקשורת · Huber Capital"

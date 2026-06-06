@@ -3,7 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import CTA from '../components/CTA.astro';
-import { process } from '../data/content.js';
+import { serverClient } from '../lib/supabase';
+import { getSteps } from '../lib/content';
+const sb = serverClient(Astro.cookies);
+const process = await getSteps(sb);
 
 const includes = [
   'אפיון צרכים ובניית אסטרטגיית השקעה אישית',

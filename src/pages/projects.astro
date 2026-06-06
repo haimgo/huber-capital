@@ -2,7 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CTA from '../components/CTA.astro';
-import { areas } from '../data/areas.js';
+import { serverClient } from '../lib/supabase';
+import { getAreas } from '../lib/content';
+const sb = serverClient(Astro.cookies);
+const areas = await getAreas(sb);
 
 const approach = [
   { n: '01', title: 'בחירה קפדנית', text: 'כל פרויקט נבחן לפי היזם, המיקום, התמחור והפוטנציאל — רק הטובים נכנסים לרשימה.' },
