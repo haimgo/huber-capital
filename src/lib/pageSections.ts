@@ -27,7 +27,7 @@ export const PAGE_SECTIONS: PageSpec[] = [
       { slot: 'header_eyebrow', label: 'כותרת עליונה (תווית)', default: 'THE PROCESS' },
       { slot: 'header_title', label: 'כותרת ראשית', default: 'מאפיון ועד ביצוע' },
       { slot: 'header_sub', label: 'תת-כותרת', default: 'תהליך מדויק שמתחיל ונגמר באינטרס שלכם — בחירה, בדיקה וביצוע.', type: 'textarea' },
-      { slot: 'steps_eyebrow', label: 'שלבים — תווית', default: 'ארבעה שלבים' },
+      { slot: 'steps_eyebrow', label: 'שלבים — תווית', default: 'שישה שלבים' },
       { slot: 'steps_heading', label: 'שלבים — כותרת', default: 'איך זה עובד' },
       { slot: 'includes_eyebrow', label: 'מה כולל הליווי — תווית', default: 'הליווי המלא' },
       { slot: 'includes_heading', label: 'מה כולל הליווי — כותרת', default: 'מה כולל הליווי' },
