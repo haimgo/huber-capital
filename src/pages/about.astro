@@ -36,7 +36,7 @@ const meta = {
 <BaseLayout title={meta.title} description={meta.description}>
   <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
-  <AboutGilad showLink={false} image={settings?.gilad_image} lang={lang} />
+  <AboutGilad showLink={false} image={settings?.gilad_image || '/assets/gilad.jpg'} lang={lang} />
 
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto">
