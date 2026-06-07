@@ -58,7 +58,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - העדף קומפוננטות/טוקנים קיימים (DRY). שמור RTL ועברית.
 
 ## דו-לשוני (i18n) — עברית + רוסית
-- עברית (ברירת מחדל, RTL) בשורש; רוסית (LTR) תחת `/ru`. `src/middleware.ts` מזהה `/ru`, מציב `Astro.locals.lang`, ועושה `rewrite` לנתיב הבסיס (סט אחד של עמודים משרת את שתי השפות). `BaseLayout` קובע `lang`/`dir` + תגי hreflang/canonical.
+- עברית (ברירת מחדל, RTL) בשורש; רוסית (LTR) תחת `/ru`. הרוסית מוגשת דרך `src/pages/ru/[...slug].astro` — route אמיתי (→ סטטוס 200 תקין ב-Vercel; rewrite טהור ב-middleware החזיר 404) שעושה `Astro.rewrite` לעמוד העברי המתאים. `src/middleware.ts` מציב `Astro.locals.lang` לפי הקידומת (סט אחד של עמודים לשתי השפות). `BaseLayout` קובע `lang`/`dir` + תגי hreflang/canonical.
 - מנגנון: `src/lib/i18n.ts` — `t(lang,key)` (מחרוזות ממשק he/ru), `localizePath`/`stripLocale`, `byLang(row,field,lang)` (בוחר `field_ru` עם נפילה לעברית), `dirOf`. מתג שפה (HE·RU) ב-Header וב-Footer; כל הקישורים עוברים `localizePath`.
 - **תוכן Supabase דו-לשוני**: עמודות `*_ru` בכל הטבלאות — הרץ פעם אחת את `supabase/i18n.sql` ב-Supabase. הניהול מציג שדה RU ליד כל שדה עברית; שדה RU ריק → נופל לעברית באתר.
 - **כיוון**: השתמש במחלקות לוגיות — `text-start`/`text-end` ו-`rtl:flex-row-reverse` (לא `text-right`/`flex-row-reverse`) כדי שהפריסה תתהפך אוטומטית לפי `dir`.
