@@ -1,22 +1,32 @@
 ---
 import { site } from '../data/site.js';
+import { t, type Lang } from '../lib/i18n';
 const {
   eyebrow,
   title,
   sub,
-  primaryLabel = 'לשיחת ייעוץ ראשונית',
+  lang = 'he',
+  primaryLabel,
   primaryHref = site.phoneHref,
-} = Astro.props;
+} = Astro.props as {
+  eyebrow?: string;
+  title?: string;
+  sub?: string;
+  lang?: Lang;
+  primaryLabel?: string;
+  primaryHref?: string;
+};
+const pl = primaryLabel ?? t(lang, 'consult_primary');
 ---
 <section class="relative px-6 min-h-[88vh] flex items-center justify-center text-center">
   <div class="max-w-4xl mx-auto">
     {eyebrow && <p class="eyebrow text-[11px] md:text-sm mb-8" style="color:#ffd98a;">{eyebrow}</p>}
     <h1 class="font-display font-bold text-5xl md:text-8xl leading-[1.02] mb-7 neon glow" set:html={title}></h1>
     {sub && <p class="text-mute md:text-xl mb-11 font-light max-w-2xl mx-auto">{sub}</p>}
-    <div class="flex flex-col sm:flex-row-reverse gap-5 justify-center items-center">
-      <a href={primaryHref} class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{primaryLabel}</a>
-      <a href={site.whatsapp} class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">וואטסאפ</a>
+    <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
+      <a href={primaryHref} class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{pl}</a>
+      <a href={site.whatsapp} class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
     </div>
-    <div class="mt-16 eyebrow text-[10px] text-mute/50">SCROLL ↓</div>
+    <div class="mt-16 eyebrow text-[10px] text-mute/50">{t(lang, 'scroll')}</div>
   </div>
 </section>

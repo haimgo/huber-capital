@@ -6,37 +6,48 @@ import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
 import { getSteps, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
-const sb = serverClient(Astro.cookies);
-const [process, sec] = await Promise.all([getSteps(sb), getSections(sb, 'process')]);
-const t = (s: string) => pageText(sec, 'process', s);
+import { byLang, type Lang } from '../lib/i18n';
 
-const includes = [
-  'אפיון צרכים ובניית אסטרטגיית השקעה אישית',
-  'בחירת פרויקט מתוך 26 פרויקטים נבחרים',
-  'בדיקת נאותות משפטית, פיננסית ותכנונית מול היזם',
-  'ליווי ברכישה, במימון ובחתימת ההסכמים',
-  'ליווי לאחר המסירה — ניהול, השכרה ואסטרטגיית יציאה',
-];
+const lang: Lang = Astro.locals.lang ?? 'he';
+const sb = serverClient(Astro.cookies);
+const [stepsR, sec] = await Promise.all([getSteps(sb), getSections(sb, 'process')]);
+const t = (s: string) => pageText(sec, 'process', s, lang);
+const process = stepsR.map((r: any) => ({ ...r, title: byLang(r, 'title', lang), text: byLang(r, 'text', lang) }));
+
+const includesByLang = {
+  he: [
+    'אפיון צרכים ובניית אסטרטגיית השקעה אישית',
+    'בחירת פרויקט מתוך 26 פרויקטים נבחרים',
+    'בדיקת נאותות משפטית, פיננסית ותכנונית מול היזם',
+    'ליווי ברכישה, במימון ובחתימת ההסכמים',
+    'ליווי לאחר המסירה — ניהול, השכרה ואסטרטגיית יציאה',
+  ],
+  ru: [
+    'Анализ потребностей и построение персональной инвестиционной стратегии',
+    'Выбор проекта из 26 отобранных проектов',
+    'Юридическая, финансовая и проектная проверка (due diligence) с застройщиком',
+    'Сопровождение при покупке, финансировании и подписании договоров',
+    'Сопровождение после передачи — управление, аренда и стратегия выхода',
+  ],
+};
+const includes = includesByLang[lang];
+const meta = {
+  he: { title: 'התהליך · Huber Capital', description: 'תהליך מדויק של בחירה, בדיקה וביצוע — מאפיון הצרכים ועד מסירת המפתח וגם אחריה.' },
+  ru: { title: 'Процесс · Huber Capital', description: 'Выверенный процесс выбора, проверки и реализации — от анализа потребностей до передачи ключей и далее.' },
+}[lang];
 ---
-<BaseLayout
-  title="התהליך · Huber Capital"
-  description="תהליך מדויק של בחירה, בדיקה וביצוע — מאפיון הצרכים ועד מסירת המפתח וגם אחריה."
->
-  <PageHeader
-    eyebrow={t('header_eyebrow')}
-    title={t('header_title')}
-    sub={t('header_sub')}
-  />
+<BaseLayout title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
   <ProcessSteps steps={process} eyebrow={t('steps_eyebrow')} heading={t('steps_heading')} />
 
   <section class="px-6 py-16 md:py-24 reveal">
-    <div class="max-w-3xl mx-auto glass rounded-[28px] p-10 md:p-14 text-right">
+    <div class="max-w-3xl mx-auto glass rounded-[28px] p-10 md:p-14 text-start">
       <p class="eyebrow text-cyan text-[11px] mb-5 text-center">{t('includes_eyebrow')}</p>
       <h2 class="font-display font-bold text-3xl md:text-4xl mb-10 text-center">{t('includes_heading')}</h2>
       <ul class="space-y-5">
         {includes.map((item, i) => (
-          <li class="flex flex-row-reverse items-start gap-4 border-b border-white/10 pb-5">
+          <li class="flex rtl:flex-row-reverse items-start gap-4 border-b border-white/10 pb-5">
             <span class="font-display font-extrabold text-2xl neon leading-none shrink-0">{String(i + 1).padStart(2, '0')}</span>
             <span class="font-light text-fg/85 text-lg leading-relaxed">{item}</span>
           </li>
@@ -45,8 +56,5 @@ const includes = [
     </div>
   </section>
 
-  <CTA
-    title={t('cta_title')}
-    sub={t('cta_sub')}
-  />
+  <CTA lang={lang} title={t('cta_title')} sub={t('cta_sub')} />
 </BaseLayout>

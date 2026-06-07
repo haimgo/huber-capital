@@ -90,8 +90,21 @@ export function defaultText(page: string, slot: string): string {
   return DEFAULTS[page]?.[slot] ?? '';
 }
 
-/** Effective text for a page slot: a non-empty DB override (from getSections) or the built-in default. */
-export function pageText(sec: Record<string, string>, page: string, slot: string): string {
-  const v = sec?.[slot];
-  return v && v.trim() ? v : defaultText(page, slot);
+/**
+ * Effective text for a page slot in a language:
+ * ru → Russian override, else Hebrew override, else the built-in Hebrew default.
+ * (Russian falls back to Hebrew so the page is never empty before translation.)
+ */
+export function pageText(
+  sec: Record<string, string>,
+  page: string,
+  slot: string,
+  lang: 'he' | 'ru' = 'he'
+): string {
+  if (lang === 'ru') {
+    const ru = sec?.[`${slot}_ru`];
+    if (ru && ru.trim()) return ru;
+  }
+  const he = sec?.[slot];
+  return he && he.trim() ? he : defaultText(page, slot);
 }

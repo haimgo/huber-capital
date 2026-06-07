@@ -46,14 +46,17 @@ export default function NewsEditor() {
   const input = 'w-full input-glass rounded-lg px-3 py-2 text-fg';
   if (editing) {
     return (
-      <div class="glass rounded-2xl p-6 max-w-2xl text-right space-y-4">
+      <div class="glass rounded-2xl p-6 max-w-2xl text-start space-y-4">
         <div><label for="n-title" class="eyebrow text-[10px] text-mute block mb-1">כותרת</label><input id="n-title" value={editing.title} onInput={(e: any) => set('title', e.currentTarget.value)} class={input} /></div>
+        <div><label for="n-title-ru" dir="ltr" class="eyebrow text-[9px] text-mute/70 block mb-1">RU · Заголовок</label><input id="n-title-ru" dir="ltr" value={editing.title_ru ?? ''} onInput={(e: any) => set('title_ru', e.currentTarget.value)} class={input} /></div>
         <div class="grid sm:grid-cols-2 gap-4">
           <div><label for="n-slug" class="eyebrow text-[10px] text-mute block mb-1">Slug (כתובת)</label><input id="n-slug" value={editing.slug} onInput={(e: any) => set('slug', e.currentTarget.value)} dir="ltr" class={input} placeholder="נוצר אוטומטית מהכותרת" /></div>
           <div><label for="n-date" class="eyebrow text-[10px] text-mute block mb-1">תאריך</label><input id="n-date" type="date" value={editing.date} onInput={(e: any) => set('date', e.currentTarget.value)} dir="ltr" class={input} /></div>
         </div>
         <div><label for="n-excerpt" class="eyebrow text-[10px] text-mute block mb-1">תקציר</label><textarea id="n-excerpt" value={editing.excerpt} onInput={(e: any) => set('excerpt', e.currentTarget.value)} rows={2} class={input} /></div>
+        <div><label for="n-excerpt-ru" dir="ltr" class="eyebrow text-[9px] text-mute/70 block mb-1">RU · Краткое описание</label><textarea id="n-excerpt-ru" dir="ltr" value={editing.excerpt_ru ?? ''} onInput={(e: any) => set('excerpt_ru', e.currentTarget.value)} rows={2} class={input} /></div>
         <div><label for="n-body" class="eyebrow text-[10px] text-mute block mb-1">תוכן</label><textarea id="n-body" value={editing.body} onInput={(e: any) => set('body', e.currentTarget.value)} rows={8} class={input} /></div>
+        <div><label for="n-body-ru" dir="ltr" class="eyebrow text-[9px] text-mute/70 block mb-1">RU · Текст</label><textarea id="n-body-ru" dir="ltr" value={editing.body_ru ?? ''} onInput={(e: any) => set('body_ru', e.currentTarget.value)} rows={8} class={input} /></div>
         <div><label for="n-cover" class="eyebrow text-[10px] text-mute block mb-1">קישור תמונת כיסוי (ממדיה)</label><input id="n-cover" value={editing.cover_url} onInput={(e: any) => set('cover_url', e.currentTarget.value)} dir="ltr" class={input} /></div>
         <label class="flex flex-row-reverse items-center gap-2 text-sm w-fit cursor-pointer"><input type="checkbox" checked={editing.published} onChange={(e: any) => set('published', e.currentTarget.checked)} /> מפורסם</label>
         <div class="flex flex-row-reverse gap-4 items-center pt-2">
@@ -74,7 +77,7 @@ export default function NewsEditor() {
       <div class="space-y-2">
         {items.map((n) => (
           <div key={n.id} class="glass rounded-xl px-4 py-3 flex flex-row-reverse items-center justify-between gap-3">
-            <div class="text-right min-w-0">
+            <div class="text-start min-w-0">
               <span class="text-fg text-sm">{n.title || '(ללא כותרת)'}</span>
               <span class="text-mute text-[11px] mr-3">{n.date} {n.published ? '· מפורסם' : '· טיוטה'}</span>
             </div>

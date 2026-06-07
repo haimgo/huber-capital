@@ -4,11 +4,59 @@ import ListEditor from '../../../components/admin/ListEditor';
 
 const { type } = Astro.params;
 const config: Record<string, { table: string; title: string; fields: any[] }> = {
-  stats: { table: 'stats', title: 'נתונים (סטטיסטיקות)', fields: [{ key: 'value', label: 'ערך' }, { key: 'label', label: 'תווית' }] },
-  process: { table: 'process_steps', title: 'שלבי התהליך', fields: [{ key: 'n', label: 'מספר' }, { key: 'title', label: 'כותרת' }, { key: 'text', label: 'טקסט', type: 'textarea' }] },
-  mistakes: { table: 'mistakes', title: 'טעויות נפוצות', fields: [{ key: 'n', label: 'מספר' }, { key: 'title', label: 'כותרת' }, { key: 'text', label: 'טקסט', type: 'textarea' }] },
-  areas: { table: 'areas', title: 'אזורי השקעה', fields: [{ key: 'name', label: 'שם (אנגלית)' }, { key: 'he', label: 'שם (עברית)' }, { key: 'blurb', label: 'תיאור', type: 'textarea' }] },
-  press: { table: 'press', title: 'בתקשורת', fields: [{ key: 'outlet', label: 'מקור' }, { key: 'title', label: 'כותרת', type: 'textarea' }, { key: 'url', label: 'קישור' }] },
+  stats: {
+    table: 'stats',
+    title: 'נתונים (סטטיסטיקות)',
+    fields: [
+      { key: 'value', label: 'ערך' },
+      { key: 'value_ru', label: 'ערך (רוסית)' },
+      { key: 'label', label: 'תווית' },
+      { key: 'label_ru', label: 'תווית (רוסית)' },
+    ],
+  },
+  process: {
+    table: 'process_steps',
+    title: 'שלבי התהליך',
+    fields: [
+      { key: 'n', label: 'מספר' },
+      { key: 'title', label: 'כותרת' },
+      { key: 'title_ru', label: 'כותרת (רוסית)' },
+      { key: 'text', label: 'טקסט', type: 'textarea' },
+      { key: 'text_ru', label: 'טקסט (רוסית)', type: 'textarea' },
+    ],
+  },
+  mistakes: {
+    table: 'mistakes',
+    title: 'טעויות נפוצות',
+    fields: [
+      { key: 'n', label: 'מספר' },
+      { key: 'title', label: 'כותרת' },
+      { key: 'title_ru', label: 'כותרת (רוסית)' },
+      { key: 'text', label: 'טקסט', type: 'textarea' },
+      { key: 'text_ru', label: 'טקסט (רוסית)', type: 'textarea' },
+    ],
+  },
+  areas: {
+    table: 'areas',
+    title: 'אזורי השקעה',
+    fields: [
+      { key: 'name', label: 'שם (אנגלית)' },
+      { key: 'he', label: 'שם (עברית)' },
+      { key: 'ru', label: 'שם (רוסית)' },
+      { key: 'blurb', label: 'תיאור', type: 'textarea' },
+      { key: 'blurb_ru', label: 'תיאור (רוסית)', type: 'textarea' },
+    ],
+  },
+  press: {
+    table: 'press',
+    title: 'בתקשורת',
+    fields: [
+      { key: 'outlet', label: 'מקור' },
+      { key: 'title', label: 'כותרת', type: 'textarea' },
+      { key: 'title_ru', label: 'כותרת (רוסית)', type: 'textarea' },
+      { key: 'url', label: 'קישור' },
+    ],
+  },
 };
 const cfg = config[type ?? ''];
 if (!cfg) return Astro.redirect('/admin/lists/stats');

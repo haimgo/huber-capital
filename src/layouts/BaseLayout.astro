@@ -3,30 +3,45 @@ import '../styles/global.css';
 import SpaceBackground from '../components/SpaceBackground.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { dirOf, htmlLang, ogLocale, localizePath, stripLocale, t, type Lang } from '../lib/i18n';
 
+const lang: Lang = Astro.locals.lang ?? 'he';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const {
-  title = 'Huber Capital — הובר קפיטל · השקעות נדל"ן בדובאי',
-  description = 'ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע. החל מ-200,000₪ הון עצמי, בליווי מלא A-Z.',
-  ogImage,
-} = Astro.props;
+
+const defaultTitle =
+  lang === 'ru'
+    ? 'Huber Capital — Хубер Капитал · Инвестиции в недвижимость Дубая'
+    : 'Huber Capital — הובר קפיטל · השקעות נדל"ן בדובאי';
+const defaultDescription =
+  lang === 'ru'
+    ? 'Сопровождение израильских инвесторов в недвижимости Дубая — от анализа потребностей до сделки, под ключ.'
+    : 'ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע. החל מ-200,000₪ הון עצמי, בליווי מלא A-Z.';
+
+const { title = defaultTitle, description = defaultDescription, ogImage } = Astro.props;
 
 const ogUrl = new URL(ogImage ?? `${base}assets/og.jpg`, Astro.site);
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// Locale-aware canonical + hreflang, built from the underlying (locale-stripped) path.
+const { path: logicalPath } = stripLocale(Astro.url.pathname);
+const canonical = new URL(localizePath(logicalPath, lang), Astro.site);
+const heHref = new URL(localizePath(logicalPath, 'he'), Astro.site);
+const ruHref = new URL(localizePath(logicalPath, 'ru'), Astro.site);
 ---
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang={htmlLang(lang)} dir={dirOf(lang)}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="he" href={heHref} />
+    <link rel="alternate" hreflang="ru" href={ruHref} />
+    <link rel="alternate" hreflang="x-default" href={heHref} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogUrl} />
-    <meta property="og:locale" content="he_IL" />
+    <meta property="og:locale" content={ogLocale(lang)} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,17 +55,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:bg-cyan focus:text-space focus:px-4 focus:py-2 text-[12px]"
-      >דלג לתוכן</a
+      >{t(lang, 'skip')}</a
     >
 
     <SpaceBackground />
 
     <div class="relative" style="z-index:2">
-      <Header />
+      <Header lang={lang} />
       <main id="main">
         <slot />
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </div>
 
     <script is:inline>

@@ -1,50 +1,77 @@
 ---
 // TODO (CONTENT-TODO): replace REPLACE_ME with the real Formspree form id (client's business email).
+import { localizePath, type Lang } from '../lib/i18n';
+const { lang = 'he' } = Astro.props as { lang?: Lang };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const thanksHref = base + localizePath('/thank-you', lang).replace(/^\/+/, '') + '/';
 const FORMSPREE = 'https://formspree.io/f/REPLACE_ME';
 const inputCls = 'w-full input-glass rounded-xl px-4 py-3 text-fg placeholder:text-mute/60 transition';
 const labelCls = 'block eyebrow text-[10px] text-mute mb-2';
+
+const tr = {
+  he: {
+    name: 'שם מלא *', name_err: 'נא להזין שם.',
+    phone: 'טלפון *', phone_err: 'נא להזין מספר טלפון.',
+    email: 'אימייל', email_err: 'כתובת אימייל אינה תקינה.',
+    budget: 'תקציב השקעה (הון עצמי)', budget_ph: 'בחר/י טווח',
+    b4: 'מעל 2,000,000 ₪',
+    msg: 'פרטים נוספים *', msg_err: 'נא להוסיף הודעה.',
+    submit: 'שליחה לשיחת אפיון',
+    gen_err: 'אירעה שגיאה בשליחה. נסו שוב או חייגו אלינו ישירות.',
+  },
+  ru: {
+    name: 'Полное имя *', name_err: 'Укажите имя.',
+    phone: 'Телефон *', phone_err: 'Укажите номер телефона.',
+    email: 'Эл. почта', email_err: 'Некорректный адрес эл. почты.',
+    budget: 'Бюджет инвестиции (собственный капитал)', budget_ph: 'Выберите диапазон',
+    b4: 'свыше 2,000,000 ₪',
+    msg: 'Дополнительные детали *', msg_err: 'Добавьте сообщение.',
+    submit: 'Отправить заявку на консультацию',
+    gen_err: 'Ошибка при отправке. Попробуйте снова или позвоните нам напрямую.',
+  },
+}[lang];
 ---
-<form id="contact-form" action={FORMSPREE} method="POST" novalidate class="glass rounded-[28px] p-8 md:p-10 space-y-6 text-right">
+<form id="contact-form" action={FORMSPREE} method="POST" novalidate data-thanks={thanksHref} data-generr={tr.gen_err} class="glass rounded-[28px] p-8 md:p-10 space-y-6 text-start">
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
   <div>
-    <label for="cf-name" class={labelCls}>שם מלא *</label>
+    <label for="cf-name" class={labelCls}>{tr.name}</label>
     <input id="cf-name" name="name" type="text" required class={inputCls} />
-    <p class="error-msg hidden text-magenta text-[12px] mt-1.5">נא להזין שם.</p>
+    <p class="error-msg hidden text-magenta text-[12px] mt-1.5">{tr.name_err}</p>
   </div>
 
   <div class="grid sm:grid-cols-2 gap-6">
     <div>
-      <label for="cf-phone" class={labelCls}>טלפון *</label>
-      <input id="cf-phone" name="phone" type="tel" required dir="ltr" class={`${inputCls} text-right`} />
-      <p class="error-msg hidden text-magenta text-[12px] mt-1.5">נא להזין מספר טלפון.</p>
+      <label for="cf-phone" class={labelCls}>{tr.phone}</label>
+      <input id="cf-phone" name="phone" type="tel" required dir="ltr" class={`${inputCls} text-start`} />
+      <p class="error-msg hidden text-magenta text-[12px] mt-1.5">{tr.phone_err}</p>
     </div>
     <div>
-      <label for="cf-email" class={labelCls}>אימייל</label>
-      <input id="cf-email" name="email" type="email" dir="ltr" class={`${inputCls} text-right`} />
-      <p class="error-msg hidden text-magenta text-[12px] mt-1.5">כתובת אימייל אינה תקינה.</p>
+      <label for="cf-email" class={labelCls}>{tr.email}</label>
+      <input id="cf-email" name="email" type="email" dir="ltr" class={`${inputCls} text-start`} />
+      <p class="error-msg hidden text-magenta text-[12px] mt-1.5">{tr.email_err}</p>
     </div>
   </div>
 
   <div>
-    <label for="cf-budget" class={labelCls}>תקציב השקעה (הון עצמי)</label>
+    <label for="cf-budget" class={labelCls}>{tr.budget}</label>
     <select id="cf-budget" name="budget" class={inputCls}>
-      <option value="" style="background:#0a0b1a">בחר/י טווח</option>
+      <option value="" style="background:#0a0b1a">{tr.budget_ph}</option>
       <option style="background:#0a0b1a">200,000 – 500,000 ₪</option>
       <option style="background:#0a0b1a">500,000 – 1,000,000 ₪</option>
       <option style="background:#0a0b1a">1,000,000 – 2,000,000 ₪</option>
-      <option style="background:#0a0b1a">מעל 2,000,000 ₪</option>
+      <option style="background:#0a0b1a">{tr.b4}</option>
     </select>
   </div>
 
   <div>
-    <label for="cf-message" class={labelCls}>פרטים נוספים *</label>
+    <label for="cf-message" class={labelCls}>{tr.msg}</label>
     <textarea id="cf-message" name="message" rows="4" required class={inputCls}></textarea>
-    <p class="error-msg hidden text-magenta text-[12px] mt-1.5">נא להוסיף הודעה.</p>
+    <p class="error-msg hidden text-magenta text-[12px] mt-1.5">{tr.msg_err}</p>
   </div>
 
   <p id="cf-error" class="hidden text-magenta text-sm"></p>
-  <button type="submit" class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">שליחה לשיחת אפיון</button>
+  <button type="submit" class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{tr.submit}</button>
 </form>
 
 <script>
@@ -75,9 +102,9 @@ const labelCls = 'block eyebrow text-[10px] text-mute mb-2';
       gen.classList.add('hidden');
       try {
         const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-        if (res.ok) { window.location.href = '/thank-you'; return; }
+        if (res.ok) { window.location.href = form.dataset.thanks || '/thank-you'; return; }
       } catch (_) { /* fallthrough */ }
-      gen.textContent = 'אירעה שגיאה בשליחה. נסו שוב או חייגו אלינו ישירות.';
+      gen.textContent = form.dataset.generr || 'שגיאה בשליחה.';
       gen.classList.remove('hidden');
     });
   }

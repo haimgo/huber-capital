@@ -1,20 +1,27 @@
 ---
+import { t, localizePath, type Lang } from '../lib/i18n';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const { showLink = true, image = null } = Astro.props;
+const { showLink = true, image = null, lang = 'he' } = Astro.props as {
+  showLink?: boolean;
+  image?: string | null;
+  lang?: Lang;
+};
+const aboutLoc = localizePath('/about', lang);
+const aboutHref = base + aboutLoc.replace(/^\/+/, '') + '/';
 ---
 <section class="px-6 py-16 md:py-24">
   <div class={`max-w-5xl mx-auto glass rounded-[28px] p-10 md:p-16 reveal ${image ? 'grid md:grid-cols-3 gap-10 items-center' : ''}`}>
     {image && (
       <div class="order-2 md:order-1 md:col-span-1">
-        <img src={image} alt="גלעד הובר" class="w-full aspect-[4/5] object-cover rounded-2xl" />
+        <img src={image} alt={t(lang, 'about_name')} class="w-full aspect-[4/5] object-cover rounded-2xl" />
       </div>
     )}
-    <div class={`text-right ${image ? 'order-1 md:order-2 md:col-span-2' : ''}`}>
-      <p class="eyebrow text-[11px] mb-4" style="color:#ffc46a;">ABOUT</p>
-      <h2 class="font-display font-bold text-3xl md:text-5xl mb-6">גלעד <span class="neon glow">הובר</span></h2>
-      <p class="text-fg/70 text-lg leading-[1.9] font-light mb-5">30 שנות ניסיון בעולם העסקים. לאחר שהעברתי את מרכז חיי לדובאי — ההחלטה הכי טובה שעשיתי — אני מלווה משקיעים ישראלים בגישה שמתחילה ונגמרת באינטרס שלהם.</p>
-      <p class="text-fg/70 text-lg leading-[1.9] font-light mb-8">צוות מקומי בדובאי, גישה לפרויקטים במחיר מתחת לשוק, ותהליך מדויק של בחירה, בדיקה וביצוע.</p>
-      {showLink && <a href={`${base}about/`} class="btn-neon rounded-full px-7 py-3 eyebrow text-[11px] text-fg inline-block">עוד עליי ועל הצוות</a>}
+    <div class={`text-start ${image ? 'order-1 md:order-2 md:col-span-2' : ''}`}>
+      <p class="eyebrow text-[11px] mb-4" style="color:#ffc46a;">{t(lang, 'about_eyebrow')}</p>
+      <h2 class="font-display font-bold text-3xl md:text-5xl mb-6">{t(lang, 'about_name_first')} <span class="neon glow">{t(lang, 'about_name_last')}</span></h2>
+      <p class="text-fg/70 text-lg leading-[1.9] font-light mb-5">{t(lang, 'about_bio_1')}</p>
+      <p class="text-fg/70 text-lg leading-[1.9] font-light mb-8">{t(lang, 'about_bio_2')}</p>
+      {showLink && <a href={aboutHref} class="btn-neon rounded-full px-7 py-3 eyebrow text-[11px] text-fg inline-block">{t(lang, 'about_link')}</a>}
     </div>
   </div>
 </section>

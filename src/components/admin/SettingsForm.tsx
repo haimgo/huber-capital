@@ -2,7 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { browserClient } from '../../lib/supabase';
 import { useStatus, Status } from './ui';
 
-type Field = { key: string; label: string; type?: 'text' | 'textarea' };
+type Field = { key: string; label: string; type?: 'text' | 'textarea'; noRu?: boolean };
 const GROUPS: { title: string; fields: Field[] }[] = [
   {
     title: 'הירו — ראש העמוד',
@@ -28,9 +28,7 @@ const GROUPS: { title: string; fields: Field[] }[] = [
   },
   {
     title: 'תמונת גלעד',
-    fields: [
-      { key: 'gilad_image', label: 'קישור תמונה (העלו ב"מדיה" והעתיקו את הקישור לכאן)' },
-    ],
+    fields: [{ key: 'gilad_image', label: 'קישור תמונה (העלו ב"מדיה" והעתיקו את הקישור לכאן)', noRu: true }],
   },
 ];
 
@@ -49,6 +47,7 @@ export default function SettingsForm() {
   }, []);
 
   const set = (k: string, v: string) => setRow((r: any) => ({ ...r, [k]: v }));
+  const inputCls = 'w-full input-glass rounded-lg px-3 py-2 text-fg';
 
   async function save() {
     setBusy(true);
@@ -61,16 +60,29 @@ export default function SettingsForm() {
   if (!row) return <p class="text-mute">טוען…</p>;
   return (
     <div class="max-w-2xl space-y-6">
+      <p class="text-mute text-sm font-light">מלאו את שדות ה־RU כדי להציג טקסט ברוסית; אם יישארו ריקים — יוצג הטקסט בעברית.</p>
       {GROUPS.map((g) => (
-        <fieldset key={g.title} class="glass rounded-2xl p-6 text-right space-y-4">
+        <fieldset key={g.title} class="glass rounded-2xl p-6 text-start space-y-5">
           <legend class="eyebrow text-[11px] text-cyan px-1">{g.title}</legend>
           {g.fields.map((f) => (
-            <div key={f.key}>
-              <label for={`s-${f.key}`} class="eyebrow text-[10px] text-mute block mb-1">{f.label}</label>
-              {f.type === 'textarea' ? (
-                <textarea id={`s-${f.key}`} value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} rows={2} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-              ) : (
-                <input id={`s-${f.key}`} value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+            <div key={f.key} class="space-y-2">
+              <div>
+                <label for={`s-${f.key}`} class="eyebrow text-[10px] text-mute block mb-1">{f.label}</label>
+                {f.type === 'textarea' ? (
+                  <textarea id={`s-${f.key}`} value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} rows={2} class={inputCls} />
+                ) : (
+                  <input id={`s-${f.key}`} value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} class={inputCls} />
+                )}
+              </div>
+              {!f.noRu && (
+                <div>
+                  <label for={`s-${f.key}-ru`} dir="ltr" class="eyebrow text-[9px] text-mute/70 block mb-1">RU · Русский</label>
+                  {f.type === 'textarea' ? (
+                    <textarea id={`s-${f.key}-ru`} dir="ltr" value={row[`${f.key}_ru`] ?? ''} onInput={(e: any) => set(`${f.key}_ru`, e.currentTarget.value)} rows={2} class={inputCls} />
+                  ) : (
+                    <input id={`s-${f.key}-ru`} dir="ltr" value={row[`${f.key}_ru`] ?? ''} onInput={(e: any) => set(`${f.key}_ru`, e.currentTarget.value)} class={inputCls} />
+                  )}
+                </div>
               )}
             </div>
           ))}

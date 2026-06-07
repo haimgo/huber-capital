@@ -13,12 +13,26 @@ if (typeof (globalThis as any).WebSocket === 'undefined') {
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const path = context.url.pathname;
+  const { pathname } = context.url;
+
+  // --- Locale --- Russian is served under /ru/*, Hebrew (default) at the root.
+  // Resolve once; if middleware re-runs after the rewrite below, keep locals.lang.
+  const ruPrefixed = pathname === '/ru' || pathname.startsWith('/ru/');
+  context.locals.lang = context.locals.lang ?? (ruPrefixed ? 'ru' : 'he');
+
+  // Rewrite /ru/* to the underlying route so one set of pages serves both
+  // languages; pages read the language from Astro.locals.lang.
+  if (ruPrefixed) {
+    const target = (pathname.replace(/^\/ru(?=\/|$)/, '') || '/') + context.url.search;
+    return context.rewrite(target);
+  }
+
+  const path = pathname;
   const isAdminArea = path === '/admin' || path.startsWith('/admin/');
   const isApi = path.startsWith('/api/');
   const isLogin = path.startsWith('/admin/login');
 
-  // Guard the admin area (login page excepted).
+  // Guard the admin area (login page excepted). Admin is Hebrew-only.
   if (isAdminArea && !isLogin) {
     const sb = serverClient(context.cookies);
     if (!(await isAdmin(sb))) {

@@ -3,7 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 const { title, updated = 'יוני 2026' } = Astro.props;
 ---
 <BaseLayout title={`${title} · Huber Capital`} description={title}>
-  <section class="px-6 pt-16 md:pt-24 pb-8 text-right">
+  <section class="px-6 pt-16 md:pt-24 pb-8 text-start">
     <div class="max-w-3xl mx-auto">
       <p class="eyebrow text-cyan text-[11px] mb-4">DOCUMENT</p>
       <h1 class="font-display font-bold text-3xl md:text-5xl mb-4 neon glow">{title}</h1>
@@ -11,7 +11,7 @@ const { title, updated = 'יוני 2026' } = Astro.props;
     </div>
   </section>
   <section class="px-6 pb-16">
-    <div class="max-w-3xl mx-auto glass rounded-[28px] p-8 md:p-12 text-right space-y-5 font-light text-fg/80 leading-[1.95] [&_h2]:font-display [&_h2]:font-semibold [&_h2]:text-fg [&_h2]:text-2xl [&_h2]:mt-10 [&_h2]:mb-2 [&_a]:text-cyan [&_a]:underline">
+    <div class="max-w-3xl mx-auto glass rounded-[28px] p-8 md:p-12 text-start space-y-5 font-light text-fg/80 leading-[1.95] [&_h2]:font-display [&_h2]:font-semibold [&_h2]:text-fg [&_h2]:text-2xl [&_h2]:mt-10 [&_h2]:mb-2 [&_a]:text-cyan [&_a]:underline">
       <slot />
     </div>
   </section>

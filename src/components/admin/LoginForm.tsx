@@ -23,7 +23,7 @@ export default function LoginForm() {
 
   const input = 'w-full input-glass rounded-xl px-4 py-3 text-fg mb-4';
   return (
-    <form onSubmit={onSubmit} class="text-right">
+    <form onSubmit={onSubmit} class="text-start">
       <label for="login-email" class="eyebrow text-[10px] text-mute block mb-2">אימייל</label>
       <input id="login-email" type="email" required autocomplete="email" value={email} onInput={(e: any) => setEmail(e.currentTarget.value)} dir="ltr" class={input} />
       <label for="login-pass" class="eyebrow text-[10px] text-mute block mb-2">סיסמה</label>

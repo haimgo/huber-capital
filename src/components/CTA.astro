@@ -1,13 +1,19 @@
 ---
 import { site } from '../data/site.js';
-const { eyebrow = 'BEGIN', title, sub } = Astro.props;
+import { t, type Lang } from '../lib/i18n';
+const { eyebrow = 'BEGIN', title, sub, lang = 'he' } = Astro.props as {
+  eyebrow?: string;
+  title?: string;
+  sub?: string;
+  lang?: Lang;
+};
 ---
 <section class="px-6 py-24 md:py-32 text-center reveal">
   <p class="eyebrow text-[11px] text-mute mb-5">{eyebrow}</p>
   <h2 class="font-display font-extrabold text-4xl md:text-6xl mb-7 neon glow" set:html={title}></h2>
   {sub && <p class="text-mute mb-10 text-lg font-light max-w-xl mx-auto">{sub}</p>}
-  <div class="flex flex-col sm:flex-row-reverse gap-5 justify-center items-center">
-    <a href={site.phoneHref} class="btn-neon rounded-full px-12 py-5 eyebrow text-sm text-fg">לשיחת אפיון · {site.phone}</a>
-    <a href={site.whatsapp} class="glass rounded-full px-10 py-5 eyebrow text-sm text-fg/80">וואטסאפ</a>
+  <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
+    <a href={site.phoneHref} class="btn-neon rounded-full px-12 py-5 eyebrow text-sm text-fg">{t(lang, 'cta_call')} · {site.phone}</a>
+    <a href={site.whatsapp} class="glass rounded-full px-10 py-5 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
   </div>
 </section>

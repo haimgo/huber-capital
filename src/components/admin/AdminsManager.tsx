@@ -48,7 +48,7 @@ export default function AdminsManager() {
   return (
     <div class="max-w-2xl">
       <form onSubmit={invite} class="glass rounded-2xl p-5 flex flex-row-reverse gap-3 items-end mb-4">
-        <div class="flex-1 text-right">
+        <div class="flex-1 text-start">
           <label for="admin-email" class="eyebrow text-[10px] text-mute block mb-1">הזמנת מנהל חדש (אימייל)</label>
           <input id="admin-email" type="email" required autocomplete="email" value={email} onInput={(e: any) => setEmail(e.currentTarget.value)} dir="ltr" class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
         </div>

@@ -1,45 +1,64 @@
 ---
 import { site } from '../data/site.js';
+import { t, localizePath, stripLocale, type Lang } from '../lib/i18n';
+const { lang = 'he' } = Astro.props as { lang?: Lang };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const link = (h) => (h === '/' ? base : base + h.replace(/^\//, '') + '/');
+
+// Href for a logical path in a given language (adds /ru prefix + base + trailing slash).
+const href = (h: string, l: Lang = lang) => {
+  const loc = localizePath(h, l);
+  if (loc === '/') return base;
+  return base + loc.replace(/^\/+/, '') + (loc.endsWith('/') ? '' : '/');
+};
+
 const nav = [
-  { href: '/', label: 'בית' },
-  { href: '/investment', label: 'השקעה' },
-  { href: '/process', label: 'התהליך' },
-  { href: '/projects', label: 'פרויקטים' },
-  { href: '/about', label: 'אודות' },
-  { href: '/contact', label: 'קשר' },
+  { href: '/', key: 'nav_home' },
+  { href: '/investment', key: 'nav_investment' },
+  { href: '/process', key: 'nav_process' },
+  { href: '/projects', key: 'nav_projects' },
+  { href: '/about', key: 'nav_about' },
+  { href: '/contact', key: 'nav_contact' },
 ];
-let p = Astro.url.pathname;
-if (base !== '/' && p.startsWith(base)) p = '/' + p.slice(base.length);
-const path = p.replace(/\/+$/, '') || '/';
-const isActive = (href) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+
+// Current logical path (locale + base stripped) for active state + language switch.
+let raw = Astro.url.pathname;
+if (base !== '/' && raw.startsWith(base)) raw = '/' + raw.slice(base.length);
+const { path: logical0 } = stripLocale(raw);
+const path = logical0.replace(/\/+$/, '') || '/';
+const isActive = (h: string) => (h === '/' ? path === '/' : path === h || path.startsWith(h + '/'));
+const switchHe = href(path, 'he');
+const switchRu = href(path, 'ru');
 ---
 <header class="sticky top-0 z-30">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-4">
-    <div class="glass rounded-full px-5 py-3 flex flex-row-reverse items-center justify-between">
-      <a href={link('/')} class="flex flex-row-reverse items-center gap-3">
+    <div class="glass rounded-full px-5 py-3 flex rtl:flex-row-reverse items-center justify-between gap-3">
+      <a href={href('/')} class="flex rtl:flex-row-reverse items-center gap-3 shrink-0">
         <span class="w-2 h-2 rounded-full" style="background:#ffd24a;box-shadow:0 0 12px #ffd24a;"></span>
         <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
       </a>
       <nav class="hidden md:flex flex-row gap-7 text-[11px] eyebrow text-mute">
         {nav.map((n) => (
-          <a href={link(n.href)} class={`hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{n.label}</a>
+          <a href={href(n.href)} class={`hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{t(lang, n.key)}</a>
         ))}
       </nav>
-      <div class="flex flex-row-reverse items-center gap-3">
-        <a href={link('/contact')} class="hidden md:inline-block btn-neon rounded-full px-5 py-2 text-[11px] eyebrow text-fg">שיחת ייעוץ</a>
-        <button id="menu-btn" aria-label="תפריט" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden text-cyan">
+      <div class="flex rtl:flex-row-reverse items-center gap-3">
+        <div class="flex items-center gap-1.5 text-[10px] eyebrow" aria-label={t(lang, 'lang_switch')}>
+          <a href={switchHe} hreflang="he" class={lang === 'he' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>HE</a>
+          <span class="text-mute/40" aria-hidden="true">·</span>
+          <a href={switchRu} hreflang="ru" class={lang === 'ru' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>RU</a>
+        </div>
+        <a href={href('/contact')} class="hidden md:inline-block btn-neon rounded-full px-5 py-2 text-[11px] eyebrow text-fg">{t(lang, 'header_cta')}</a>
+        <button id="menu-btn" aria-label={lang === 'ru' ? 'Меню' : 'תפריט'} aria-expanded="false" aria-controls="mobile-menu" class="md:hidden text-cyan">
           <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M0 1h20M0 7h20M0 13h20"/></svg>
         </button>
       </div>
     </div>
     <div id="mobile-menu" class="hidden md:hidden glass rounded-2xl mt-2 px-5 py-2">
-      <nav class="flex flex-col text-right text-[12px] eyebrow text-mute">
+      <nav class="flex flex-col text-start text-[12px] eyebrow text-mute">
         {nav.map((n) => (
-          <a href={link(n.href)} class={`py-3 border-b border-white/10 hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{n.label}</a>
+          <a href={href(n.href)} class={`py-3 border-b border-white/10 hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{t(lang, n.key)}</a>
         ))}
-        <a href={site.whatsapp} class="py-3 text-cyan">וואטסאפ · {site.phone}</a>
+        <a href={site.whatsapp} class="py-3 text-cyan">{t(lang, 'whatsapp')} · {site.phone}</a>
       </nav>
     </div>
   </div>

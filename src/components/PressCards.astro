@@ -9,7 +9,7 @@ const { press, eyebrow = 'בתקשורת', heading = 'מדברים עלינו' }
     </div>
     <div class="grid md:grid-cols-3 gap-6">
       {press.map((p, i) => (
-        <a href={p.url} class="glass rounded-3xl p-8 text-right reveal block transition hover:border-cyan/40" style={`transition-delay:${i * 0.08}s`}>
+        <a href={p.url} class="glass rounded-3xl p-8 text-start reveal block transition hover:border-cyan/40" style={`transition-delay:${i * 0.08}s`}>
           <span class="eyebrow text-[10px] text-cyan">{p.outlet}</span>
           <p class="font-display font-semibold text-2xl mt-3 leading-snug">&ldquo;{p.title}&rdquo;</p>
           <span class="eyebrow text-mute text-[10px] mt-5 inline-block">לכתבה ←</span>

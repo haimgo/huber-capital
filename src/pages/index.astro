@@ -9,34 +9,43 @@ import PressCards from '../components/PressCards.astro';
 import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
 import { getStats, getMistakes, getSteps, getPress, getSettings } from '../lib/content';
+import { byLang, t, type Lang } from '../lib/i18n';
 
+const lang: Lang = Astro.locals.lang ?? 'he';
 const sb = serverClient(Astro.cookies);
-const [stats, mistakes, process, press, s] = await Promise.all([
+const [statsR, mistakesR, processR, pressR, s] = await Promise.all([
   getStats(sb), getMistakes(sb), getSteps(sb), getPress(sb), getSettings(sb),
 ]);
+
+// Localize Supabase rows for the active language (ru → *_ru, fall back to Hebrew).
+const stats = statsR.map((r: any) => ({ ...r, value: byLang(r, 'value', lang), label: byLang(r, 'label', lang) }));
+const mistakes = mistakesR.map((r: any) => ({ ...r, title: byLang(r, 'title', lang), text: byLang(r, 'text', lang) }));
+const process = processR.map((r: any) => ({ ...r, title: byLang(r, 'title', lang), text: byLang(r, 'text', lang) }));
+const press = pressR.map((r: any) => ({ ...r, title: byLang(r, 'title', lang) }));
+
+const heroEyebrow = byLang(s, 'hero_eyebrow', lang) || 'DUBAI · NEXT-GEN REAL ESTATE';
+const heroTitle = byLang(s, 'hero_title', lang) || 'השקעה בדובאי';
+const heroSub = byLang(s, 'hero_sub', lang) || 'החל מ-200,000₪ הון עצמי · פוטנציאל עליית ערך של כ-10% בשנה · ליווי מלא A-Z';
+const manifMain = byLang(s, 'manifesto_main', lang) || 'אני לא מוכר נכסים — אני בוחן השקעות.';
+const manifSub = byLang(s, 'manifesto_sub', lang) || 'זו לא עוד עסקה. זה מסע שמטרתו לייצר עבורך הצלחה.';
+const ctaTitle = byLang(s, 'cta_title', lang) || 'מוכנים לצאת למסע?';
+const ctaSub = byLang(s, 'cta_sub', lang) || 'שיחת אפיון ראשונית, ללא התחייבות — נבין יחד מה נכון עבורכם.';
 ---
 <BaseLayout>
-  <Hero
-    eyebrow={s?.hero_eyebrow ?? 'DUBAI · NEXT-GEN REAL ESTATE'}
-    title={s?.hero_title ?? 'השקעה בדובאי'}
-    sub={s?.hero_sub ?? 'החל מ-200,000₪ הון עצמי · פוטנציאל עליית ערך של כ-10% בשנה · ליווי מלא A-Z'}
-  />
+  <Hero lang={lang} eyebrow={heroEyebrow} title={heroTitle} sub={heroSub} />
 
   <!-- Manifesto -->
   <section class="px-6 py-20 md:py-28 text-center reveal">
     <div class="max-w-4xl mx-auto">
-      <p class="font-display font-bold text-3xl md:text-5xl leading-tight neon glow">{s?.manifesto_main ?? 'אני לא מוכר נכסים — אני בוחן השקעות.'}</p>
-      <p class="text-mute font-light mt-6 text-lg">{s?.manifesto_sub ?? 'זו לא עוד עסקה. זה מסע שמטרתו לייצר עבורך הצלחה.'}</p>
+      <p class="font-display font-bold text-3xl md:text-5xl leading-tight neon glow">{manifMain}</p>
+      <p class="text-mute font-light mt-6 text-lg">{manifSub}</p>
     </div>
   </section>
 
-  <StatBar stats={stats} eyebrow="ההזדמנות" heading={'שוק הנדל"ן בדובאי בצמיחה מתמדת'} />
-  <MistakeCards mistakes={mistakes} />
-  <ProcessSteps steps={process} />
-  <AboutGilad image={s?.gilad_image} />
-  <PressCards press={press} />
-  <CTA
-    title={s?.cta_title ?? 'מוכנים לצאת למסע?'}
-    sub={s?.cta_sub ?? 'שיחת אפיון ראשונית, ללא התחייבות — נבין יחד מה נכון עבורכם.'}
-  />
+  <StatBar stats={stats} eyebrow={t(lang, 'home_stat_eyebrow')} heading={t(lang, 'home_stat_heading')} />
+  <MistakeCards mistakes={mistakes} eyebrow={t(lang, 'mistakes_eyebrow')} heading={t(lang, 'mistakes_heading')} closing={t(lang, 'mistakes_closing')} />
+  <ProcessSteps steps={process} eyebrow={t(lang, 'process_eyebrow')} heading={t(lang, 'process_heading')} />
+  <AboutGilad lang={lang} image={s?.gilad_image} />
+  <PressCards press={press} eyebrow={t(lang, 'press_eyebrow')} heading={t(lang, 'press_heading')} />
+  <CTA lang={lang} title={ctaTitle} sub={ctaSub} />
 </BaseLayout>

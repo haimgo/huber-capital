@@ -14,7 +14,7 @@ const {
     </div>
     <div class="grid md:grid-cols-3 gap-6">
       {mistakes.map((m, i) => (
-        <div class="glass rounded-3xl p-8 text-right reveal" style={`transition-delay:${i * 0.08}s`}>
+        <div class="glass rounded-3xl p-8 text-start reveal" style={`transition-delay:${i * 0.08}s`}>
           <div class="font-display font-extrabold text-4xl neon glow mb-4">{m.n}</div>
           <h3 class="font-display font-semibold text-2xl mb-2">{m.title}</h3>
           <p class="text-mute font-light leading-relaxed">{m.text}</p>

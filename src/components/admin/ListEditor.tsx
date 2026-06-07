@@ -34,9 +34,8 @@ export default function ListEditor({ table, fields }: { table: string; fields: F
   async function add() {
     setBusy(true);
     const maxSort = rows.reduce((m, r) => Math.max(m, r.sort ?? 0), 0);
-    const blank: any = { sort: maxSort + 1 };
-    fields.forEach((f) => (blank[f.key] = ''));
-    const { data, error } = await sb.from(table).insert(blank).select().single();
+    // Insert only `sort`; other (incl. *_ru) columns stay null and are filled via edit.
+    const { data, error } = await sb.from(table).insert({ sort: maxSort + 1 }).select().single();
     if (error) show('שגיאה: ' + error.message, 'err');
     else { setRows((r) => [...r, data]); show('נוסף פריט חדש ✓', 'ok'); }
     setBusy(false);
@@ -70,7 +69,7 @@ export default function ListEditor({ table, fields }: { table: string; fields: F
       </div>
       <div class="space-y-4">
         {rows.map((row, i) => (
-          <div key={row.id} class="glass rounded-2xl p-5 text-right">
+          <div key={row.id} class="glass rounded-2xl p-5 text-start">
             <div class="grid sm:grid-cols-2 gap-3">
               {fields.map((f) => {
                 const id = `${table}-${row.id}-${f.key}`;

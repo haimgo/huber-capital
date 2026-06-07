@@ -4,33 +4,42 @@ import { useStatus, Status } from './ui';
 import { PAGE_SECTIONS } from '../../lib/pageSections';
 
 const keyOf = (page: string, slot: string) => `${page}:${slot}`;
+const ruKeyOf = (page: string, slot: string) => `${page}:${slot}:ru`;
 
 export default function PagesEditor() {
   const sb = browserClient();
   const [vals, setVals] = useState<Record<string, string>>({});
   const [inDb, setInDb] = useState<Record<string, boolean>>({});
+  const [dbRu, setDbRu] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const { status, show } = useStatus();
 
   async function load() {
     setLoading(true);
-    const { data, error } = await sb.from('page_sections').select('page, slot, value');
-    if (error) show('שגיאה בטעינה: ' + error.message, 'err', { sticky: true });
+    // select('*') so this works before the Russian-columns migration is applied.
+    const res = await sb.from('page_sections').select('*');
+    if (res.error) show('שגיאה בטעינה: ' + res.error.message, 'err', { sticky: true });
     const dbMap: Record<string, string> = {};
+    const dbMapRu: Record<string, string> = {};
     const existing: Record<string, boolean> = {};
-    for (const r of (data ?? []) as any[]) {
-      dbMap[keyOf(r.page, r.slot)] = r.value;
-      existing[keyOf(r.page, r.slot)] = true;
+    const ruExisting: Record<string, boolean> = {};
+    for (const r of (res.data ?? []) as any[]) {
+      const k = keyOf(r.page, r.slot);
+      dbMap[k] = r.value;
+      existing[k] = true;
+      if (r.value_ru != null) { dbMapRu[k] = r.value_ru; ruExisting[k] = true; }
     }
     const init: Record<string, string> = {};
     for (const p of PAGE_SECTIONS)
       for (const f of p.fields) {
         const k = keyOf(p.page, f.slot);
         init[k] = dbMap[k] ?? f.default;
+        init[ruKeyOf(p.page, f.slot)] = dbMapRu[k] ?? '';
       }
     setVals(init);
     setInDb(existing);
+    setDbRu(ruExisting);
     setLoading(false);
   }
   useEffect(() => { load(); }, []);
@@ -40,14 +49,24 @@ export default function PagesEditor() {
   async function save() {
     setBusy(true);
     show('שומר…', 'info', { sticky: true });
-    const toUpsert: { page: string; slot: string; value: string }[] = [];
+    const toUpsert: any[] = [];
     const toDelete: { page: string; slot: string }[] = [];
     for (const p of PAGE_SECTIONS)
       for (const f of p.fields) {
         const k = keyOf(p.page, f.slot);
-        const v = (vals[k] ?? '').trim();
-        if (v && v !== f.default) toUpsert.push({ page: p.page, slot: f.slot, value: vals[k] });
-        else if (inDb[k]) toDelete.push({ page: p.page, slot: f.slot }); // revert to default
+        const heVal = (vals[k] ?? '').trim();
+        const ruVal = (vals[ruKeyOf(p.page, f.slot)] ?? '').trim();
+        const isHeOv = heVal !== '' && heVal !== f.default;
+        const isRuOv = ruVal !== '';
+        if (isHeOv || isRuOv) {
+          const obj: any = { page: p.page, slot: f.slot, value: isHeOv ? vals[k] : null };
+          // Only touch value_ru when there is Russian (or there was — to clear it).
+          if (isRuOv) obj.value_ru = vals[ruKeyOf(p.page, f.slot)];
+          else if (dbRu[k]) obj.value_ru = null;
+          toUpsert.push(obj);
+        } else if (inDb[k]) {
+          toDelete.push({ page: p.page, slot: f.slot });
+        }
       }
 
     let err: any = null;
@@ -70,28 +89,39 @@ export default function PagesEditor() {
   return (
     <div class="space-y-6 max-w-2xl">
       <p class="text-mute text-sm font-light leading-relaxed">
-        עריכת הכותרות והפסקאות בעמודי האתר. שדה שזהה לטקסט המקורי לא נשמר — אפשר תמיד לחזור לברירת המחדל עם הכפתור ↩.
+        עריכת הכותרות והפסקאות בעמודי האתר. בעברית — שדה זהה לטקסט המקורי לא נשמר (↩ לחזרה לברירת מחדל). ב־RU — אם יישאר ריק, יוצג הטקסט בעברית.
       </p>
       {PAGE_SECTIONS.map((p) => (
-        <fieldset key={p.page} class="glass rounded-2xl p-6 text-right space-y-4">
+        <fieldset key={p.page} class="glass rounded-2xl p-6 text-start space-y-5">
           <legend class="eyebrow text-[11px] text-cyan px-1">{p.title}</legend>
           {p.fields.map((f) => {
             const k = keyOf(p.page, f.slot);
+            const rk = ruKeyOf(p.page, f.slot);
             const id = `ps-${p.page}-${f.slot}`;
             const overridden = (vals[k] ?? '') !== f.default;
             return (
-              <div key={f.slot}>
-                <div class="flex flex-row-reverse justify-between items-center mb-1 gap-2">
-                  <label for={id} class="eyebrow text-[10px] text-mute">{f.label}</label>
-                  {overridden && (
-                    <button type="button" onClick={() => set(k, f.default)} title="חזרה לברירת המחדל" class="eyebrow text-[9px] text-mute hover:text-cyan shrink-0">↩ ברירת מחדל</button>
+              <div key={f.slot} class="space-y-2">
+                <div>
+                  <div class="flex flex-row-reverse justify-between items-center mb-1 gap-2">
+                    <label for={id} class="eyebrow text-[10px] text-mute">{f.label}</label>
+                    {overridden && (
+                      <button type="button" onClick={() => set(k, f.default)} title="חזרה לברירת המחדל" class="eyebrow text-[9px] text-mute hover:text-cyan shrink-0">↩ ברירת מחדל</button>
+                    )}
+                  </div>
+                  {f.type === 'textarea' ? (
+                    <textarea id={id} value={vals[k] ?? ''} onInput={(e: any) => set(k, e.currentTarget.value)} rows={3} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+                  ) : (
+                    <input id={id} value={vals[k] ?? ''} onInput={(e: any) => set(k, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
                   )}
                 </div>
-                {f.type === 'textarea' ? (
-                  <textarea id={id} value={vals[k] ?? ''} onInput={(e: any) => set(k, e.currentTarget.value)} rows={3} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-                ) : (
-                  <input id={id} value={vals[k] ?? ''} onInput={(e: any) => set(k, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-                )}
+                <div>
+                  <label for={`${id}-ru`} dir="ltr" class="eyebrow text-[9px] text-mute/70 block mb-1">RU · Русский</label>
+                  {f.type === 'textarea' ? (
+                    <textarea id={`${id}-ru`} dir="ltr" value={vals[rk] ?? ''} onInput={(e: any) => set(rk, e.currentTarget.value)} rows={3} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+                  ) : (
+                    <input id={`${id}-ru`} dir="ltr" value={vals[rk] ?? ''} onInput={(e: any) => set(rk, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+                  )}
+                </div>
               </div>
             );
           })}

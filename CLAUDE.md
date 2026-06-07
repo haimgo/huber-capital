@@ -56,3 +56,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **תוכן נערך ב-Supabase, לא בקוד.** בהוספת שדה תוכן: עדכן `schema.sql` + `content.ts` + הקומפוננטה + עורך הניהול.
 - **טקסטים בעמודים**: ברירות-מחדל מוגדרות ב-`src/lib/pageSections.ts`; העמוד קורא `getSections(sb,page)` ומשתמש ב-`pageText(sec,page,slot)` (מחזיר override מ-`page_sections` או ברירת-מחדל). הוספת טקסט נערך: הוסף שדה לקונפיג + השתמש ב-`pageText` בעמוד. שדה שזהה לברירת-המחדל אינו נשמר (חוזר אוטומטית לברירת-מחדל).
 - העדף קומפוננטות/טוקנים קיימים (DRY). שמור RTL ועברית.
+
+## דו-לשוני (i18n) — עברית + רוסית
+- עברית (ברירת מחדל, RTL) בשורש; רוסית (LTR) תחת `/ru`. `src/middleware.ts` מזהה `/ru`, מציב `Astro.locals.lang`, ועושה `rewrite` לנתיב הבסיס (סט אחד של עמודים משרת את שתי השפות). `BaseLayout` קובע `lang`/`dir` + תגי hreflang/canonical.
+- מנגנון: `src/lib/i18n.ts` — `t(lang,key)` (מחרוזות ממשק he/ru), `localizePath`/`stripLocale`, `byLang(row,field,lang)` (בוחר `field_ru` עם נפילה לעברית), `dirOf`. מתג שפה (HE·RU) ב-Header וב-Footer; כל הקישורים עוברים `localizePath`.
+- **תוכן Supabase דו-לשוני**: עמודות `*_ru` בכל הטבלאות — הרץ פעם אחת את `supabase/i18n.sql` ב-Supabase. הניהול מציג שדה RU ליד כל שדה עברית; שדה RU ריק → נופל לעברית באתר.
+- **כיוון**: השתמש במחלקות לוגיות — `text-start`/`text-end` ו-`rtl:flex-row-reverse` (לא `text-right`/`flex-row-reverse`) כדי שהפריסה תתהפך אוטומטית לפי `dir`.
+- מחרוזות בקוד (ניווט/פוטר/כפתורים/ביוגרפיה/כותרות-משנה בבית) מתורגמות ב-`i18n.ts`; תוכן ה-CMS מתורגם בניהול. חריג: גוף עמודי `legal/*` עדיין בעברית (ממתין לתרגום משפטי).

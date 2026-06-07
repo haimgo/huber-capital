@@ -1,19 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site.js';
+import { t, localizePath, type Lang } from '../lib/i18n';
+const lang: Lang = Astro.locals.lang ?? 'he';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const homeHref = base + localizePath('/', lang).replace(/^\/+/, '');
+const tr = {
+  he: { title: 'תודה · Huber Capital', desc: 'קיבלנו את פנייתכם — ניצור קשר בהקדם.', h: 'קיבלנו את פנייתכם', sub: 'ניצור איתכם קשר בהקדם לתיאום שיחת אפיון. לפנייה מיידית ניתן לחייג או לכתוב לנו בוואטסאפ.', back: 'חזרה לדף הבית' },
+  ru: { title: 'Спасибо · Huber Capital', desc: 'Мы получили вашу заявку — свяжемся с вами в ближайшее время.', h: 'Мы получили вашу заявку', sub: 'Мы свяжемся с вами в ближайшее время для консультации. Для срочной связи позвоните или напишите в WhatsApp.', back: 'На главную' },
+}[lang];
 ---
-<BaseLayout title="תודה · Huber Capital" description="קיבלנו את פנייתכם — ניצור קשר בהקדם.">
+<BaseLayout title={tr.title} description={tr.desc}>
   <section class="min-h-[70vh] flex items-center justify-center text-center px-6 py-24">
     <div class="max-w-xl">
       <p class="eyebrow text-[11px] mb-6" style="color:#ffd98a;">THANK YOU</p>
-      <h1 class="font-display font-bold text-4xl md:text-6xl mb-6 neon glow">קיבלנו את פנייתכם</h1>
-      <p class="font-light text-mute text-lg leading-relaxed mb-10">ניצור איתכם קשר בהקדם לתיאום שיחת אפיון. לפנייה מיידית ניתן לחייג או לכתוב לנו בוואטסאפ.</p>
-      <div class="flex flex-col sm:flex-row-reverse gap-5 justify-center items-center">
+      <h1 class="font-display font-bold text-4xl md:text-6xl mb-6 neon glow">{tr.h}</h1>
+      <p class="font-light text-mute text-lg leading-relaxed mb-10">{tr.sub}</p>
+      <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
         <a href={site.phoneHref} dir="ltr" class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{site.phone}</a>
-        <a href={site.whatsapp} class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">וואטסאפ</a>
+        <a href={site.whatsapp} class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
       </div>
-      <a href={base} class="inline-block mt-10 eyebrow text-[10px] text-mute hover:text-cyan transition">חזרה לדף הבית</a>
+      <a href={homeHref} class="inline-block mt-10 eyebrow text-[10px] text-mute hover:text-cyan transition">{tr.back}</a>
     </div>
   </section>
 </BaseLayout>

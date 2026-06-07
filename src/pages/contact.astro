@@ -2,39 +2,59 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { site } from '../data/site.js';
+import type { Lang } from '../lib/i18n';
+
+const lang: Lang = Astro.locals.lang ?? 'he';
+const tr = {
+  he: {
+    title: 'צור קשר · Huber Capital',
+    desc: 'השאירו פרטים לשיחת אפיון ראשונית, ללא התחייבות, או חייגו אלינו ישירות — 058-440-5858.',
+    h: 'נתחיל בשיחה',
+    sub: 'השאירו פרטים לשיחת אפיון ראשונית, ללא התחייבות — או חייגו וכִתבו לנו ישירות.',
+    phone: 'טלפון', whatsapp: 'וואטסאפ', wa_cta: 'שליחת הודעה מהירה ←',
+    location: 'מיקום', locationVal: site.location,
+    note: 'נשמח לענות על כל שאלה ולתאם עבורכם שיחת אפיון ראשונית — הבנת התקציב, המטרות ורמת הסיכון.',
+  },
+  ru: {
+    title: 'Контакты · Huber Capital',
+    desc: 'Оставьте заявку на первичную консультацию без обязательств или позвоните нам напрямую — 058-440-5858.',
+    h: 'Начнём с разговора',
+    sub: 'Оставьте заявку на первичную консультацию без обязательств — или позвоните и напишите нам напрямую.',
+    phone: 'Телефон', whatsapp: 'WhatsApp', wa_cta: 'Написать быстрое сообщение →',
+    location: 'Локация', locationVal: 'Дубай, ОАЭ',
+    note: 'Будем рады ответить на любой вопрос и организовать первичную консультацию — понимание бюджета, целей и уровня риска.',
+  },
+}[lang];
 ---
-<BaseLayout
-  title="צור קשר · Huber Capital"
-  description="השאירו פרטים לשיחת אפיון ראשונית, ללא התחייבות, או חייגו אלינו ישירות — 058-440-5858."
->
+<BaseLayout title={tr.title} description={tr.desc}>
   <section class="px-6 pt-16 md:pt-24 pb-10 text-center">
     <p class="eyebrow text-[11px] md:text-sm mb-6" style="color:#ffd98a;">CONTACT</p>
-    <h1 class="font-display font-bold text-4xl md:text-7xl mb-6 neon glow">נתחיל בשיחה</h1>
-    <p class="text-mute text-lg max-w-2xl mx-auto font-light">השאירו פרטים לשיחת אפיון ראשונית, ללא התחייבות — או חייגו וכִתבו לנו ישירות.</p>
+    <h1 class="font-display font-bold text-4xl md:text-7xl mb-6 neon glow">{tr.h}</h1>
+    <p class="text-mute text-lg max-w-2xl mx-auto font-light">{tr.sub}</p>
   </section>
 
   <section class="px-6 pb-20 md:pb-28">
     <div class="max-w-container mx-auto grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <div class="text-right order-2 md:order-1 space-y-8">
+      <div class="text-start order-2 md:order-1 space-y-8">
         <div>
-          <p class="eyebrow text-cyan text-[10px] mb-2">טלפון</p>
+          <p class="eyebrow text-cyan text-[10px] mb-2">{tr.phone}</p>
           <a href={site.phoneHref} dir="ltr" class="font-display font-bold text-3xl text-fg hover:text-cyan transition inline-block">{site.phone}</a>
         </div>
         <div class="border-t border-white/10 pt-8">
-          <p class="eyebrow text-cyan text-[10px] mb-2">וואטסאפ</p>
-          <a href={site.whatsapp} class="font-light text-fg/85 hover:text-cyan transition">שליחת הודעה מהירה ←</a>
+          <p class="eyebrow text-cyan text-[10px] mb-2">{tr.whatsapp}</p>
+          <a href={site.whatsapp} class="font-light text-fg/85 hover:text-cyan transition">{tr.wa_cta}</a>
         </div>
         <div class="border-t border-white/10 pt-8">
-          <p class="eyebrow text-cyan text-[10px] mb-2">מיקום</p>
-          <p class="font-light text-fg/75">{site.location}</p>
+          <p class="eyebrow text-cyan text-[10px] mb-2">{tr.location}</p>
+          <p class="font-light text-fg/75">{tr.locationVal}</p>
         </div>
         <div class="border-t border-white/10 pt-8">
-          <p class="font-light text-mute leading-relaxed">נשמח לענות על כל שאלה ולתאם עבורכם שיחת אפיון ראשונית — הבנת התקציב, המטרות ורמת הסיכון.</p>
+          <p class="font-light text-mute leading-relaxed">{tr.note}</p>
         </div>
       </div>
 
       <div class="order-1 md:order-2">
-        <ContactForm />
+        <ContactForm lang={lang} />
       </div>
     </div>
   </section>

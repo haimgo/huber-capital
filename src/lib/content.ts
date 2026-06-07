@@ -39,14 +39,17 @@ export async function getSection(sb: SupabaseClient, page: string, slot: string)
   }
 }
 
-/** All editable text overrides for a page, as { slot: value }. Fail-soft → {}. */
+/** All editable text overrides for a page, as { slot: value, slot_ru: value_ru }. Fail-soft → {}. */
 export async function getSections(sb: SupabaseClient, page: string): Promise<Record<string, string>> {
   try {
-    const { data, error } = await sb.from('page_sections').select('slot, value').eq('page', page);
+    // select('*') so this keeps working before the Russian-columns migration is applied.
+    const { data, error } = await sb.from('page_sections').select('*').eq('page', page);
     if (error) throw error;
     const map: Record<string, string> = {};
-    for (const r of (data ?? []) as { slot: string; value: string }[]) {
-      if (r?.slot != null && r?.value != null) map[r.slot] = r.value;
+    for (const r of (data ?? []) as Record<string, any>[]) {
+      if (r?.slot == null) continue;
+      if (r.value != null) map[r.slot] = r.value;
+      if (r.value_ru != null && String(r.value_ru).trim() !== '') map[`${r.slot}_ru`] = r.value_ru;
     }
     return map;
   } catch {

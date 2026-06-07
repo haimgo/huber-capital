@@ -9,7 +9,7 @@ const { steps, eyebrow = 'THE PROCESS', heading = 'מאפיון ועד ביצו�
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {steps.map((s, i) => (
-        <div class="glass rounded-3xl p-8 text-right reveal" style={`transition-delay:${i * 0.08}s`}>
+        <div class="glass rounded-3xl p-8 text-start reveal" style={`transition-delay:${i * 0.08}s`}>
           <div class="font-display font-extrabold text-5xl neon glow mb-5">{s.n}</div>
           <h3 class="font-display font-semibold text-xl mb-2">{s.title}</h3>
           <p class="text-mute text-sm font-light leading-relaxed">{s.text}</p>

@@ -1,22 +1,32 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { serverClient } from '../../lib/supabase';
+import { byLang, localizePath, type Lang } from '../../lib/i18n';
+
+const lang: Lang = Astro.locals.lang ?? 'he';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const backHref = base + localizePath('/news', lang).replace(/^\/+/, '') + '/';
 const sb = serverClient(Astro.cookies);
 const { slug } = Astro.params;
 const { data: post } = await sb.from('news').select('*').eq('slug', slug).eq('published', true).single();
-if (!post) return Astro.redirect('/news');
-const paragraphs = (post.body || '').split(/\n{2,}/).filter(Boolean);
+if (!post) return Astro.redirect(backHref);
+
+const title = byLang(post, 'title', lang);
+const excerpt = byLang(post, 'excerpt', lang);
+const body = byLang(post, 'body', lang);
+const paragraphs = (body || '').split(/\n{2,}/).filter(Boolean);
+const backLabel = lang === 'ru' ? '→ Назад к новостям' : '→ חזרה לחדשות';
 ---
-<BaseLayout title={`${post.title} · Huber Capital`} description={post.excerpt}>
+<BaseLayout title={`${title} · Huber Capital`} description={excerpt}>
   <article class="px-6 pt-16 md:pt-24 pb-20">
-    <div class="max-w-3xl mx-auto text-right">
+    <div class="max-w-3xl mx-auto text-start">
       <span class="eyebrow text-[11px] text-cyan">{post.date}</span>
-      <h1 class="font-display font-bold text-3xl md:text-5xl mt-3 mb-6 neon glow">{post.title}</h1>
-      {post.cover_url && <img src={post.cover_url} alt={post.title} class="w-full rounded-2xl mb-8" />}
+      <h1 class="font-display font-bold text-3xl md:text-5xl mt-3 mb-6 neon glow">{title}</h1>
+      {post.cover_url && <img src={post.cover_url} alt={title} class="w-full rounded-2xl mb-8" />}
       <div class="space-y-4 text-fg/80 font-light leading-[1.9] text-lg">
         {paragraphs.map((p) => <p>{p}</p>)}
       </div>
-      <a href="/news" class="inline-block mt-10 eyebrow text-[11px] text-mute hover:text-cyan transition">→ חזרה לחדשות</a>
+      <a href={backHref} class="inline-block mt-10 eyebrow text-[11px] text-mute hover:text-cyan transition">{backLabel}</a>
     </div>
   </article>
 </BaseLayout>

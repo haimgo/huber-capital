@@ -5,31 +5,45 @@ import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
 import { getAreas, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
-const sb = serverClient(Astro.cookies);
-const [areas, sec] = await Promise.all([getAreas(sb), getSections(sb, 'projects')]);
-const t = (s: string) => pageText(sec, 'projects', s);
+import { byLang, type Lang } from '../lib/i18n';
 
-const approach = [
-  { n: '01', title: 'בחירה קפדנית', text: 'כל פרויקט נבחן לפי היזם, המיקום, התמחור והפוטנציאל — רק הטובים נכנסים לרשימה.' },
-  { n: '02', title: 'מחיר מתחת לשוק', text: 'גישה להזדמנויות ולתמחור מועדף דרך קשרים ישירים מול יזמים.' },
-  { n: '03', title: 'צוות מקומי בדובאי', text: 'נוכחות מקומית שמכירה את השוק, את היזמים ואת השטח — לא מרחוק.' },
-];
+const lang: Lang = Astro.locals.lang ?? 'he';
+const sb = serverClient(Astro.cookies);
+const [areasR, sec] = await Promise.all([getAreas(sb), getSections(sb, 'projects')]);
+const t = (s: string) => pageText(sec, 'projects', s, lang);
+// name = English (shared eyebrow); display = Russian column or Hebrew name; blurb localized.
+const areas = areasR.map((a: any) => ({
+  name: a.name,
+  display: lang === 'ru' && a.ru && String(a.ru).trim() ? a.ru : a.he,
+  blurb: byLang(a, 'blurb', lang),
+}));
+
+const approachByLang = {
+  he: [
+    { n: '01', title: 'בחירה קפדנית', text: 'כל פרויקט נבחן לפי היזם, המיקום, התמחור והפוטנציאל — רק הטובים נכנסים לרשימה.' },
+    { n: '02', title: 'מחיר מתחת לשוק', text: 'גישה להזדמנויות ולתמחור מועדף דרך קשרים ישירים מול יזמים.' },
+    { n: '03', title: 'צוות מקומי בדובאי', text: 'נוכחות מקומית שמכירה את השוק, את היזמים ואת השטח — לא מרחוק.' },
+  ],
+  ru: [
+    { n: '01', title: 'Тщательный отбор', text: 'Каждый проект оценивается по застройщику, локации, цене и потенциалу — в список попадают только лучшие.' },
+    { n: '02', title: 'Цена ниже рынка', text: 'Доступ к возможностям и льготным ценам через прямые связи с застройщиками.' },
+    { n: '03', title: 'Локальная команда в Дубае', text: 'Местное присутствие, знающее рынок, застройщиков и объекты — не на расстоянии.' },
+  ],
+};
+const approach = approachByLang[lang];
+const meta = {
+  he: { title: 'פרויקטים ואזורים · Huber Capital', description: '26 פרויקטים נבחרים וגישה למחיר מתחת לשוק, באזורי ההשקעה המובילים בדובאי.' },
+  ru: { title: 'Проекты и районы · Huber Capital', description: '26 отобранных проектов и доступ к цене ниже рынка в ведущих инвестиционных районах Дубая.' },
+}[lang];
 ---
-<BaseLayout
-  title="פרויקטים ואזורים · Huber Capital"
-  description="26 פרויקטים נבחרים וגישה למחיר מתחת לשוק, באזורי ההשקעה המובילים בדובאי."
->
-  <PageHeader
-    eyebrow={t('header_eyebrow')}
-    title={t('header_title')}
-    sub={t('header_sub')}
-  />
+<BaseLayout title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto">
       <div class="grid md:grid-cols-3 gap-6">
         {approach.map((a) => (
-          <div class="glass rounded-3xl p-8 md:p-9 text-right">
+          <div class="glass rounded-3xl p-8 md:p-9 text-start">
             <div class="font-display font-extrabold text-4xl neon glow mb-5">{a.n}</div>
             <h3 class="font-display font-semibold text-2xl mb-3">{a.title}</h3>
             <p class="font-light text-mute leading-relaxed">{a.text}</p>
@@ -48,9 +62,9 @@ const approach = [
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {areas.map((a) => (
-          <div class="glass rounded-3xl p-8 text-right">
+          <div class="glass rounded-3xl p-8 text-start">
             <span class="eyebrow text-[10px] text-cyan">{a.name}</span>
-            <h3 class="font-display font-semibold text-2xl mt-2 mb-3">{a.he}</h3>
+            <h3 class="font-display font-semibold text-2xl mt-2 mb-3">{a.display}</h3>
             <p class="font-light text-mute leading-relaxed text-sm">{a.blurb}</p>
           </div>
         ))}
@@ -58,8 +72,5 @@ const approach = [
     </div>
   </section>
 
-  <CTA
-    title={t('cta_title')}
-    sub={t('cta_sub')}
-  />
+  <CTA lang={lang} title={t('cta_title')} sub={t('cta_sub')} />
 </BaseLayout>

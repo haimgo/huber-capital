@@ -6,42 +6,57 @@ import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
 import { getStats, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
+import { byLang, localizePath, type Lang } from '../lib/i18n';
+
+const lang: Lang = Astro.locals.lang ?? 'he';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const sb = serverClient(Astro.cookies);
-const [stats, sec] = await Promise.all([getStats(sb), getSections(sb, 'investment')]);
-const t = (s: string) => pageText(sec, 'investment', s);
+const [statsR, sec] = await Promise.all([getStats(sb), getSections(sb, 'investment')]);
+const t = (s: string) => pageText(sec, 'investment', s, lang);
+const stats = statsR.map((r: any) => ({ ...r, value: byLang(r, 'value', lang), label: byLang(r, 'label', lang) }));
 
-const advantages = [
-  'ביקוש עולה ואוכלוסייה בצמיחה',
-  'תשואות שכירות גבוהות יחסית',
-  'סביבת מיסוי אטרקטיבית למשקיעים',
-  'מטבע יציב (דירהם צמוד לדולר)',
-  'תשתיות וביטחון ברמה עולמית',
-  'נזילות וביקוש בינלאומי',
-];
+const advantagesByLang = {
+  he: [
+    'ביקוש עולה ואוכלוסייה בצמיחה',
+    'תשואות שכירות גבוהות יחסית',
+    'סביבת מיסוי אטרקטיבית למשקיעים',
+    'מטבע יציב (דירהם צמוד לדולר)',
+    'תשתיות וביטחון ברמה עולמית',
+    'נזילות וביקוש בינלאומי',
+  ],
+  ru: [
+    'Растущий спрос и увеличивающееся население',
+    'Относительно высокая доходность аренды',
+    'Привлекательная налоговая среда для инвесторов',
+    'Стабильная валюта (дирхам привязан к доллару)',
+    'Инфраструктура и безопасность мирового уровня',
+    'Ликвидность и международный спрос',
+  ],
+};
+const advantages = advantagesByLang[lang];
+const meta = {
+  he: { title: 'השקעה בדובאי · Huber Capital', description: 'למה דובאי? אחד משוקי הנדל"ן הצומחים בעולם — יתרונות, נתונים והגישה שלנו ל-26 פרויקטים נבחרים.' },
+  ru: { title: 'Инвестиции в Дубае · Huber Capital', description: 'Почему Дубай? Один из самых быстрорастущих рынков недвижимости — преимущества, данные и наш подход к 26 отобранным проектам.' },
+}[lang];
+const statEyebrow = lang === 'ru' ? 'Данные' : 'הנתונים';
+const statHeading = lang === 'ru' ? 'Рынок недвижимости Дубая в цифрах' : 'שוק הנדל"ן בדובאי במספרים';
+const termsHref = base + localizePath('/legal/terms', lang).replace(/^\/+/, '') + '/';
 ---
-<BaseLayout
-  title="השקעה בדובאי · Huber Capital"
-  description='למה דובאי? אחד משוקי הנדל"ן הצומחים בעולם — יתרונות, נתונים והגישה שלנו ל-26 פרויקטים נבחרים.'
->
-  <PageHeader
-    eyebrow={t('header_eyebrow')}
-    title={t('header_title')}
-    sub={t('header_sub')}
-  />
+<BaseLayout title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-      <div class="text-right">
+      <div class="text-start">
         <p class="eyebrow text-cyan text-[11px] mb-5">{t('intro_eyebrow')}</p>
         <h2 class="font-display font-bold text-3xl md:text-4xl leading-tight mb-6">{t('intro_heading')}</h2>
         <div class="w-16 h-px bg-cyan/50 mb-7"></div>
         <p class="font-light text-fg/70 text-lg leading-[1.9] mb-5">{t('intro_p1')}</p>
         <p class="font-light text-fg/70 text-lg leading-[1.9]">{t('intro_p2')}</p>
       </div>
-      <ul class="grid sm:grid-cols-2 gap-x-10 gap-y-5 text-right">
+      <ul class="grid sm:grid-cols-2 gap-x-10 gap-y-5 text-start">
         {advantages.map((a) => (
-          <li class="flex flex-row-reverse items-start gap-3 border-b border-white/10 pb-4">
+          <li class="flex rtl:flex-row-reverse items-start gap-3 border-b border-white/10 pb-4">
             <span class="text-cyan font-display text-xl leading-none">—</span>
             <span class="font-light text-fg/85">{a}</span>
           </li>
@@ -50,19 +65,16 @@ const advantages = [
     </div>
   </section>
 
-  <StatBar stats={stats} eyebrow="הנתונים" heading={'שוק הנדל"ן בדובאי במספרים'} />
+  <StatBar stats={stats} eyebrow={statEyebrow} heading={statHeading} />
 
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-3xl mx-auto glass rounded-[28px] p-10 md:p-14 text-center">
       <p class="eyebrow text-cyan text-[11px] mb-5">{t('approach_eyebrow')}</p>
       <h2 class="font-display font-bold text-3xl md:text-4xl mb-7">{t('approach_heading')}</h2>
       <p class="font-light text-fg/70 text-lg leading-[1.95]">{t('approach_body')}</p>
-      <p class="text-mute/80 text-[12px] font-light leading-relaxed mt-8">השקעה בנדל"ן בחו"ל כרוכה בסיכון והמידע אינו מהווה ייעוץ השקעות. ראו <a href={`${base}legal/terms/`} class="text-cyan underline">תנאי שימוש</a>.</p>
+      <p class="text-mute/80 text-[12px] font-light leading-relaxed mt-8">{lang === 'ru' ? 'Инвестиции в зарубежную недвижимость сопряжены с риском, и информация не является инвестиционной рекомендацией. См. ' : 'השקעה בנדל"ן בחו"ל כרוכה בסיכון והמידע אינו מהווה ייעוץ השקעות. ראו '}<a href={termsHref} class="text-cyan underline">{lang === 'ru' ? 'Условия использования' : 'תנאי שימוש'}</a>.</p>
     </div>
   </section>
 
-  <CTA
-    title={t('cta_title')}
-    sub={t('cta_sub')}
-  />
+  <CTA lang={lang} title={t('cta_title')} sub={t('cta_sub')} />
 </BaseLayout>

@@ -6,24 +6,24 @@ import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
 import { getPress, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
+import { byLang, t as tr, type Lang } from '../lib/i18n';
+
+const lang: Lang = Astro.locals.lang ?? 'he';
 const sb = serverClient(Astro.cookies);
-const [press, sec] = await Promise.all([getPress(sb), getSections(sb, 'press')]);
-const t = (s: string) => pageText(sec, 'press', s);
+const [pressR, sec] = await Promise.all([getPress(sb), getSections(sb, 'press')]);
+const t = (s: string) => pageText(sec, 'press', s, lang);
+const press = pressR.map((r: any) => ({ ...r, title: byLang(r, 'title', lang) }));
+
+const meta = {
+  he: { title: 'בתקשורת · Huber Capital', description: 'שוק הנדל"ן בדובאי בכותרות — סיקורים ב-ynet, TheMarker ו-Mako.' },
+  ru: { title: 'СМИ · Huber Capital', description: 'Рынок недвижимости Дубая в заголовках — публикации в ynet, TheMarker и Mako.' },
+}[lang];
+const pressEyebrow = lang === 'ru' ? 'Публикации' : 'סיקורים';
 ---
-<BaseLayout
-  title="בתקשורת · Huber Capital"
-  description='שוק הנדל"ן בדובאי בכותרות — סיקורים ב-ynet, TheMarker ו-Mako.'
->
-  <PageHeader
-    eyebrow={t('header_eyebrow')}
-    title={t('header_title')}
-    sub={t('header_sub')}
-  />
+<BaseLayout title={meta.title} description={meta.description}>
+  <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
-  <PressCards press={press} eyebrow="סיקורים" heading="בתקשורת" />
+  <PressCards press={press} eyebrow={pressEyebrow} heading={tr(lang, 'press_heading')} />
 
-  <CTA
-    title={t('cta_title')}
-    sub={t('cta_sub')}
-  />
+  <CTA lang={lang} title={t('cta_title')} sub={t('cta_sub')} />
 </BaseLayout>

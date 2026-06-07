@@ -1,44 +1,59 @@
 ---
 import { site } from '../data/site.js';
+import { t, localizePath, stripLocale, type Lang } from '../lib/i18n';
+const { lang = 'he' } = Astro.props as { lang?: Lang };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const link = (h) => (h === '/' ? base : base + h.replace(/^\//, '') + '/');
+const href = (h: string, l: Lang = lang) => {
+  const loc = localizePath(h, l);
+  if (loc === '/') return base;
+  return base + loc.replace(/^\/+/, '') + (loc.endsWith('/') ? '' : '/');
+};
+let raw = Astro.url.pathname;
+if (base !== '/' && raw.startsWith(base)) raw = '/' + raw.slice(base.length);
+const { path: logical0 } = stripLocale(raw);
+const path = logical0.replace(/\/+$/, '') || '/';
 const year = 2026;
 ---
 <footer class="px-6 pb-12 pt-10">
   <div class="max-w-container mx-auto glass rounded-[28px] p-10 md:p-12">
-    <div class="grid md:grid-cols-4 gap-10 text-right">
+    <div class="grid md:grid-cols-4 gap-10 text-start">
       <div class="md:col-span-2">
-        <div class="flex flex-row-reverse items-center gap-3 mb-5 justify-end md:justify-start">
+        <div class="flex rtl:flex-row-reverse items-center gap-3 mb-5 justify-end md:justify-start">
           <span class="w-2 h-2 rounded-full" style="background:#ffd24a;box-shadow:0 0 12px #ffd24a;"></span>
           <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
         </div>
-        <p class="text-mute font-light leading-relaxed max-w-sm">ליווי משקיעים ישראלים בהשקעות נדל"ן בדובאי — מאפיון ועד ביצוע, בגישה שמתחילה ונגמרת באינטרס שלכם.</p>
+        <p class="text-mute font-light leading-relaxed max-w-sm">{t(lang, 'footer_blurb')}</p>
+        <div class="flex items-center gap-1.5 mt-6 text-[10px] eyebrow" aria-label={t(lang, 'lang_switch')}>
+          <a href={href(path, 'he')} hreflang="he" class={lang === 'he' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>{t(lang, 'lang_he')}</a>
+          <span class="text-mute/40" aria-hidden="true">·</span>
+          <a href={href(path, 'ru')} hreflang="ru" class={lang === 'ru' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>{t(lang, 'lang_ru')}</a>
+        </div>
       </div>
       <div>
-        <h4 class="eyebrow text-[10px] text-cyan mb-4">ניווט</h4>
+        <h4 class="eyebrow text-[10px] text-cyan mb-4">{t(lang, 'footer_nav')}</h4>
         <ul class="space-y-3 text-mute text-sm font-light">
-          <li><a href={link('/investment')} class="hover:text-fg transition">השקעה בדובאי</a></li>
-          <li><a href={link('/process')} class="hover:text-fg transition">התהליך</a></li>
-          <li><a href={link('/projects')} class="hover:text-fg transition">פרויקטים</a></li>
-          <li><a href={link('/press')} class="hover:text-fg transition">בתקשורת</a></li>
-          <li><a href={link('/news')} class="hover:text-fg transition">חדשות</a></li>
+          <li><a href={href('/investment')} class="hover:text-fg transition">{t(lang, 'footer_investment')}</a></li>
+          <li><a href={href('/process')} class="hover:text-fg transition">{t(lang, 'nav_process')}</a></li>
+          <li><a href={href('/projects')} class="hover:text-fg transition">{t(lang, 'nav_projects')}</a></li>
+          <li><a href={href('/press')} class="hover:text-fg transition">{t(lang, 'nav_press')}</a></li>
+          <li><a href={href('/news')} class="hover:text-fg transition">{t(lang, 'nav_news')}</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="eyebrow text-[10px] text-cyan mb-4">קשר</h4>
-        <a href={site.phoneHref} dir="ltr" class="block text-fg text-sm hover:text-cyan transition">{site.phone}</a>
-        <a href={site.whatsapp} class="block text-mute text-sm font-light mt-2 hover:text-fg transition">וואטסאפ</a>
-        <p class="text-mute text-sm font-light mt-2">{site.location}</p>
+        <h4 class="eyebrow text-[10px] text-cyan mb-4">{t(lang, 'footer_contact')}</h4>
+        <a href={site.phoneHref} dir="ltr" class="block text-fg text-sm hover:text-cyan transition w-fit">{site.phone}</a>
+        <a href={site.whatsapp} class="block text-mute text-sm font-light mt-2 hover:text-fg transition">{t(lang, 'whatsapp')}</a>
+        <p class="text-mute text-sm font-light mt-2">{lang === 'ru' ? 'Дубай, ОАЭ' : site.location}</p>
       </div>
     </div>
-    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row-reverse justify-between gap-4 text-[10px] text-mute">
-      <span class="eyebrow">© {year} Huber Capital · {site.owner}</span>
-      <div class="flex flex-row-reverse gap-5">
-        <a href={link('/legal/privacy')} class="hover:text-fg transition">פרטיות</a>
-        <a href={link('/legal/terms')} class="hover:text-fg transition">תקנון</a>
-        <a href={link('/legal/accessibility')} class="hover:text-fg transition">נגישות</a>
+    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row md:rtl:flex-row-reverse justify-between gap-4 text-[10px] text-mute">
+      <span class="eyebrow">© {year} Huber Capital · {site.owner} · {t(lang, 'rights')}</span>
+      <div class="flex rtl:flex-row-reverse gap-5">
+        <a href={href('/legal/privacy')} class="hover:text-fg transition">{t(lang, 'privacy')}</a>
+        <a href={href('/legal/terms')} class="hover:text-fg transition">{t(lang, 'terms')}</a>
+        <a href={href('/legal/accessibility')} class="hover:text-fg transition">{t(lang, 'accessibility')}</a>
       </div>
     </div>
-    <p class="text-mute/60 text-[10px] font-light leading-relaxed mt-5 text-right max-w-3xl">* אין באמור משום הבטחת תשואה או ייעוץ השקעות. השקעה בנדל"ן בחו"ל כרוכה בסיכון. הנתונים מובאים לצורכי המחשה בלבד.</p>
+    <p class="text-mute/60 text-[10px] font-light leading-relaxed mt-5 text-start max-w-3xl">{t(lang, 'disclaimer')}</p>
   </div>
 </footer>

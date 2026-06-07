@@ -39,7 +39,7 @@ const cards = [
 <AdminLayout title="לוח בקרה">
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
     {cards.map((c) => (
-      <div class="glass rounded-2xl p-6 text-right hover:border-cyan/40 transition relative group">
+      <div class="glass rounded-2xl p-6 text-start hover:border-cyan/40 transition relative group">
         <a href={c.href} class="absolute inset-0 rounded-2xl" aria-label={c.t}></a>
         <div class="flex flex-row-reverse items-start justify-between gap-2 mb-1">
           <h2 class="font-display font-semibold text-xl">{c.t}</h2>
