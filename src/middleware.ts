@@ -1,6 +1,16 @@
 import { defineMiddleware } from 'astro:middleware';
+import WebSocketImpl from 'ws';
 import { serverClient } from './lib/supabase';
 import { isAdmin } from './lib/admin';
+
+// @supabase/realtime-js (pulled in by supabase-js) throws at client construction
+// when there is no global WebSocket — which is the case on Vercel's serverless
+// runtime (Node < 22). Provide one. We only use Supabase for REST + Auth and never
+// open a Realtime channel, so no socket is actually opened. Server-only: this module
+// is never bundled to the client (browsers already have WebSocket).
+if (typeof (globalThis as any).WebSocket === 'undefined') {
+  (globalThis as any).WebSocket = WebSocketImpl;
+}
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const path = context.url.pathname;
