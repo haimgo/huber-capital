@@ -1,0 +1,9 @@
+---
+// Russian routes live here as a real catch-all so Vercel returns a proper 200
+// status (a pure middleware rewrite from an unmatched /ru/* URL yields 404).
+// We render the matching Hebrew page; language comes from Astro.locals.lang
+// (set in middleware from the /ru prefix).
+const slug = Astro.params.slug ?? '';
+const target = '/' + slug;
+return Astro.rewrite(target + Astro.url.search);
+---

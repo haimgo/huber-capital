@@ -12,48 +12,17 @@ if (typeof (globalThis as any).WebSocket === 'undefined') {
   (globalThis as any).WebSocket = WebSocketImpl;
 }
 
-// Known public routes — used to restore a 200 status after a /ru rewrite (a rewrite
-// from a path with no route of its own yields a 404 status even when the target
-// rendered correctly). Keep in sync when adding public pages.
-const PUBLIC_PATHS = new Set([
-  '/', '/about', '/process', '/projects', '/investment', '/press',
-  '/contact', '/news', '/thank-you',
-  '/legal/privacy', '/legal/terms', '/legal/accessibility',
-]);
-function isKnownPath(p: string): boolean {
-  const clean = p.replace(/\/+$/, '') || '/';
-  return PUBLIC_PATHS.has(clean) || clean.startsWith('/news/');
-}
-
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
-  // --- Locale --- Russian is served under /ru/*, Hebrew (default) at the root.
-  // Resolve once; if middleware re-runs after the rewrite below, keep locals.lang.
-  const ruPrefixed = pathname === '/ru' || pathname.startsWith('/ru/');
-  context.locals.lang = context.locals.lang ?? (ruPrefixed ? 'ru' : 'he');
+  // Locale: Russian is served under /ru/* (see src/pages/ru/[...slug].astro, which
+  // rewrites to the Hebrew page). Expose the language to pages; the `??` guard keeps
+  // it correct if the middleware re-runs after that rewrite.
+  context.locals.lang = context.locals.lang ?? (pathname === '/ru' || pathname.startsWith('/ru/') ? 'ru' : 'he');
 
-  // Rewrite /ru/* to the underlying route so one set of pages serves both
-  // languages; pages read the language from Astro.locals.lang.
-  if (ruPrefixed) {
-    const targetPath = pathname.replace(/^\/ru(?=\/|$)/, '') || '/';
-    const res = await context.rewrite(targetPath + context.url.search);
-    // The rewrite renders the right page but inherits a 404 status (the /ru/* URL has
-    // no route). Restore 200 for known routes; leave genuine misses as 404.
-    if (res.status === 404 && isKnownPath(targetPath)) {
-      const headers = new Headers(res.headers);
-      if (context.request.method === 'GET') {
-        headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
-      }
-      return new Response(res.body, { status: 200, statusText: 'OK', headers });
-    }
-    return res;
-  }
-
-  const path = pathname;
-  const isAdminArea = path === '/admin' || path.startsWith('/admin/');
-  const isApi = path.startsWith('/api/');
-  const isLogin = path.startsWith('/admin/login');
+  const isAdminArea = pathname === '/admin' || pathname.startsWith('/admin/');
+  const isApi = pathname.startsWith('/api/');
+  const isLogin = pathname.startsWith('/admin/login');
 
   // Guard the admin area (login page excepted). Admin is Hebrew-only.
   if (isAdminArea && !isLogin) {
