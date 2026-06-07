@@ -3,9 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
-import { getAreas } from '../lib/content';
+import { getAreas, getSections } from '../lib/content';
+import { pageText } from '../lib/pageSections';
 const sb = serverClient(Astro.cookies);
-const areas = await getAreas(sb);
+const [areas, sec] = await Promise.all([getAreas(sb), getSections(sb, 'projects')]);
+const t = (s: string) => pageText(sec, 'projects', s);
 
 const approach = [
   { n: '01', title: 'בחירה קפדנית', text: 'כל פרויקט נבחן לפי היזם, המיקום, התמחור והפוטנציאל — רק הטובים נכנסים לרשימה.' },
@@ -18,9 +20,9 @@ const approach = [
   description="26 פרויקטים נבחרים וגישה למחיר מתחת לשוק, באזורי ההשקעה המובילים בדובאי."
 >
   <PageHeader
-    eyebrow="PROJECTS // AREAS"
-    title="פרויקטים נבחרים"
-    sub={'26 פרויקטים שנבחנו לעומק — גישה למחיר מתחת לשוק, דרך צוות מקומי בדובאי.'}
+    eyebrow={t('header_eyebrow')}
+    title={t('header_title')}
+    sub={t('header_sub')}
   />
 
   <section class="px-6 py-16 md:py-24 reveal">
@@ -34,15 +36,15 @@ const approach = [
           </div>
         ))}
       </div>
-      <p class="text-center font-light text-fg/75 text-lg mt-12 max-w-2xl mx-auto">הרשימה המלאה והפרויקטים העדכניים נמסרים בשיחת אפיון אישית — בהתאמה לתקציב ולמטרות שלכם.</p>
+      <p class="text-center font-light text-fg/75 text-lg mt-12 max-w-2xl mx-auto">{t('note')}</p>
     </div>
   </section>
 
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto">
       <div class="text-center mb-12 md:mb-16">
-        <p class="eyebrow text-cyan text-[11px] mb-4">אזורי השקעה</p>
-        <h2 class="font-display font-bold text-4xl md:text-5xl">אזורים מובילים בדובאי</h2>
+        <p class="eyebrow text-cyan text-[11px] mb-4">{t('areas_eyebrow')}</p>
+        <h2 class="font-display font-bold text-4xl md:text-5xl">{t('areas_heading')}</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {areas.map((a) => (
@@ -57,7 +59,7 @@ const approach = [
   </section>
 
   <CTA
-    title="רוצים לראות את הפרויקטים המתאימים לכם?"
-    sub="נשתף את הרשימה הרלוונטית בשיחת אפיון אישית."
+    title={t('cta_title')}
+    sub={t('cta_sub')}
   />
 </BaseLayout>

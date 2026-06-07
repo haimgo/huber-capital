@@ -4,8 +4,11 @@ import PageHeader from '../components/PageHeader.astro';
 import AboutGilad from '../components/AboutGilad.astro';
 import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
-import { getSettings } from '../lib/content';
-const settings = await getSettings(serverClient(Astro.cookies));
+import { getSettings, getSections } from '../lib/content';
+import { pageText } from '../lib/pageSections';
+const sb = serverClient(Astro.cookies);
+const [settings, sec] = await Promise.all([getSettings(sb), getSections(sb, 'about')]);
+const t = (s: string) => pageText(sec, 'about', s);
 
 const values = [
   { title: 'המשקיע לפני הכל', text: 'אני בוחן השקעות, לא מוכר נכסים. ההמלצה נקבעת לפי האינטרס שלכם בלבד.' },
@@ -19,9 +22,9 @@ const values = [
   description="גלעד הובר — 30 שנות ניסיון עסקי, בית בדובאי, וגישה שמתחילה ונגמרת באינטרס של המשקיע."
 >
   <PageHeader
-    eyebrow="ABOUT"
-    title="גלעד הובר"
-    sub="30 שנות ניסיון עסקי — ובית בדובאי."
+    eyebrow={t('header_eyebrow')}
+    title={t('header_title')}
+    sub={t('header_sub')}
   />
 
   <AboutGilad showLink={false} image={settings?.gilad_image} />
@@ -29,8 +32,8 @@ const values = [
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto">
       <div class="text-center mb-12 md:mb-16">
-        <p class="eyebrow text-cyan text-[11px] mb-4">הגישה שלנו</p>
-        <h2 class="font-display font-bold text-4xl md:text-5xl">מה מנחה אותנו</h2>
+        <p class="eyebrow text-cyan text-[11px] mb-4">{t('values_eyebrow')}</p>
+        <h2 class="font-display font-bold text-4xl md:text-5xl">{t('values_heading')}</h2>
       </div>
       <div class="grid sm:grid-cols-2 gap-6">
         {values.map((v) => (
@@ -44,7 +47,7 @@ const values = [
   </section>
 
   <CTA
-    title="רוצים להכיר?"
-    sub="נתחיל בשיחה קצרה ונראה אם אנחנו מתאימים לעבוד יחד."
+    title={t('cta_title')}
+    sub={t('cta_sub')}
   />
 </BaseLayout>

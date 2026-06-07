@@ -39,6 +39,21 @@ export async function getSection(sb: SupabaseClient, page: string, slot: string)
   }
 }
 
+/** All editable text overrides for a page, as { slot: value }. Fail-soft → {}. */
+export async function getSections(sb: SupabaseClient, page: string): Promise<Record<string, string>> {
+  try {
+    const { data, error } = await sb.from('page_sections').select('slot, value').eq('page', page);
+    if (error) throw error;
+    const map: Record<string, string> = {};
+    for (const r of (data ?? []) as { slot: string; value: string }[]) {
+      if (r?.slot != null && r?.value != null) map[r.slot] = r.value;
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
 export async function getNews(sb: SupabaseClient, opts: { publishedOnly?: boolean } = {}): Promise<NewsItem[]> {
   try {
     let q = sb.from('news').select('*').order('date', { ascending: false });

@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Astro** `output: 'server'` + `@astrojs/vercel` (SSR). `@astrojs/preact` לאיים אינטראקטיביים בניהול.
 - **פריסה משותפת**: `src/layouts/BaseLayout.astro` (head/meta/OG, גופנים, `Header`, `Footer`, `SpaceBackground` של חלקיקים, סקריפט `.reveal`). `AdminLayout.astro` לעמודי ניהול.
 - **Tailwind** דרך `@astrojs/tailwind`; טוקנים ב-`tailwind.config.mjs`. glass/neon/reveal ב-`src/styles/global.css`.
-- **תוכן ב-Supabase** (Postgres). שכבת נתונים: `src/lib/content.ts` (`getSettings/getStats/getSteps/getMistakes/getAreas/getPress/getNews/getSection`, fail-soft). לקוחות: `src/lib/supabase.ts` (`serverClient`/`browserClient` דרך `@supabase/ssr`). `src/data/site.js` נשאר לפרטי קשר סטטיים (טלפון/וואטסאפ — לא נערכים בניהול).
+- **תוכן ב-Supabase** (Postgres). שכבת נתונים: `src/lib/content.ts` (`getSettings/getStats/getSteps/getMistakes/getAreas/getPress/getNews/getSection/getSections`, fail-soft). טקסטים לעמודים: `src/lib/pageSections.ts` (קונפיג + ברירות-מחדל; override נשמר ב-`page_sections`). לקוחות: `src/lib/supabase.ts` (`serverClient`/`browserClient` דרך `@supabase/ssr`; מספק גם `WebSocket` בצד-שרת דרך `ws` ב-middleware, כי ל-Node<22 ב-Vercel אין WebSocket גלובלי ש-supabase-js דורש). `src/data/site.js` נשאר לפרטי קשר סטטיים (טלפון/וואטסאפ — לא נערכים בניהול).
 - **אבטחה**: `src/middleware.ts` שומר על `/admin/*` ומוסיף cache לעמודים ציבוריים; RLS ב-Supabase (קריאה ציבורית, כתיבה למנהלים בלבד); `src/lib/admin.ts` (`isAdmin`).
 
 ## Design tokens (sci-fi / gold-neon) — שמור על אחידות
@@ -31,14 +31,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Content & admin (Supabase)
 - טבלאות: `site_settings, stats, process_steps, mistakes, areas, press, page_sections, news, admins`. סכימה+RLS: `supabase/schema.sql`; seed: `supabase/seed.sql`.
-- ממשק ניהול ב-`/admin` (Supabase Auth): דאשבורד, הגדרות (טקסטי הירו/מנשר/CTA), רשימות (`/admin/lists/[type]` — stats|process|mistakes|areas|press), חדשות, מדיה, מנהלים.
+- ממשק ניהול ב-`/admin` (Supabase Auth): דאשבורד (עם מוני תוכן + קישורי "צפייה באתר"), הגדרות (טקסטי הירו/מנשר/CTA), רשימות (`/admin/lists/[type]` — stats|process|mistakes|areas|press), טקסטים בעמודים (`/admin/pages` — כותרות/פסקאות/CTA לכל עמוד; נשמר ב-`page_sections`, ברירות-מחדל ב-`pageSections.ts`), חדשות, מדיה, מנהלים. תפריט נייד (hamburger) ב-`AdminLayout`; משוב שמירה אוטומטי + מצבי busy דרך `src/components/admin/ui.tsx` (`useStatus`/`Status`).
 - **הוספת מנהלים**: `/admin/admins` → API שרת (`/api/admins/invite|remove`) עם `SUPABASE_SERVICE_ROLE_KEY` (שרת בלבד).
 - עריכה משתקפת באתר תוך ~דקה (SSR + cache 60s ב-middleware).
 - **Env** (Vercel + `.env` מקומי): `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (שרת בלבד; לא ב-git). ראה `.env.example`.
 
 ## Pages
 ציבורי: `index, investment, process, projects, about, press, news` (+ `news/[slug]`), `contact` → `thank-you`, `legal/(privacy|terms|accessibility)`, `404`.
-ניהול: `admin/(login, index, settings, lists/[type], news, media, admins)`.
+ניהול: `admin/(login, index, settings, lists/[type], pages, news, media, admins)`.
 
 ## Lead-gen / contact
 - CTAs: `tel:0584405858`, WhatsApp `https://wa.link/7ogn9t` (`src/data/site.js`).
@@ -54,4 +54,5 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## הנחיות עבודה
 - **תוכן נערך ב-Supabase, לא בקוד.** בהוספת שדה תוכן: עדכן `schema.sql` + `content.ts` + הקומפוננטה + עורך הניהול.
+- **טקסטים בעמודים**: ברירות-מחדל מוגדרות ב-`src/lib/pageSections.ts`; העמוד קורא `getSections(sb,page)` ומשתמש ב-`pageText(sec,page,slot)` (מחזיר override מ-`page_sections` או ברירת-מחדל). הוספת טקסט נערך: הוסף שדה לקונפיג + השתמש ב-`pageText` בעמוד. שדה שזהה לברירת-המחדל אינו נשמר (חוזר אוטומטית לברירת-מחדל).
 - העדף קומפוננטות/טוקנים קיימים (DRY). שמור RTL ועברית.

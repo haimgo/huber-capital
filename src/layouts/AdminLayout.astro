@@ -31,7 +31,18 @@ const nav = [
           {nav.map((n) => <a href={n.href} class="hover:text-fg transition">{n.label}</a>)}
           <a href="/" class="hover:text-fg transition">לאתר ←</a>
         </nav>
-        <SignOut client:load />
+        <div class="flex flex-row-reverse items-center gap-3">
+          <SignOut client:load />
+          <details class="md:hidden relative">
+            <summary class="list-none [&::-webkit-details-marker]:hidden cursor-pointer p-2 -m-2 text-fg/80 hover:text-fg" aria-label="פתיחת תפריט">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </summary>
+            <nav class="absolute left-0 top-full mt-3 w-52 glass rounded-2xl p-3 flex flex-col gap-1 text-[12px] eyebrow text-mute z-30 shadow-2xl">
+              {nav.map((n) => <a href={n.href} class="px-3 py-2 rounded-lg hover:bg-white/5 hover:text-fg transition">{n.label}</a>)}
+              <a href="/" class="px-3 py-2 rounded-lg hover:bg-white/5 hover:text-fg transition border-t border-white/10 mt-1 pt-3">לאתר ←</a>
+            </nav>
+          </details>
+        </div>
       </div>
     </header>
     <main class="max-w-container mx-auto px-6 py-10">

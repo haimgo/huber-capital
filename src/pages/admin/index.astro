@@ -1,21 +1,57 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
+import { serverClient } from '../../lib/supabase';
+
+const sb = serverClient(Astro.cookies);
+
+const count = async (table: string) => {
+  const { count } = await sb.from(table).select('*', { count: 'exact', head: true });
+  return count ?? 0;
+};
+
+const [stats, process, mistakes, areas, press, newsTotal, newsPub, admins] = await Promise.all([
+  count('stats'),
+  count('process_steps'),
+  count('mistakes'),
+  count('areas'),
+  count('press'),
+  count('news'),
+  sb.from('news').select('*', { count: 'exact', head: true }).eq('published', true).then((r) => r.count ?? 0),
+  count('admins'),
+]);
+const listsTotal = stats + process + mistakes + areas + press;
+
+let mediaCount = 0;
+try {
+  const { data } = await sb.storage.from('media').list('', { limit: 100 });
+  mediaCount = (data ?? []).filter((f) => f.name !== '.emptyFolderPlaceholder').length;
+} catch {}
+
 const cards = [
-  { href: '/admin/settings', t: 'הגדרות אתר', d: 'כותרות הירו, מנשר, קריאה לפעולה' },
-  { href: '/admin/lists/stats', t: 'רשימות תוכן', d: 'נתונים, תהליך, טעויות, אזורים, תקשורת' },
-  { href: '/admin/pages', t: 'טקסטים בעמודים', d: 'כותרות ופסקאות' },
-  { href: '/admin/news', t: 'חדשות', d: 'כתבות ועדכונים' },
-  { href: '/admin/media', t: 'מדיה', d: 'תמונות' },
-  { href: '/admin/admins', t: 'מנהלים', d: 'הוספה והסרה של מנהלים' },
+  { href: '/admin/settings', t: 'הגדרות אתר', d: 'כותרות הירו, מנשר, קריאה לפעולה', meta: '', view: '/' },
+  { href: '/admin/lists/stats', t: 'רשימות תוכן', d: 'נתונים, תהליך, טעויות, אזורים, תקשורת', meta: `${listsTotal} פריטים` },
+  { href: '/admin/pages', t: 'טקסטים בעמודים', d: 'כותרות ופסקאות לעמודים', meta: '' },
+  { href: '/admin/news', t: 'חדשות', d: 'כתבות ועדכונים', meta: `${newsTotal} כתבות · ${newsPub} מפורסמות`, view: '/news' },
+  { href: '/admin/media', t: 'מדיה', d: 'תמונות', meta: `${mediaCount} תמונות` },
+  { href: '/admin/admins', t: 'מנהלים', d: 'הוספה והסרה של מנהלים', meta: `${admins} מנהלים` },
 ];
 ---
 <AdminLayout title="לוח בקרה">
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
     {cards.map((c) => (
-      <a href={c.href} class="glass rounded-2xl p-6 text-right hover:border-cyan/40 transition block">
-        <h2 class="font-display font-semibold text-xl mb-1">{c.t}</h2>
+      <div class="glass rounded-2xl p-6 text-right hover:border-cyan/40 transition relative group">
+        <a href={c.href} class="absolute inset-0 rounded-2xl" aria-label={c.t}></a>
+        <div class="flex flex-row-reverse items-start justify-between gap-2 mb-1">
+          <h2 class="font-display font-semibold text-xl">{c.t}</h2>
+          {c.meta && (
+            <span class="eyebrow text-[10px] text-cyan/90 bg-cyan/10 rounded-full px-2.5 py-1 shrink-0 whitespace-nowrap">{c.meta}</span>
+          )}
+        </div>
         <p class="text-mute text-sm font-light">{c.d}</p>
-      </a>
+        {c.view && (
+          <a href={c.view} target="_blank" rel="noopener" class="relative z-10 inline-block mt-3 eyebrow text-[10px] text-mute hover:text-cyan transition">צפייה באתר ↗</a>
+        )}
+      </div>
     ))}
   </div>
 </AdminLayout>

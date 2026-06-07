@@ -4,24 +4,26 @@ import PageHeader from '../components/PageHeader.astro';
 import PressCards from '../components/PressCards.astro';
 import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
-import { getPress } from '../lib/content';
+import { getPress, getSections } from '../lib/content';
+import { pageText } from '../lib/pageSections';
 const sb = serverClient(Astro.cookies);
-const press = await getPress(sb);
+const [press, sec] = await Promise.all([getPress(sb), getSections(sb, 'press')]);
+const t = (s: string) => pageText(sec, 'press', s);
 ---
 <BaseLayout
   title="בתקשורת · Huber Capital"
   description='שוק הנדל"ן בדובאי בכותרות — סיקורים ב-ynet, TheMarker ו-Mako.'
 >
   <PageHeader
-    eyebrow="בתקשורת"
-    title="מדברים עלינו"
-    sub={'שוק הנדל"ן בדובאי בכותרות.'}
+    eyebrow={t('header_eyebrow')}
+    title={t('header_title')}
+    sub={t('header_sub')}
   />
 
   <PressCards press={press} eyebrow="סיקורים" heading="בתקשורת" />
 
   <CTA
-    title="רוצים לדעת מה זה אומר עבורכם?"
-    sub="נסביר בשיחת אפיון קצרה איך מגמות השוק מתורגמות להזדמנות."
+    title={t('cta_title')}
+    sub={t('cta_sub')}
   />
 </BaseLayout>

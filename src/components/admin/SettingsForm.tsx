@@ -1,25 +1,49 @@
 import { useEffect, useState } from 'preact/hooks';
 import { browserClient } from '../../lib/supabase';
+import { useStatus, Status } from './ui';
 
-const FIELDS: { key: string; label: string; type?: 'text' | 'textarea' }[] = [
-  { key: 'hero_eyebrow', label: 'הירו — תווית עליונה' },
-  { key: 'hero_title', label: 'הירו — כותרת ראשית' },
-  { key: 'hero_sub', label: 'הירו — תת-כותרת', type: 'textarea' },
-  { key: 'manifesto_main', label: 'מנשר — שורה ראשית', type: 'textarea' },
-  { key: 'manifesto_sub', label: 'מנשר — שורת משנה', type: 'textarea' },
-  { key: 'cta_title', label: 'קריאה לפעולה — כותרת' },
-  { key: 'cta_sub', label: 'קריאה לפעולה — תת-כותרת', type: 'textarea' },
-  { key: 'gilad_image', label: 'תמונת גלעד — קישור (העלו ב"מדיה" והדביקו כאן)' },
+type Field = { key: string; label: string; type?: 'text' | 'textarea' };
+const GROUPS: { title: string; fields: Field[] }[] = [
+  {
+    title: 'הירו — ראש העמוד',
+    fields: [
+      { key: 'hero_eyebrow', label: 'תווית עליונה' },
+      { key: 'hero_title', label: 'כותרת ראשית' },
+      { key: 'hero_sub', label: 'תת-כותרת', type: 'textarea' },
+    ],
+  },
+  {
+    title: 'מנשר',
+    fields: [
+      { key: 'manifesto_main', label: 'שורה ראשית', type: 'textarea' },
+      { key: 'manifesto_sub', label: 'שורת משנה', type: 'textarea' },
+    ],
+  },
+  {
+    title: 'קריאה לפעולה',
+    fields: [
+      { key: 'cta_title', label: 'כותרת' },
+      { key: 'cta_sub', label: 'תת-כותרת', type: 'textarea' },
+    ],
+  },
+  {
+    title: 'תמונת גלעד',
+    fields: [
+      { key: 'gilad_image', label: 'קישור תמונה (העלו ב"מדיה" והעתיקו את הקישור לכאן)' },
+    ],
+  },
 ];
 
 export default function SettingsForm() {
   const sb = browserClient();
   const [row, setRow] = useState<any>(null);
-  const [status, setStatus] = useState('');
+  const [busy, setBusy] = useState(false);
+  const { status, show } = useStatus();
 
   useEffect(() => {
     (async () => {
-      const { data } = await sb.from('site_settings').select('*').eq('id', 1).single();
+      const { data, error } = await sb.from('site_settings').select('*').eq('id', 1).single();
+      if (error) show('שגיאה בטעינה: ' + error.message, 'err', { sticky: true });
       setRow(data ?? { id: 1 });
     })();
   }, []);
@@ -27,27 +51,34 @@ export default function SettingsForm() {
   const set = (k: string, v: string) => setRow((r: any) => ({ ...r, [k]: v }));
 
   async function save() {
-    setStatus('שומר…');
+    setBusy(true);
+    show('שומר…', 'info', { sticky: true });
     const { error } = await sb.from('site_settings').upsert({ ...row, id: 1 });
-    setStatus(error ? 'שגיאה: ' + error.message : 'נשמר ✓');
+    show(error ? 'שגיאה: ' + error.message : 'נשמר ✓', error ? 'err' : 'ok');
+    setBusy(false);
   }
 
   if (!row) return <p class="text-mute">טוען…</p>;
   return (
-    <div class="glass rounded-2xl p-6 text-right space-y-4 max-w-2xl">
-      {FIELDS.map((f) => (
-        <div>
-          <label class="eyebrow text-[10px] text-mute block mb-1">{f.label}</label>
-          {f.type === 'textarea' ? (
-            <textarea value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} rows={2} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-          ) : (
-            <input value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-          )}
-        </div>
+    <div class="max-w-2xl space-y-6">
+      {GROUPS.map((g) => (
+        <fieldset key={g.title} class="glass rounded-2xl p-6 text-right space-y-4">
+          <legend class="eyebrow text-[11px] text-cyan px-1">{g.title}</legend>
+          {g.fields.map((f) => (
+            <div key={f.key}>
+              <label for={`s-${f.key}`} class="eyebrow text-[10px] text-mute block mb-1">{f.label}</label>
+              {f.type === 'textarea' ? (
+                <textarea id={`s-${f.key}`} value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} rows={2} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+              ) : (
+                <input id={`s-${f.key}`} value={row[f.key] ?? ''} onInput={(e: any) => set(f.key, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+              )}
+            </div>
+          ))}
+        </fieldset>
       ))}
-      <div class="flex flex-row-reverse items-center gap-4 pt-2">
-        <button onClick={save} class="btn-neon rounded-full px-6 py-2.5 eyebrow text-[11px] text-fg">שמירה</button>
-        {status && <span class="text-mute text-sm">{status}</span>}
+      <div class="flex flex-row-reverse items-center gap-4 sticky bottom-4">
+        <button type="button" onClick={save} disabled={busy} class="btn-neon rounded-full px-6 py-2.5 eyebrow text-[11px] text-fg bg-space/80 backdrop-blur disabled:opacity-50 disabled:cursor-not-allowed">{busy ? 'שומר…' : 'שמירה'}</button>
+        <Status status={status} />
       </div>
     </div>
   );
