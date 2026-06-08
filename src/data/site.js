@@ -7,11 +7,4 @@ export const site = {
   phoneHref: 'tel:0584405858',
   whatsapp: 'https://wa.link/7ogn9t',
   location: 'דובאי, איחוד האמירויות',
-  // Social pages — replace '#' with the real Huber Capital page URLs.
-  social: [
-    { name: 'facebook', label: 'Facebook', url: '#' },
-    { name: 'instagram', label: 'Instagram', url: '#' },
-    { name: 'youtube', label: 'YouTube', url: '#' },
-    { name: 'tiktok', label: 'TikTok', url: '#' },
-  ],
 };

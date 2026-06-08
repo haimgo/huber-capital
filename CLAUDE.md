@@ -30,8 +30,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **אל תשנה ערכת צבעים/גופנים ללא בקשה מפורשת.**
 
 ## Content & admin (Supabase)
-- טבלאות: `site_settings, stats, process_steps, mistakes, areas, press, page_sections, news, admins`. סכימה+RLS: `supabase/schema.sql`; seed: `supabase/seed.sql`.
-- ממשק ניהול ב-`/admin` (Supabase Auth): דאשבורד (עם מוני תוכן + קישורי "צפייה באתר"), הגדרות (טקסטי הירו/מנשר/CTA), רשימות (`/admin/lists/[type]` — stats|process|mistakes|areas|press), טקסטים בעמודים (`/admin/pages` — כותרות/פסקאות/CTA לכל עמוד; נשמר ב-`page_sections`, ברירות-מחדל ב-`pageSections.ts`), חדשות, מדיה, מנהלים. תפריט נייד (hamburger) ב-`AdminLayout`; משוב שמירה אוטומטי + מצבי busy דרך `src/components/admin/ui.tsx` (`useStatus`/`Status`).
+- טבלאות: `site_settings, stats, process_steps, mistakes, areas, press, page_sections, news, admins`. סכימה+RLS: `supabase/schema.sql`; seed: `supabase/seed.sql`. **קישורי רשתות חברתיות** (אייקוני פוטר: facebook/instagram/youtube/tiktok) נשמרים ב-`site_settings` בעמודות `social_*` — הרץ פעם אחת את `supabase/social.sql`; שדה ריק → האייקון מוסתר. הפוטר (`Footer.astro`) קורא אותם דרך `getSettings`.
+- ממשק ניהול ב-`/admin` (Supabase Auth): דאשבורד (עם מוני תוכן + קישורי "צפייה באתר"), הגדרות (טקסטי הירו/CTA + תמונת גלעד + רשתות חברתיות), רשימות (`/admin/lists/[type]` — stats|process|mistakes|areas|press), טקסטים בעמודים (`/admin/pages` — כותרות/פסקאות/CTA לכל עמוד; נשמר ב-`page_sections`, ברירות-מחדל ב-`pageSections.ts`), חדשות, מדיה, מנהלים. תפריט נייד (hamburger) ב-`AdminLayout`; משוב שמירה אוטומטי + מצבי busy דרך `src/components/admin/ui.tsx` (`useStatus`/`Status`).
 - **הוספת מנהלים**: `/admin/admins` → API שרת (`/api/admins/invite|remove`) עם `SUPABASE_SERVICE_ROLE_KEY` (שרת בלבד).
 - עריכה משתקפת באתר תוך ~דקה (SSR + cache 60s ב-middleware).
 - **Env** (Vercel + `.env` מקומי): `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (שרת בלבד; לא ב-git). ראה `.env.example`.

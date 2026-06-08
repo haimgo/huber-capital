@@ -25,6 +25,15 @@ const GROUPS: { title: string; fields: Field[] }[] = [
     title: 'תמונת גלעד',
     fields: [{ key: 'gilad_image', label: 'קישור תמונה (העלו ב"מדיה" והעתיקו את הקישור לכאן)', noRu: true }],
   },
+  {
+    title: 'רשתות חברתיות (אייקונים בתחתית האתר)',
+    fields: [
+      { key: 'social_facebook', label: 'פייסבוק — קישור מלא לעמוד (ריק = מוסתר)', noRu: true },
+      { key: 'social_instagram', label: 'אינסטגרם — קישור מלא לעמוד (ריק = מוסתר)', noRu: true },
+      { key: 'social_youtube', label: 'יוטיוב — קישור מלא לערוץ (ריק = מוסתר)', noRu: true },
+      { key: 'social_tiktok', label: 'טיקטוק — קישור מלא לעמוד (ריק = מוסתר)', noRu: true },
+    ],
+  },
 ];
 
 export default function SettingsForm() {

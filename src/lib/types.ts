@@ -10,6 +10,10 @@ export interface Settings {
   cta_title: string;
   cta_sub: string;
   gilad_image?: string | null;
+  social_facebook?: string | null;
+  social_instagram?: string | null;
+  social_youtube?: string | null;
+  social_tiktok?: string | null;
 }
 export interface Stat { id: number; value: string; label: string; sort: number; }
 export interface Step { id: number; n: string; title: string; text: string; sort: number; }

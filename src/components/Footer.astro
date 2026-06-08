@@ -1,6 +1,8 @@
 ---
 import { site } from '../data/site.js';
 import { brandIcon } from '../lib/icons';
+import { serverClient } from '../lib/supabase';
+import { getSettings } from '../lib/content';
 import { t, localizePath, stripLocale, type Lang } from '../lib/i18n';
 const { lang = 'he' } = Astro.props as { lang?: Lang };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
@@ -14,6 +16,14 @@ if (base !== '/' && raw.startsWith(base)) raw = '/' + raw.slice(base.length);
 const { path: logical0 } = stripLocale(raw);
 const path = logical0.replace(/\/+$/, '') || '/';
 const year = 2026;
+// Social links come from site_settings (editable in /admin → הגדרות); empty = hidden.
+const settings = await getSettings(serverClient(Astro.cookies));
+const social = [
+  { name: 'facebook', label: 'Facebook', url: settings?.social_facebook },
+  { name: 'instagram', label: 'Instagram', url: settings?.social_instagram },
+  { name: 'youtube', label: 'YouTube', url: settings?.social_youtube },
+  { name: 'tiktok', label: 'TikTok', url: settings?.social_tiktok },
+].filter((s) => s.url && String(s.url).trim());
 ---
 <footer class="px-6 pb-12 pt-10">
   <div class="max-w-container mx-auto glass rounded-[28px] p-10 md:p-12">
@@ -24,11 +34,13 @@ const year = 2026;
           <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
         </div>
         <p class="text-mute font-light leading-relaxed max-w-sm">{t(lang, 'footer_blurb')}</p>
-        <div class="flex items-center gap-3 mt-6">
-          {(site.social ?? []).filter((s) => s.url && s.url !== '#').map((s) => (
-            <a href={s.url} target="_blank" rel="noopener" aria-label={s.label} title={s.label} class="glass w-10 h-10 rounded-full flex items-center justify-center text-fg/75 hover:text-cyan hover:border-cyan/50 hover:shadow-[0_0_18px_-4px_rgba(255,210,74,0.5)] transition" set:html={brandIcon(s.name, 20)}></a>
-          ))}
-        </div>
+        {social.length > 0 && (
+          <div class="flex items-center gap-3 mt-6">
+            {social.map((s) => (
+              <a href={s.url} target="_blank" rel="noopener" aria-label={s.label} title={s.label} class="glass w-10 h-10 rounded-full flex items-center justify-center text-fg/75 hover:text-cyan hover:border-cyan/50 hover:shadow-[0_0_18px_-4px_rgba(255,210,74,0.5)] transition" set:html={brandIcon(s.name, 20)}></a>
+            ))}
+          </div>
+        )}
         <div class="flex items-center gap-1.5 mt-6 text-[10px] eyebrow" aria-label={t(lang, 'lang_switch')}>
           <a href={href(path, 'he')} hreflang="he" class={lang === 'he' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>{t(lang, 'lang_he')}</a>
           <span class="text-mute/40" aria-hidden="true">·</span>
