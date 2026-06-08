@@ -42,7 +42,7 @@ const year = 2026;
       <div>
         <h4 class="eyebrow text-[10px] text-cyan mb-4">{t(lang, 'footer_contact')}</h4>
         <a href={site.phoneHref} dir="ltr" class="block text-fg text-sm hover:text-cyan transition w-fit">{site.phone}</a>
-        <a href={site.whatsapp} class="block text-mute text-sm font-light mt-2 hover:text-fg transition">{t(lang, 'whatsapp')}</a>
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="block text-mute text-sm font-light mt-2 hover:text-fg transition">{t(lang, 'whatsapp')}</a>
         <p class="text-mute text-sm font-light mt-2">{lang === 'ru' ? 'Дубай, ОАЭ' : site.location}</p>
       </div>
     </div>

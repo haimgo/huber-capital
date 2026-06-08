@@ -1,5 +1,16 @@
 ---
 const { steps, eyebrow = 'THE PROCESS', heading = 'מאפיון ועד ביצוע' } = Astro.props;
+const svg = (p: string) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+// One icon per step (by order): consultation, strategy, locating, analysis, signing, post-purchase.
+const ICONS = [
+  svg('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
+  svg('<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'),
+  svg('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
+  svg('<line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/>'),
+  svg('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/>'),
+  svg('<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>'),
+];
 ---
 <section class="px-6 py-16 md:py-24">
   <div class="max-w-container mx-auto">
@@ -9,8 +20,11 @@ const { steps, eyebrow = 'THE PROCESS', heading = 'מאפיון ועד ביצו�
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {steps.map((s, i) => (
-        <div class="glass rounded-3xl p-8 text-start reveal" style={`transition-delay:${i * 0.08}s`}>
-          <div class="font-display font-extrabold text-5xl neon glow mb-5">{s.n}</div>
+        <div class="glass rounded-3xl p-8 text-start reveal transition duration-300 hover:border-cyan/40 hover:shadow-[0_0_30px_-6px_rgba(255,210,74,0.28)]" style={`transition-delay:${i * 0.08}s`}>
+          <div class="flex items-start justify-between mb-5">
+            <span class="font-display font-extrabold text-5xl neon glow leading-none">{s.n}</span>
+            <span class="text-cyan/70 shrink-0 mt-1" set:html={ICONS[i % ICONS.length]}></span>
+          </div>
           <h3 class="font-display font-semibold text-xl mb-2">{s.title}</h3>
           <p class="text-mute text-sm font-light leading-relaxed">{s.text}</p>
         </div>

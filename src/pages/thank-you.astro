@@ -18,7 +18,7 @@ const tr = {
       <p class="font-light text-mute text-lg leading-relaxed mb-10">{tr.sub}</p>
       <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
         <a href={site.phoneHref} dir="ltr" class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{site.phone}</a>
-        <a href={site.whatsapp} class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
       </div>
       <a href={homeHref} class="inline-block mt-10 eyebrow text-[10px] text-mute hover:text-cyan transition">{tr.back}</a>
     </div>

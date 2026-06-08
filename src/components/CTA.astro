@@ -14,6 +14,6 @@ const { eyebrow = 'BEGIN', title, sub, lang = 'he' } = Astro.props as {
   {sub && <p class="text-mute mb-10 text-lg font-light max-w-xl mx-auto">{sub}</p>}
   <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
     <a href={site.phoneHref} class="btn-neon rounded-full px-12 py-5 eyebrow text-sm text-fg">{t(lang, 'cta_call')} · {site.phone}</a>
-    <a href={site.whatsapp} class="glass rounded-full px-10 py-5 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
+    <a href={site.whatsapp} target="_blank" rel="noopener" class="glass rounded-full px-10 py-5 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
   </div>
 </section>
