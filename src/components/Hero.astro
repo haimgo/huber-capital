@@ -22,7 +22,7 @@ const pl = primaryLabel ?? t(lang, 'consult_primary');
   <div class="max-w-4xl mx-auto">
     {eyebrow && <p class="eyebrow text-[11px] md:text-sm mb-8" style="color:#ffd98a;">{eyebrow}</p>}
     <h1 class="font-display font-bold text-5xl md:text-8xl leading-[1.02] mb-7 neon glow" set:html={title}></h1>
-    {sub && <p class="text-mute md:text-xl mb-11 font-light max-w-2xl mx-auto">{sub}</p>}
+    {sub && <p class="text-mute md:text-xl mb-11 font-semibold max-w-2xl mx-auto">{sub}</p>}
     <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
       <a href={primaryHref} class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{pl}</a>
       <a href={site.whatsapp} target="_blank" rel="noopener" class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80">{t(lang, 'whatsapp')}</a>
