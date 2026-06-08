@@ -7,7 +7,7 @@ const readMore = lang === 'ru' ? 'К статье →' : 'לכתבה ←';
     {(eyebrow || heading) && (
       <div class="text-center mb-12 reveal">
         {eyebrow && <p class="eyebrow text-[11px] mb-3" style="color:#ffd98a;">{eyebrow}</p>}
-        {heading && <h2 class="font-display font-bold text-3xl md:text-5xl">{heading}</h2>}
+        {heading && <h2 class="font-display font-bold text-3xl md:text-5xl" set:html={heading}></h2>}
       </div>
     )}
     <div class="grid md:grid-cols-3 gap-6">
