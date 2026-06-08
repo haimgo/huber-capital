@@ -7,15 +7,18 @@ import ProcessSteps from '../components/ProcessSteps.astro';
 import AboutGilad from '../components/AboutGilad.astro';
 import PressCards from '../components/PressCards.astro';
 import CTA from '../components/CTA.astro';
+import ApproachBanner from '../components/ApproachBanner.astro';
 import { serverClient } from '../lib/supabase';
-import { getStats, getMistakes, getSteps, getPress, getSettings } from '../lib/content';
+import { getStats, getMistakes, getSteps, getPress, getSettings, getSections } from '../lib/content';
 import { byLang, t, type Lang } from '../lib/i18n';
+import { pageText } from '../lib/pageSections';
 
 const lang: Lang = Astro.locals.lang ?? 'he';
 const sb = serverClient(Astro.cookies);
-const [statsR, mistakesR, processR, pressR, s] = await Promise.all([
-  getStats(sb), getMistakes(sb), getSteps(sb), getPress(sb), getSettings(sb),
+const [statsR, mistakesR, processR, pressR, s, sec] = await Promise.all([
+  getStats(sb), getMistakes(sb), getSteps(sb), getPress(sb), getSettings(sb), getSections(sb, 'home'),
 ]);
+const ta = (slot: string) => pageText(sec, 'home', slot, lang);
 
 // Localize Supabase rows for the active language (ru → *_ru, fall back to Hebrew).
 const stats = statsR.map((r: any) => ({ ...r, value: byLang(r, 'value', lang), label: byLang(r, 'label', lang) }));
@@ -45,6 +48,7 @@ const ctaSub = byLang(s, 'cta_sub', lang) || 'שיחת אפיון ראשונית
   <StatBar stats={stats} eyebrow={t(lang, 'home_stat_eyebrow')} heading={t(lang, 'home_stat_heading')} />
   <MistakeCards mistakes={mistakes} eyebrow={t(lang, 'mistakes_eyebrow')} heading={t(lang, 'mistakes_heading')} closing={t(lang, 'mistakes_closing')} />
   <ProcessSteps steps={process} eyebrow={t(lang, 'process_eyebrow')} heading={t(lang, 'process_heading')} />
+  <ApproachBanner title={ta('approach_title')} line1={ta('approach_line1')} line2={ta('approach_line2')} body={ta('approach_body')} />
   <AboutGilad lang={lang} image={s?.gilad_image || '/assets/gilad.jpg'} />
   <PressCards press={press} eyebrow={t(lang, 'press_eyebrow')} heading={t(lang, 'press_heading')} />
   <CTA lang={lang} title={ctaTitle} sub={ctaSub} />

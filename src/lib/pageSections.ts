@@ -3,10 +3,20 @@
 // override row in the page_sections table — so the site renders correctly even
 // before anything is edited, and clearing a field reverts it to this default.
 
-export type SectionField = { slot: string; label: string; default: string; type?: 'text' | 'textarea' };
+export type SectionField = { slot: string; label: string; default: string; default_ru?: string; type?: 'text' | 'textarea' };
 export type PageSpec = { page: string; title: string; fields: SectionField[] };
 
 export const PAGE_SECTIONS: PageSpec[] = [
+  {
+    page: 'home',
+    title: 'בית — באנר "הגישה שלי פשוטה"',
+    fields: [
+      { slot: 'approach_title', label: 'כותרת', default: 'הגישה שלי פשוטה', default_ru: 'Мой подход прост' },
+      { slot: 'approach_line1', label: 'שורה ראשונה', default: 'אני לא מוכר נכסים', default_ru: 'Я не продаю недвижимость' },
+      { slot: 'approach_line2', label: 'שורה שנייה (מודגשת)', default: 'אני בוחן השקעות', default_ru: 'Я анализирую инвестиции' },
+      { slot: 'approach_body', label: 'טקסט', default: 'מלווה אנשים לקבל החלטה נכונה. אני פועל רק במקומות שבהם אני מאמין ולא ממליץ על עסקה שלא הייתי מבצע בעצמי.', default_ru: 'Я сопровождаю людей к правильному решению. Я работаю только там, где сам верю, и не рекомендую сделку, которую не совершил бы сам.', type: 'textarea' },
+    ],
+  },
   {
     page: 'about',
     title: 'אודות',
@@ -81,9 +91,14 @@ export const PAGE_SECTIONS: PageSpec[] = [
 ];
 
 const DEFAULTS: Record<string, Record<string, string>> = {};
+const DEFAULTS_RU: Record<string, Record<string, string>> = {};
 for (const p of PAGE_SECTIONS) {
   DEFAULTS[p.page] = {};
-  for (const f of p.fields) DEFAULTS[p.page][f.slot] = f.default;
+  DEFAULTS_RU[p.page] = {};
+  for (const f of p.fields) {
+    DEFAULTS[p.page][f.slot] = f.default;
+    if (f.default_ru) DEFAULTS_RU[p.page][f.slot] = f.default_ru;
+  }
 }
 
 export function defaultText(page: string, slot: string): string {
@@ -104,6 +119,8 @@ export function pageText(
   if (lang === 'ru') {
     const ru = sec?.[`${slot}_ru`];
     if (ru && ru.trim()) return ru;
+    const dru = DEFAULTS_RU[page]?.[slot];
+    if (dru && dru.trim()) return dru;
   }
   const he = sec?.[slot];
   return he && he.trim() ? he : defaultText(page, slot);
