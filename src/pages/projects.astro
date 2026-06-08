@@ -6,6 +6,7 @@ import { serverClient } from '../lib/supabase';
 import { getAreas, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
 import { byLang, type Lang } from '../lib/i18n';
+import { icon } from '../lib/icons';
 
 const lang: Lang = Astro.locals.lang ?? 'he';
 const sb = serverClient(Astro.cookies);
@@ -31,6 +32,7 @@ const approachByLang = {
   ],
 };
 const approach = approachByLang[lang];
+const approachIcons = ['filter', 'tag', 'pin'];
 const meta = {
   he: { title: 'פרויקטים ואזורים · Huber Capital', description: '26 פרויקטים נבחרים וגישה למחיר מתחת לשוק, באזורי ההשקעה המובילים בדובאי.' },
   ru: { title: 'Проекты и районы · Huber Capital', description: '26 отобранных проектов и доступ к цене ниже рынка в ведущих инвестиционных районах Дубая.' },
@@ -42,9 +44,12 @@ const meta = {
   <section class="px-6 py-16 md:py-24 reveal">
     <div class="max-w-container mx-auto">
       <div class="grid md:grid-cols-3 gap-6">
-        {approach.map((a) => (
-          <div class="glass rounded-3xl p-8 md:p-9 text-start">
-            <div class="font-display font-extrabold text-4xl neon glow mb-5">{a.n}</div>
+        {approach.map((a, i) => (
+          <div class="glass rounded-3xl p-8 md:p-9 text-start transition duration-300 hover:border-cyan/40 hover:shadow-[0_0_30px_-6px_rgba(255,210,74,0.28)]">
+            <div class="flex items-start justify-between mb-5">
+              <span class="font-display font-extrabold text-4xl neon glow leading-none">{a.n}</span>
+              <span class="text-cyan/70 shrink-0 mt-1" set:html={icon(approachIcons[i % approachIcons.length])}></span>
+            </div>
             <h3 class="font-display font-semibold text-2xl mb-3">{a.title}</h3>
             <p class="font-light text-mute leading-relaxed">{a.text}</p>
           </div>
@@ -62,9 +67,12 @@ const meta = {
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {areas.map((a) => (
-          <div class="glass rounded-3xl p-8 text-start">
-            <span class="eyebrow text-[10px] text-cyan">{a.name}</span>
-            <h3 class="font-display font-semibold text-2xl mt-2 mb-3">{a.display}</h3>
+          <div class="glass rounded-3xl p-8 text-start transition duration-300 hover:border-cyan/40 hover:shadow-[0_0_30px_-6px_rgba(255,210,74,0.28)]">
+            <div class="flex items-center justify-between mb-2">
+              <span class="eyebrow text-[10px] text-cyan">{a.name}</span>
+              <span class="text-cyan/60 shrink-0" set:html={icon('pin', 22)}></span>
+            </div>
+            <h3 class="font-display font-semibold text-2xl mb-3">{a.display}</h3>
             <p class="font-light text-mute leading-relaxed text-sm">{a.blurb}</p>
           </div>
         ))}

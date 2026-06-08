@@ -7,6 +7,7 @@ import { serverClient } from '../lib/supabase';
 import { getSettings, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
 import type { Lang } from '../lib/i18n';
+import { icon } from '../lib/icons';
 
 const lang: Lang = Astro.locals.lang ?? 'he';
 const sb = serverClient(Astro.cookies);
@@ -28,6 +29,7 @@ const valuesByLang = {
   ],
 };
 const values = valuesByLang[lang];
+const valueIcons = ['heart', 'lock', 'users', 'eye'];
 const meta = {
   he: { title: 'אודות · גלעד הובר · Huber Capital', description: 'גלעד הובר — 30 שנות ניסיון עסקי, בית בדובאי, וגישה שמתחילה ונגמרת באינטרס של המשקיע.' },
   ru: { title: 'О нас · Гилад Хубер · Huber Capital', description: 'Гилад Хубер — 30 лет опыта в бизнесе, дом в Дубае и подход, основанный на интересах инвестора.' },
@@ -45,8 +47,9 @@ const meta = {
         <h2 class="font-display font-bold text-4xl md:text-5xl">{t('values_heading')}</h2>
       </div>
       <div class="grid sm:grid-cols-2 gap-6">
-        {values.map((v) => (
-          <div class="glass rounded-3xl p-8 md:p-9 text-start">
+        {values.map((v, i) => (
+          <div class="glass rounded-3xl p-8 md:p-9 text-start transition duration-300 hover:border-cyan/40 hover:shadow-[0_0_30px_-6px_rgba(255,210,74,0.28)]">
+            <span class="text-cyan/70 inline-block mb-4" set:html={icon(valueIcons[i % valueIcons.length])}></span>
             <h3 class="font-display font-semibold text-2xl mb-3">{v.title}</h3>
             <p class="font-light text-mute leading-relaxed">{v.text}</p>
           </div>
