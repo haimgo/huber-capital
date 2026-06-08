@@ -12,13 +12,8 @@ const GROUPS: { title: string; fields: Field[] }[] = [
       { key: 'hero_sub', label: 'תת-כותרת', type: 'textarea' },
     ],
   },
-  {
-    title: 'מנשר',
-    fields: [
-      { key: 'manifesto_main', label: 'שורה ראשית', type: 'textarea' },
-      { key: 'manifesto_sub', label: 'שורת משנה', type: 'textarea' },
-    ],
-  },
+  // 'מנשר' (manifesto) hidden — the home manifesto section was removed; the
+  // approach banner is edited under טקסטים → בית. Columns remain in the DB.
   {
     title: 'קריאה לפעולה',
     fields: [

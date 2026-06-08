@@ -1,13 +1,19 @@
 ---
-// "הגישה שלי פשוטה" approach banner — clean centered statement (same style as the
-// former manifesto). Texts are editable + bilingual via the page_sections "home" group.
+// "הגישה שלי פשוטה" approach banner — framed as a distinct banner: gold accent
+// lines (top + bottom) + a soft glow behind the title. Texts are editable +
+// bilingual via the page_sections "home" group.
 const { title, line1, line2, body } = Astro.props;
 ---
-<section class="px-6 py-20 md:py-28 text-center reveal">
-  <div class="max-w-4xl mx-auto">
+<section class="relative px-6 py-24 md:py-32 reveal overflow-hidden">
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+    <div class="w-[70%] h-[70%] rounded-full opacity-[0.06] blur-3xl" style="background:radial-gradient(circle, #ffd24a 0%, transparent 70%)"></div>
+  </div>
+  <div class="relative max-w-4xl mx-auto text-center">
+    <div class="h-px w-44 mx-auto mb-12 bg-gradient-to-r from-transparent via-cyan/70 to-transparent"></div>
     <h2 class="font-display font-bold text-3xl md:text-5xl leading-tight neon glow">{title}</h2>
     <p class="font-display font-semibold text-2xl md:text-3xl text-fg mt-7 leading-tight">{line1}</p>
-    <p class="font-display font-semibold text-2xl md:text-3xl neon mt-1 leading-tight">{line2}</p>
+    <p class="font-display font-semibold text-2xl md:text-3xl neon glow mt-1 leading-tight">{line2}</p>
     <p class="text-mute font-light text-lg mt-7 max-w-2xl mx-auto leading-relaxed">{body}</p>
+    <div class="h-px w-44 mx-auto mt-12 bg-gradient-to-r from-transparent via-cyan/70 to-transparent"></div>
   </div>
 </section>
