@@ -12,10 +12,16 @@ const hasHead = Boolean(eyebrow || heading);
     )}
     <div class="glass rounded-[28px] p-8 md:p-12">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        {stats.map((s) => (
-          <div>
+        {stats.map((s, i) => (
+          <div class="relative">
+            {i > 0 && (
+              <span
+                class="hidden md:block absolute start-[-1rem] top-1/2 -translate-y-1/2 h-12 w-px bg-gradient-to-b from-transparent via-cyan/45 to-transparent"
+                aria-hidden="true"
+              ></span>
+            )}
             <div class="font-display font-extrabold text-4xl md:text-5xl neon glow mb-2">{s.value}</div>
-            <div class="eyebrow text-[9px] text-mute">{s.label}</div>
+            <div class="eyebrow text-[11px] text-mute">{s.label}</div>
           </div>
         ))}
       </div>
