@@ -6,7 +6,7 @@ import CTA from '../components/CTA.astro';
 import { serverClient } from '../lib/supabase';
 import { getPress, getSections } from '../lib/content';
 import { pageText } from '../lib/pageSections';
-import { byLang, t as tr, type Lang } from '../lib/i18n';
+import { byLang, type Lang } from '../lib/i18n';
 
 const lang: Lang = Astro.locals.lang ?? 'he';
 const sb = serverClient(Astro.cookies);
@@ -23,7 +23,7 @@ const pressEyebrow = lang === 'ru' ? 'Публикации' : 'סיקורים';
 <BaseLayout title={meta.title} description={meta.description}>
   <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
-  <PressCards press={press} lang={lang} eyebrow={pressEyebrow} heading={tr(lang, 'press_heading')} />
+  <PressCards press={press} lang={lang} eyebrow={pressEyebrow} heading="" />
 
   <CTA lang={lang} title={t('cta_title')} sub={t('cta_sub')} />
 </BaseLayout>

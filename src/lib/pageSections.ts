@@ -83,8 +83,8 @@ export const PAGE_SECTIONS: PageSpec[] = [
     title: 'בתקשורת',
     fields: [
       { slot: 'header_eyebrow', label: 'כותרת עליונה (תווית)', default: 'בתקשורת', default_ru: 'СМИ' },
-      { slot: 'header_title', label: 'כותרת ראשית', default: 'מדברים עלינו', default_ru: 'О нас говорят' },
-      { slot: 'header_sub', label: 'תת-כותרת', default: 'שוק הנדל"ן בדובאי בכותרות.', default_ru: 'Рынок недвижимости Дубая в заголовках.', type: 'textarea' },
+      { slot: 'header_title', label: 'כותרת ראשית', default: 'שוק הנדל"ן בדובאי בכותרות', default_ru: 'Рынок недвижимости Дубая в заголовках' },
+      { slot: 'header_sub', label: 'תת-כותרת', default: '', default_ru: '', type: 'textarea' },
       { slot: 'cta_title', label: 'קריאה לפעולה — כותרת', default: 'רוצים לדעת מה זה אומר עבורכם?', default_ru: 'Хотите узнать, что это значит для вас?' },
       { slot: 'cta_sub', label: 'קריאה לפעולה — תת-כותרת', default: 'נסביר בשיחת אפיון קצרה איך מגמות השוק מתורגמות להזדמנות.', default_ru: 'На короткой консультации объясним, как рыночные тренды превращаются в возможность.', type: 'textarea' },
     ],
@@ -106,6 +106,10 @@ export function defaultText(page: string, slot: string): string {
   return DEFAULTS[page]?.[slot] ?? '';
 }
 
+// A value counts as content only if it contains a letter or digit — ignores blank
+// or punctuation-only overrides (e.g. a stray ".").
+const meaningful = (v?: string | null): v is string => !!v && /[\p{L}\p{N}]/u.test(v);
+
 /**
  * Effective text for a page slot in a language:
  * ru → Russian override (DB) → Russian default → Hebrew override → Hebrew default.
@@ -118,10 +122,10 @@ export function pageText(
 ): string {
   if (lang === 'ru') {
     const ru = sec?.[`${slot}_ru`];
-    if (ru && ru.trim()) return ru;
+    if (meaningful(ru)) return ru;
     const dru = DEFAULTS_RU[page]?.[slot];
-    if (dru && dru.trim()) return dru;
+    if (meaningful(dru)) return dru;
   }
   const he = sec?.[slot];
-  return he && he.trim() ? he : defaultText(page, slot);
+  return meaningful(he) ? he : defaultText(page, slot);
 }
