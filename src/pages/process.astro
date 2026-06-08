@@ -47,7 +47,7 @@ const meta = {
       <h2 class="font-display font-bold text-3xl md:text-4xl mb-10 text-center">{t('includes_heading')}</h2>
       <ul class="space-y-5">
         {includes.map((item, i) => (
-          <li class="flex rtl:flex-row-reverse items-start gap-4 border-b border-white/10 pb-5">
+          <li class="flex items-start gap-4 border-b border-white/10 pb-5">
             <span class="font-display font-extrabold text-2xl neon leading-none shrink-0">{String(i + 1).padStart(2, '0')}</span>
             <span class="font-light text-fg/85 text-lg leading-relaxed">{item}</span>
           </li>
