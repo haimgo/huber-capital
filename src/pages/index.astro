@@ -38,11 +38,13 @@ const cxt = (field: string, he: string, ru: string): string => {
 const heroEyebrow = cxt('hero_eyebrow', 'DUBAI · NEXT-GEN REAL ESTATE', 'DUBAI · NEXT-GEN REAL ESTATE');
 const heroTitle = cxt('hero_title', 'השקעה בדובאי', 'Инвестиции в Дубае');
 const heroSub = cxt('hero_sub', 'החל מ-200,000₪ הון עצמי · פוטנציאל עליית ערך של כ-10% בשנה · ליווי מלא A-Z', 'От 200 000 ₪ собственного капитала · потенциал роста стоимости ~10% в год · полное сопровождение A–Z');
+// Highlight the key figures (price · % · A-Z) in gold for emphasis.
+const heroSubHtml = heroSub.replace(/\d[\d,\s]*[₪%]|A[-–]Z/g, '<span class="neon font-bold">$&</span>');
 const ctaTitle = cxt('cta_title', 'מוכנים לצאת למסע?', 'Готовы отправиться в путь?');
 const ctaSub = cxt('cta_sub', 'שיחת אפיון ראשונית, ללא התחייבות — נבין יחד מה נכון עבורכם.', 'Первичная консультация без обязательств — вместе поймём, что подходит именно вам.');
 ---
 <BaseLayout>
-  <Hero lang={lang} eyebrow={heroEyebrow} title={heroTitle} sub={heroSub} />
+  <Hero lang={lang} eyebrow={heroEyebrow} title={heroTitle} sub={heroSubHtml} />
 
   <StatBar stats={stats} eyebrow={t(lang, 'home_stat_eyebrow')} heading={t(lang, 'home_stat_heading')} />
   <MistakeCards mistakes={mistakes} eyebrow={t(lang, 'mistakes_eyebrow')} heading={t(lang, 'mistakes_heading')} closing={t(lang, 'mistakes_closing')} />
