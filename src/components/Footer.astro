@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site.js';
+import { brandIcon } from '../lib/icons';
 import { t, localizePath, stripLocale, type Lang } from '../lib/i18n';
 const { lang = 'he' } = Astro.props as { lang?: Lang };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
@@ -23,6 +24,11 @@ const year = 2026;
           <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
         </div>
         <p class="text-mute font-light leading-relaxed max-w-sm">{t(lang, 'footer_blurb')}</p>
+        <div class="flex items-center gap-3 mt-6">
+          {(site.social ?? []).filter((s) => s.url && s.url !== '#').map((s) => (
+            <a href={s.url} target="_blank" rel="noopener" aria-label={s.label} title={s.label} class="glass w-10 h-10 rounded-full flex items-center justify-center text-fg/75 hover:text-cyan hover:border-cyan/50 hover:shadow-[0_0_18px_-4px_rgba(255,210,74,0.5)] transition" set:html={brandIcon(s.name, 20)}></a>
+          ))}
+        </div>
         <div class="flex items-center gap-1.5 mt-6 text-[10px] eyebrow" aria-label={t(lang, 'lang_switch')}>
           <a href={href(path, 'he')} hreflang="he" class={lang === 'he' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>{t(lang, 'lang_he')}</a>
           <span class="text-mute/40" aria-hidden="true">·</span>
