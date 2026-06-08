@@ -10,8 +10,9 @@ export type PageSpec = { page: string; title: string; fields: SectionField[] };
 export const PAGE_SECTIONS: PageSpec[] = [
   {
     page: 'home',
-    title: 'בית — באנר "הגישה שלי פשוטה"',
+    title: 'בית — מנשר ובאנר',
     fields: [
+      { slot: 'manifesto_extra', label: 'מנשר — שורה נוספת', default: 'מלווה אנשים לקבל החלטה נכונה. אני פועל רק במקומות שבהם אני מאמין ולא ממליץ על עסקה שלא הייתי מבצע בעצמי.', default_ru: 'Я сопровождаю людей к правильному решению. Я работаю только там, где сам верю, и не рекомендую сделку, которую не совершил бы сам.', type: 'textarea' },
       { slot: 'approach_title', label: 'כותרת', default: 'הגישה שלי פשוטה', default_ru: 'Мой подход прост' },
       { slot: 'approach_line1', label: 'שורה ראשונה', default: 'אני לא מוכר נכסים', default_ru: 'Я не продаю недвижимость' },
       { slot: 'approach_line2', label: 'שורה שנייה (מודגשת)', default: 'אני בוחן השקעות', default_ru: 'Я анализирую инвестиции' },
