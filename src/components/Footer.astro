@@ -34,13 +34,6 @@ const social = [
           <span class="eyebrow text-sm neon">HUBER CAPITAL</span>
         </div>
         <p class="text-mute font-light leading-relaxed max-w-sm">{t(lang, 'footer_blurb')}</p>
-        {social.length > 0 && (
-          <div class="flex items-center gap-3 mt-6">
-            {social.map((s) => (
-              <a href={s.url} target="_blank" rel="noopener" aria-label={s.label} title={s.label} class="glass w-10 h-10 rounded-full flex items-center justify-center text-fg/75 hover:text-cyan hover:border-cyan/50 hover:shadow-[0_0_18px_-4px_rgba(255,210,74,0.5)] transition" set:html={brandIcon(s.name, 20)}></a>
-            ))}
-          </div>
-        )}
         <div class="flex items-center gap-1.5 mt-6 text-[10px] eyebrow" aria-label={t(lang, 'lang_switch')}>
           <a href={href(path, 'he')} hreflang="he" class={lang === 'he' ? 'text-cyan' : 'text-mute hover:text-fg transition'}>{t(lang, 'lang_he')}</a>
           <span class="text-mute/40" aria-hidden="true">·</span>
@@ -62,6 +55,13 @@ const social = [
         <a href={site.phoneHref} dir="ltr" class="block text-fg text-sm hover:text-cyan transition w-fit">{site.phone}</a>
         <a href={site.whatsapp} target="_blank" rel="noopener" class="block text-mute text-sm font-light mt-2 hover:text-fg transition">{t(lang, 'whatsapp')}</a>
         <p class="text-mute text-sm font-light mt-2">{lang === 'ru' ? 'Дубай, ОАЭ' : site.location}</p>
+        {social.length > 0 && (
+          <div class="flex items-center gap-3 mt-5">
+            {social.map((s) => (
+              <a href={s.url} target="_blank" rel="noopener" aria-label={s.label} title={s.label} class="glass w-10 h-10 rounded-full flex items-center justify-center text-fg/75 hover:text-cyan hover:border-cyan/50 hover:shadow-[0_0_18px_-4px_rgba(255,210,74,0.5)] transition" set:html={brandIcon(s.name, 20)}></a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
     <div class="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row md:rtl:flex-row-reverse justify-between gap-4 text-[10px] text-mute">
