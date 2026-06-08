@@ -23,7 +23,7 @@ const pressEyebrow = lang === 'ru' ? 'Публикации' : 'סיקורים';
 <BaseLayout title={meta.title} description={meta.description}>
   <PageHeader eyebrow={t('header_eyebrow')} title={t('header_title')} sub={t('header_sub')} />
 
-  <PressCards press={press} eyebrow={pressEyebrow} heading={tr(lang, 'press_heading')} />
+  <PressCards press={press} lang={lang} eyebrow={pressEyebrow} heading={tr(lang, 'press_heading')} />
 
   <CTA lang={lang} title={t('cta_title')} sub={t('cta_sub')} />
 </BaseLayout>

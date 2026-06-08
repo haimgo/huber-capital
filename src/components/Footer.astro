@@ -47,7 +47,7 @@ const year = 2026;
       </div>
     </div>
     <div class="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row md:rtl:flex-row-reverse justify-between gap-4 text-[10px] text-mute">
-      <span class="eyebrow">© {year} Huber Capital · {site.owner} · {t(lang, 'rights')}</span>
+      <span class="eyebrow">© {year} Huber Capital · {lang === 'ru' ? 'Гилад Хубер' : site.owner} · {t(lang, 'rights')}</span>
       <div class="flex rtl:flex-row-reverse gap-5">
         <a href={href('/legal/privacy')} class="hover:text-fg transition">{t(lang, 'privacy')}</a>
         <a href={href('/legal/terms')} class="hover:text-fg transition">{t(lang, 'terms')}</a>

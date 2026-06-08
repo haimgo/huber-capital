@@ -1,5 +1,6 @@
 ---
-const { press, eyebrow = 'בתקשורת', heading = 'מדברים עלינו' } = Astro.props;
+const { press, eyebrow = 'בתקשורת', heading = 'מדברים עלינו', lang = 'he' } = Astro.props;
+const readMore = lang === 'ru' ? 'К статье →' : 'לכתבה ←';
 ---
 <section class="px-6 py-16 md:py-24">
   <div class="max-w-container mx-auto">
@@ -12,7 +13,7 @@ const { press, eyebrow = 'בתקשורת', heading = 'מדברים עלינו' }
         <a href={p.url} class="glass rounded-3xl p-8 text-start reveal block transition hover:border-cyan/40" style={`transition-delay:${i * 0.08}s`}>
           <span class="eyebrow text-[10px] text-cyan">{p.outlet}</span>
           <p class="font-display font-semibold text-2xl mt-3 leading-snug">&ldquo;{p.title}&rdquo;</p>
-          <span class="eyebrow text-mute text-[10px] mt-5 inline-block">לכתבה ←</span>
+          <span class="eyebrow text-mute text-[10px] mt-5 inline-block">{readMore}</span>
         </a>
       ))}
     </div>
