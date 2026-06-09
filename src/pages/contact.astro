@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { site } from '../data/site.js';
+import { brandIcon } from '../lib/icons';
 import type { Lang } from '../lib/i18n';
 
 const lang: Lang = Astro.locals.lang ?? 'he';
@@ -41,7 +42,7 @@ const tr = {
           <a href={site.phoneHref} dir="ltr" class="font-display font-bold text-3xl text-fg hover:text-cyan transition inline-block">{site.phone}</a>
         </div>
         <div class="border-t border-white/10 pt-8">
-          <p class="eyebrow text-cyan text-[10px] mb-2">{tr.whatsapp}</p>
+          <p class="eyebrow text-cyan text-[10px] mb-2 flex items-center gap-1.5"><span set:html={brandIcon('whatsapp', 14)}></span>{tr.whatsapp}</p>
           <a href={site.whatsapp} target="_blank" rel="noopener" class="font-light text-fg/85 hover:text-cyan transition">{tr.wa_cta}</a>
         </div>
         <div class="border-t border-white/10 pt-8">

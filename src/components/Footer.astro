@@ -53,7 +53,7 @@ const social = [
       <div>
         <h4 class="eyebrow text-[10px] text-cyan mb-4">{t(lang, 'footer_contact')}</h4>
         <a href={site.phoneHref} dir="ltr" class="block text-fg text-sm hover:text-cyan transition w-fit">{site.phone}</a>
-        <a href={site.whatsapp} target="_blank" rel="noopener" class="block text-mute text-sm font-light mt-2 hover:text-fg transition">{t(lang, 'whatsapp')}</a>
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="flex items-center gap-2 w-fit text-mute text-sm font-light mt-2 hover:text-fg transition"><span set:html={brandIcon('whatsapp', 16)}></span>{t(lang, 'whatsapp')}</a>
         <p class="text-mute text-sm font-light mt-2">{lang === 'ru' ? 'Дубай, ОАЭ' : site.location}</p>
         {social.length > 0 && (
           <div class="flex items-center gap-3 mt-5">

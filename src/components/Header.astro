@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site.js';
+import { brandIcon } from '../lib/icons';
 import { t, localizePath, stripLocale, type Lang } from '../lib/i18n';
 const { lang = 'he' } = Astro.props as { lang?: Lang };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
@@ -58,7 +59,7 @@ const switchRu = href(path, 'ru');
         {nav.map((n) => (
           <a href={href(n.href)} class={`py-3 border-b border-white/10 hover:text-fg transition ${isActive(n.href) ? 'text-cyan' : ''}`}>{t(lang, n.key)}</a>
         ))}
-        <a href={site.whatsapp} target="_blank" rel="noopener" class="py-3 text-cyan">{t(lang, 'whatsapp')} · {site.phone}</a>
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="py-3 text-cyan flex items-center gap-2"><span set:html={brandIcon('whatsapp', 15)}></span>{t(lang, 'whatsapp')} · {site.phone}</a>
       </nav>
     </div>
   </div>
