@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { browserClient } from '../../lib/supabase';
-import { useStatus, Status } from './ui';
+import { useStatus, Status, useUnsavedGuard, UnsavedDot, useShowRu, RuToggle, CardsSkeleton } from './ui';
+import { fieldsDiffer } from '../../lib/dirty';
 import { PAGE_SECTIONS } from '../../lib/pageSections';
 
 const keyOf = (page: string, slot: string) => `${page}:${slot}`;
@@ -9,14 +10,15 @@ const ruKeyOf = (page: string, slot: string) => `${page}:${slot}:ru`;
 export default function PagesEditor() {
   const sb = browserClient();
   const [vals, setVals] = useState<Record<string, string>>({});
+  const [savedVals, setSavedVals] = useState<Record<string, string>>({});
   const [inDb, setInDb] = useState<Record<string, boolean>>({});
   const [dbRu, setDbRu] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const { status, show } = useStatus();
+  const [showRu, toggleRu] = useShowRu();
 
   async function load() {
-    setLoading(true);
     // select('*') so this works before the Russian-columns migration is applied.
     const res = await sb.from('page_sections').select('*');
     if (res.error) show('שגיאה בטעינה: ' + res.error.message, 'err', { sticky: true });
@@ -38,11 +40,11 @@ export default function PagesEditor() {
         init[ruKeyOf(p.page, f.slot)] = dbMapRu[k] ?? '';
       }
     setVals(init);
+    setSavedVals(init);
     setInDb(existing);
     setDbRu(ruExisting);
-    setLoading(false);
   }
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load().finally(() => setLoading(false)); }, []);
 
   const set = (k: string, v: string) => setVals((s) => ({ ...s, [k]: v }));
 
@@ -85,12 +87,18 @@ export default function PagesEditor() {
     load();
   }
 
-  if (loading) return <p class="text-mute">טוען…</p>;
+  const dirty = fieldsDiffer(Object.keys(savedVals), vals, savedVals);
+  useUnsavedGuard(dirty);
+
+  if (loading) return <CardsSkeleton count={3} lines={2} />;
   return (
     <div class="space-y-6 max-w-2xl">
-      <p class="text-mute text-sm font-light leading-relaxed">
-        עריכת הכותרות והפסקאות בעמודי האתר. בעברית — שדה זהה לטקסט המקורי לא נשמר (↩ לחזרה לברירת מחדל). ב־RU — אם יישאר ריק, יוצג הטקסט בעברית.
-      </p>
+      <div class="flex flex-row-reverse items-start justify-between gap-4">
+        <RuToggle show={showRu} onToggle={toggleRu} />
+        <p class="text-mute text-sm font-light leading-relaxed">
+          עריכת הכותרות והפסקאות בעמודי האתר. בעברית — שדה זהה לטקסט המקורי לא נשמר (↩ לחזרה לברירת מחדל). ב־RU — אם יישאר ריק, יוצג הטקסט בעברית.
+        </p>
+      </div>
       {PAGE_SECTIONS.map((p) => (
         <fieldset key={p.page} class="glass rounded-2xl p-6 text-start space-y-5">
           <legend class="eyebrow text-[11px] text-cyan px-1">{p.title}</legend>
@@ -103,7 +111,7 @@ export default function PagesEditor() {
               <div key={f.slot} class="space-y-2">
                 <div>
                   <div class="flex flex-row-reverse justify-between items-center mb-1 gap-2">
-                    <label for={id} class="eyebrow text-[10px] text-mute">{f.label}</label>
+                    <label for={id} class="field-label text-mute">{f.label}</label>
                     {overridden && (
                       <button type="button" onClick={() => set(k, f.default)} title="חזרה לברירת המחדל" class="eyebrow text-[9px] text-mute hover:text-cyan shrink-0">↩ ברירת מחדל</button>
                     )}
@@ -114,14 +122,16 @@ export default function PagesEditor() {
                     <input id={id} value={vals[k] ?? ''} onInput={(e: any) => set(k, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
                   )}
                 </div>
-                <div>
-                  <label for={`${id}-ru`} dir="ltr" class="eyebrow text-[9px] text-mute/70 block mb-1">RU · Русский</label>
-                  {f.type === 'textarea' ? (
-                    <textarea id={`${id}-ru`} dir="ltr" value={vals[rk] ?? ''} onInput={(e: any) => set(rk, e.currentTarget.value)} rows={3} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-                  ) : (
-                    <input id={`${id}-ru`} dir="ltr" value={vals[rk] ?? ''} onInput={(e: any) => set(rk, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
-                  )}
-                </div>
+                {showRu && (
+                  <div>
+                    <label for={`${id}-ru`} dir="ltr" class="field-label field-label--ru text-mute/70 block mb-1">RU · Русский</label>
+                    {f.type === 'textarea' ? (
+                      <textarea id={`${id}-ru`} dir="ltr" value={vals[rk] ?? ''} onInput={(e: any) => set(rk, e.currentTarget.value)} rows={3} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+                    ) : (
+                      <input id={`${id}-ru`} dir="ltr" value={vals[rk] ?? ''} onInput={(e: any) => set(rk, e.currentTarget.value)} class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
+                    )}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -129,6 +139,7 @@ export default function PagesEditor() {
       ))}
       <div class="flex flex-row-reverse items-center gap-4 sticky bottom-4">
         <button type="button" onClick={save} disabled={busy} class="btn-neon rounded-full px-6 py-2.5 eyebrow text-[11px] text-fg bg-space/80 backdrop-blur disabled:opacity-50 disabled:cursor-not-allowed">{busy ? 'שומר…' : 'שמירת כל השינויים'}</button>
+        {dirty && !status && <UnsavedDot />}
         <Status status={status} />
       </div>
     </div>

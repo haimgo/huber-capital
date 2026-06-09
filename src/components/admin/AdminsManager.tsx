@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'preact/hooks';
 import { browserClient } from '../../lib/supabase';
-import { useStatus, Status } from './ui';
+import { useStatus, Status, useConfirm, RowsSkeleton } from './ui';
 
 export default function AdminsManager() {
   const sb = browserClient();
   const [admins, setAdmins] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [busy, setBusy] = useState(false);
   const { status, show } = useStatus();
+  const { confirm, confirmElement } = useConfirm();
 
   async function load() {
     const { data, error } = await sb.from('admins').select('user_id, email');
     if (error) show('שגיאה בטעינה: ' + error.message, 'err', { sticky: true });
     setAdmins(data ?? []);
   }
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load().finally(() => setLoading(false)); }, []);
 
   async function invite(e: Event) {
     e.preventDefault();
@@ -34,7 +36,7 @@ export default function AdminsManager() {
   }
 
   async function remove(user_id: string) {
-    if (!confirm('להסיר מנהל זה?')) return;
+    if (!(await confirm('להסיר מנהל זה?', { title: 'הסרת מנהל', confirmLabel: 'הסרה', danger: true }))) return;
     const res = await fetch('/api/admins/remove', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -49,21 +51,26 @@ export default function AdminsManager() {
     <div class="max-w-2xl">
       <form onSubmit={invite} class="glass rounded-2xl p-5 flex flex-row-reverse gap-3 items-end mb-4">
         <div class="flex-1 text-start">
-          <label for="admin-email" class="eyebrow text-[10px] text-mute block mb-1">הזמנת מנהל חדש (אימייל)</label>
+          <label for="admin-email" class="field-label text-mute block mb-1">הזמנת מנהל חדש (אימייל)</label>
           <input id="admin-email" type="email" required autocomplete="email" value={email} onInput={(e: any) => setEmail(e.currentTarget.value)} dir="ltr" class="w-full input-glass rounded-lg px-3 py-2 text-fg" />
         </div>
         <button type="submit" disabled={busy} class="btn-neon rounded-full px-5 py-2.5 eyebrow text-[11px] text-fg shrink-0 disabled:opacity-50 disabled:cursor-not-allowed">{busy ? 'שולח…' : 'הזמנה'}</button>
       </form>
       <div class="min-h-[1.5rem] mb-4"><Status status={status} /></div>
-      <div class="space-y-2">
-        {admins.map((a) => (
-          <div key={a.user_id} class="glass rounded-xl px-4 py-3 flex flex-row-reverse items-center justify-between">
-            <span class="text-fg text-sm" dir="ltr">{a.email}</span>
-            <button type="button" onClick={() => remove(a.user_id)} class="eyebrow text-[10px] text-magenta hover:opacity-80">הסרה</button>
-          </div>
-        ))}
-        {admins.length === 0 && <p class="text-mute text-sm">אין מנהלים עדיין.</p>}
-      </div>
+      {loading ? (
+        <RowsSkeleton count={2} />
+      ) : (
+        <div class="space-y-2">
+          {admins.map((a) => (
+            <div key={a.user_id} class="glass rounded-xl px-4 py-3 flex flex-row-reverse items-center justify-between">
+              <span class="text-fg text-sm" dir="ltr">{a.email}</span>
+              <button type="button" onClick={() => remove(a.user_id)} class="rounded-lg px-3 py-2 eyebrow text-[10px] text-magenta hover:bg-magenta/10 transition">הסרה</button>
+            </div>
+          ))}
+          {admins.length === 0 && <p class="text-mute text-sm">אין מנהלים עדיין.</p>}
+        </div>
+      )}
+      {confirmElement}
     </div>
   );
 }

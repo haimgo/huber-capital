@@ -1,0 +1,27 @@
+---
+import '../../styles/global.css';
+import ResetForm from '../../components/admin/ResetForm';
+// No isAdmin gate here: the user arrives via a recovery email link before a server
+// session exists. The middleware exempts /admin/reset from the admin guard.
+---
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>איפוס סיסמה · Huber Capital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Heebo:wght@300;400;600;800&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-space text-fg font-body antialiased">
+    <main class="min-h-screen flex items-center justify-center px-6">
+      <div class="glass rounded-[28px] p-8 md:p-10 w-full max-w-md">
+        <h1 class="font-display font-bold text-2xl mb-2 neon glow text-center">איפוס סיסמה</h1>
+        <p class="text-mute text-sm text-center mb-7">בחרו סיסמה חדשה לחשבון הניהול</p>
+        <ResetForm client:load />
+      </div>
+    </main>
+  </body>
+</html>
