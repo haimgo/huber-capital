@@ -27,6 +27,9 @@ body {
 .glow {
   text-shadow: 0 0 24px rgba(255, 200, 80, 0.45), 0 0 54px rgba(255, 150, 40, 0.3);
 }
+.glow-strong {
+  text-shadow: 0 0 18px rgba(255, 200, 80, 0.6), 0 0 42px rgba(255, 150, 40, 0.45);
+}
 
 /* techy uppercase label */
 .eyebrow {
