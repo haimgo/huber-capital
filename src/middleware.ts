@@ -23,9 +23,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const isAdminArea = pathname === '/admin' || pathname.startsWith('/admin/');
   const isApi = pathname.startsWith('/api/');
   const isLogin = pathname.startsWith('/admin/login');
+  // /admin/reset is opened from a password-recovery email link, before any server
+  // session cookie exists, so it must bypass the guard like the login page does.
+  const isReset = pathname.startsWith('/admin/reset');
 
-  // Guard the admin area (login page excepted). Admin is Hebrew-only.
-  if (isAdminArea && !isLogin) {
+  // Guard the admin area (login + password-reset pages excepted). Admin is Hebrew-only.
+  if (isAdminArea && !isLogin && !isReset) {
     const sb = serverClient(context.cookies);
     if (!(await isAdmin(sb))) {
       return context.redirect('/admin/login');

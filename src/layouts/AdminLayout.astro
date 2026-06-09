@@ -2,15 +2,21 @@
 import '../styles/global.css';
 import SignOut from '../components/admin/SignOut';
 const { title = 'ניהול' } = Astro.props;
-const nav = [
-  { href: '/admin', label: 'דאשבורד' },
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/admin';
+const nav: { href: string; label: string; exact?: boolean; match?: string }[] = [
+  { href: '/admin', label: 'דאשבורד', exact: true },
   { href: '/admin/settings', label: 'הגדרות' },
-  { href: '/admin/lists/stats', label: 'רשימות' },
+  { href: '/admin/lists/stats', label: 'רשימות', match: '/admin/lists' },
   { href: '/admin/pages', label: 'טקסטים' },
   { href: '/admin/news', label: 'חדשות' },
   { href: '/admin/media', label: 'מדיה' },
   { href: '/admin/admins', label: 'מנהלים' },
 ];
+const isActive = (n: (typeof nav)[number]) => {
+  if (n.exact) return path === n.href;
+  const base = n.match ?? n.href;
+  return path === base || path.startsWith(base + '/');
+};
 ---
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -28,7 +34,9 @@ const nav = [
       <div class="max-w-container mx-auto px-6 h-16 flex flex-row-reverse items-center justify-between gap-4">
         <a href="/admin" class="eyebrow text-sm neon shrink-0">HUBER · ניהול</a>
         <nav class="hidden md:flex flex-row-reverse gap-5 text-[11px] eyebrow text-mute">
-          {nav.map((n) => <a href={n.href} class="hover:text-fg transition">{n.label}</a>)}
+          {nav.map((n) => (
+            <a href={n.href} aria-current={isActive(n) ? 'page' : undefined} class={`transition ${isActive(n) ? 'text-cyan' : 'hover:text-fg'}`}>{n.label}</a>
+          ))}
           <a href="/" class="hover:text-fg transition">לאתר ←</a>
         </nav>
         <div class="flex flex-row-reverse items-center gap-3">
@@ -38,7 +46,9 @@ const nav = [
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </summary>
             <nav class="absolute left-0 top-full mt-3 w-52 glass rounded-2xl p-3 flex flex-col gap-1 text-[12px] eyebrow text-mute z-30 shadow-2xl">
-              {nav.map((n) => <a href={n.href} class="px-3 py-2 rounded-lg hover:bg-white/5 hover:text-fg transition">{n.label}</a>)}
+              {nav.map((n) => (
+                <a href={n.href} aria-current={isActive(n) ? 'page' : undefined} class={`px-3 py-2 rounded-lg transition ${isActive(n) ? 'text-cyan bg-cyan/10' : 'hover:bg-white/5 hover:text-fg'}`}>{n.label}</a>
+              ))}
               <a href="/" class="px-3 py-2 rounded-lg hover:bg-white/5 hover:text-fg transition border-t border-white/10 mt-1 pt-3">לאתר ←</a>
             </nav>
           </details>
