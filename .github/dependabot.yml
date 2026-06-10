@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Weekly dependency PRs — drives the Astro upgrade (and future advisories)
+  # without waiting for a manual `npm audit`.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

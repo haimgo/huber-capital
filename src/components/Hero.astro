@@ -2,6 +2,7 @@
 import { site } from '../data/site.js';
 import { brandIcon } from '../lib/icons';
 import { t, type Lang } from '../lib/i18n';
+import { sanitizeInline } from '../lib/sanitize';
 const {
   eyebrow,
   title,
@@ -22,8 +23,8 @@ const pl = primaryLabel ?? t(lang, 'consult_primary');
 <section class="relative px-6 min-h-[88vh] flex items-center justify-center text-center">
   <div class="max-w-5xl mx-auto">
     {eyebrow && <p class="eyebrow text-[11px] md:text-sm mb-8" style="color:#ffd98a;">{eyebrow}</p>}
-    <h1 class="font-display font-bold text-5xl md:text-8xl leading-[1.02] mb-7 neon glow" set:html={title}></h1>
-    {sub && <p class="text-fg text-lg md:text-xl lg:text-2xl mb-10 font-semibold mx-auto glow-strong" set:html={sub}></p>}
+    <h1 class="font-display font-bold text-5xl md:text-8xl leading-[1.02] mb-7 neon glow" set:html={sanitizeInline(title)}></h1>
+    {sub && <p class="text-fg text-lg md:text-xl lg:text-2xl mb-10 font-semibold mx-auto glow-strong" set:html={sanitizeInline(sub)}></p>}
     <div class="flex flex-col sm:flex-row rtl:sm:flex-row-reverse gap-5 justify-center items-center">
       <a href={primaryHref} class="btn-neon rounded-full px-10 py-4 eyebrow text-sm text-fg">{pl}</a>
       <a href={site.whatsapp} target="_blank" rel="noopener" class="glass rounded-full px-10 py-4 eyebrow text-sm text-fg/80 inline-flex items-center justify-center gap-2"><span set:html={brandIcon('whatsapp', 17)}></span>{t(lang, 'whatsapp')}</a>

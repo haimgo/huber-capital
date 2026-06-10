@@ -3,6 +3,7 @@ import WebSocketImpl from 'ws';
 import { serverClient } from './lib/supabase';
 import { isAdmin } from './lib/admin';
 import { securityHeaders } from './lib/security';
+import { normalizeGuardPath } from './lib/pathGuard';
 
 const SECURITY_HEADERS = securityHeaders(import.meta.env.DEV);
 
@@ -23,12 +24,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // it correct if the middleware re-runs after that rewrite.
   context.locals.lang = context.locals.lang ?? (pathname === '/ru' || pathname.startsWith('/ru/') ? 'ru' : 'he');
 
-  const isAdminArea = pathname === '/admin' || pathname.startsWith('/admin/');
-  const isApi = pathname.startsWith('/api/');
-  const isLogin = pathname.startsWith('/admin/login');
+  // Match the guard on a normalized path (decoded + slash-collapsed + case-folded)
+  // so an encoded form like /%61dmin can't dodge the prefix check while the router
+  // still resolves it to the admin page. See src/lib/pathGuard.ts.
+  const guardPath = normalizeGuardPath(pathname);
+  const isAdminArea = guardPath === '/admin' || guardPath.startsWith('/admin/');
+  const isApi = guardPath.startsWith('/api/');
+  const isLogin = guardPath.startsWith('/admin/login');
   // /admin/reset is opened from a password-recovery email link, before any server
   // session cookie exists, so it must bypass the guard like the login page does.
-  const isReset = pathname.startsWith('/admin/reset');
+  const isReset = guardPath.startsWith('/admin/reset');
 
   // Guard the admin area (login + password-reset pages excepted). Admin is Hebrew-only.
   if (isAdminArea && !isLogin && !isReset) {

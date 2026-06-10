@@ -1,0 +1,28 @@
+name: CI
+
+# Shift-left security + quality gate. Runs on every PR and on pushes to main.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Unit tests
+        run: npx vitest run
+      - name: Build
+        run: npm run build
+      - name: Dependency audit — block on Critical
+        run: npm audit --audit-level=critical
+      - name: Dependency audit — full report (informational)
+        # Known High advisory (Astro) is tracked for a deliberate major upgrade;
+        # surfaced here without blocking so day-to-day PRs aren't held hostage.
+        run: npm audit || true

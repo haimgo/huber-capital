@@ -1,8 +1,9 @@
 ---
+import { sanitizeInline } from '../lib/sanitize';
 const { eyebrow, title, sub } = Astro.props;
 ---
 <section class="px-6 pt-16 md:pt-24 pb-10 text-center">
   <p class="eyebrow text-[11px] md:text-sm mb-6" style="color:#ffd98a;">{eyebrow}</p>
-  <h1 class="font-display font-bold text-4xl md:text-7xl mb-6 neon glow" set:html={title}></h1>
+  <h1 class="font-display font-bold text-4xl md:text-7xl mb-6 neon glow" set:html={sanitizeInline(title)}></h1>
   {sub && <p class="text-mute text-lg max-w-2xl mx-auto font-light">{sub}</p>}
 </section>
