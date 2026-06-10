@@ -20,12 +20,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **פריסה משותפת**: `src/layouts/BaseLayout.astro` (head/meta/OG, גופנים, `Header`, `Footer`, `SpaceBackground` של חלקיקים, סקריפט `.reveal`). `AdminLayout.astro` לעמודי ניהול.
 - **Tailwind** דרך `@astrojs/tailwind`; טוקנים ב-`tailwind.config.mjs`. glass/neon/reveal ב-`src/styles/global.css`.
 - **תוכן ב-Supabase** (Postgres). שכבת נתונים: `src/lib/content.ts` (`getSettings/getStats/getSteps/getMistakes/getAreas/getPress/getNews/getSection/getSections`, fail-soft). טקסטים לעמודים: `src/lib/pageSections.ts` (קונפיג + ברירות-מחדל; override נשמר ב-`page_sections`). לקוחות: `src/lib/supabase.ts` (`serverClient`/`browserClient` דרך `@supabase/ssr`; מספק גם `WebSocket` בצד-שרת דרך `ws` ב-middleware, כי ל-Node<22 ב-Vercel אין WebSocket גלובלי ש-supabase-js דורש). `src/data/site.js` נשאר לפרטי קשר סטטיים (טלפון/וואטסאפ — לא נערכים בניהול).
-- **אבטחה**: `src/middleware.ts` שומר על `/admin/*` ומוסיף cache לעמודים ציבוריים; RLS ב-Supabase (קריאה ציבורית, כתיבה למנהלים בלבד); `src/lib/admin.ts` (`isAdmin`).
+- **אבטחה**: `src/middleware.ts` שומר על `/admin/*`, מוסיף cache לעמודים ציבוריים (ו-`private, no-store` ל-admin/api), ומחיל כותרות אבטחה על כל תגובה — CSP מחמיר (`script-src 'self'` בפרודקשן), anti-clickjacking ו-hardening — מ-`src/lib/security.ts` (`securityHeaders(isDev)`; בדיקות ב-`tests/security.test.ts`). **בהוספת סקריפט inline או משאב חיצוני (CDN/דומיין/fetch) — עדכן את ה-CSP ב-`src/lib/security.ts`, אחרת הדפדפן יחסום אותו.** RLS ב-Supabase (קריאה ציבורית, כתיבה למנהלים בלבד); `src/lib/admin.ts` (`isAdmin`).
 
 ## Design tokens (sci-fi / gold-neon) — שמור על אחידות
 - צבעים (`tailwind.config.mjs`): `space #0b0a07` (רקע), `space2 #100d09`, `fg #f1ebdf` (טקסט), `mute #a59b86`, `cyan #ffd24a` (אקסנט זהב-נאון), `magenta #ff9d2f` (ענבר), `violet #d4a017`.
 - מחלקות (`global.css`): `.glass`, `.neon` (גרדיאנט טקסט), `.glow`, `.eyebrow` (Orbitron uppercase), `.btn-neon`, `.input-glass`, `.reveal`.
-- גופנים: **Space Grotesk** (`font-display`), **Heebo** (`font-body`), **Orbitron** (`font-mono`/eyebrows).
+- גופנים: **Space Grotesk** (`font-display`), **Heebo** (`font-body`), **Orbitron** (`font-mono`/eyebrows). מתארחים מקומית (**Fontsource**) דרך `@import` ב-`global.css` — לא Google Fonts CDN (שומר את ה-CSP ללא דומיינים חיצוניים; Heebo כולל subset עברי).
 - RTL: `dir="rtl"`. שים לב — בתפריט העליון השתמש ב-`flex-row` רגיל (לא `flex-row-reverse`) כדי ש"בית" יופיע ראשון מימין.
 - **אל תשנה ערכת צבעים/גופנים ללא בקשה מפורשת.**
 

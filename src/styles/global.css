@@ -1,6 +1,21 @@
 /* Sci-fi / WebGL — global base, glassmorphism, neon, motion.
    Tailwind base/utilities are injected by @astrojs/tailwind. */
 
+/* Self-hosted fonts (Fontsource) — replaces the Google Fonts <link>. Keeps all
+   web fonts same-origin, so the CSP needs no third-party font/style hosts and
+   there is no SRI gap on a remote (dynamically generated) stylesheet. Each weight
+   file ships every subset incl. Hebrew (U+0590–05FF); the browser downloads only
+   the subsets a page actually uses via unicode-range. Family names match
+   tailwind.config.mjs ("Space Grotesk" / Heebo / Orbitron) — drop-in. */
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/heebo/300.css';
+@import '@fontsource/heebo/400.css';
+@import '@fontsource/heebo/600.css';
+@import '@fontsource/heebo/800.css';
+@import '@fontsource/orbitron/500.css';
+@import '@fontsource/orbitron/700.css';
+
 html {
   scroll-behavior: smooth;
 }
