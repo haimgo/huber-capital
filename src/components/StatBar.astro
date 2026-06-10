@@ -3,7 +3,7 @@ const { stats, eyebrow, heading } = Astro.props;
 const hasHead = Boolean(eyebrow || heading);
 ---
 <section class="px-6 py-16 md:py-20 reveal">
-  <div class="max-w-container mx-auto">
+  <div class="max-w-[1200px] mx-auto">
     {hasHead && (
       <div class="text-center mb-10">
         {eyebrow && <p class="eyebrow text-[11px] mb-3" style="color:#ffd98a;">{eyebrow}</p>}
@@ -16,7 +16,7 @@ const hasHead = Boolean(eyebrow || heading);
           <div class="relative">
             {i > 0 && (
               <span
-                class="hidden md:block absolute start-[-1rem] top-1/2 -translate-y-1/2 h-12 w-px bg-gradient-to-b from-transparent via-cyan/45 to-transparent"
+                class="hidden md:block absolute start-[-1rem] top-1/2 -translate-y-1/2 h-12 w-px bg-linear-to-b from-transparent via-cyan/45 to-transparent"
                 aria-hidden="true"
               ></span>
             )}

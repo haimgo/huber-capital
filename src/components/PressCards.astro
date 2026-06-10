@@ -3,7 +3,7 @@ const { press, eyebrow = 'בתקשורת', heading = '', lang = 'he' } = Astro.p
 const readMore = lang === 'ru' ? 'К статье →' : 'לכתבה ←';
 ---
 <section class="px-6 py-16 md:py-24">
-  <div class="max-w-container mx-auto">
+  <div class="max-w-[1200px] mx-auto">
     {(eyebrow || heading) && (
       <div class="text-center mb-12 reveal">
         {eyebrow && <p class="eyebrow text-[11px] mb-3" style="color:#ffd98a;">{eyebrow}</p>}

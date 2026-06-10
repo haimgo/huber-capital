@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import preact from '@astrojs/preact';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 // SSR on Vercel. Public content is fetched from Supabase at request time;
@@ -13,5 +13,8 @@ export default defineConfig({
   site: 'https://huber-capital.co.il',
   output: 'server',
   adapter: vercel(),
-  integrations: [tailwind(), preact()],
+  integrations: [preact()],
+  // Tailwind v4 is a Vite plugin (the @astrojs/tailwind integration was removed
+  // because it does not support Astro 6). Theme tokens live in src/styles/global.css.
+  vite: { plugins: [tailwindcss()] },
 });

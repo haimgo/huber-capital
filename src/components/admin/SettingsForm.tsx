@@ -110,7 +110,7 @@ export default function SettingsForm() {
         </fieldset>
       ))}
       <div class="flex flex-row-reverse items-center gap-4 sticky bottom-4">
-        <button type="button" onClick={save} disabled={busy} class="btn-neon rounded-full px-6 py-2.5 eyebrow text-[11px] text-fg bg-space/80 backdrop-blur disabled:opacity-50 disabled:cursor-not-allowed">{busy ? 'שומר…' : 'שמירה'}</button>
+        <button type="button" onClick={save} disabled={busy} class="btn-neon rounded-full px-6 py-2.5 eyebrow text-[11px] text-fg bg-space/80 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed">{busy ? 'שומר…' : 'שמירה'}</button>
         {dirty && !status && <UnsavedDot />}
         <Status status={status} />
       </div>

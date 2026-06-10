@@ -1,5 +1,5 @@
-/* Sci-fi / WebGL — global base, glassmorphism, neon, motion.
-   Tailwind base/utilities are injected by @astrojs/tailwind. */
+/* Sci-fi / WebGL — global base, glassmorphism, neon, motion. */
+@import 'tailwindcss';
 
 /* Self-hosted fonts (Fontsource) — replaces the Google Fonts <link>. Keeps all
    web fonts same-origin, so the CSP needs no third-party font/style hosts and
@@ -15,6 +15,21 @@
 @import '@fontsource/heebo/800.css';
 @import '@fontsource/orbitron/500.css';
 @import '@fontsource/orbitron/700.css';
+
+/* Design tokens (Tailwind v4 @theme) — mirrors the former tailwind.config.mjs so
+   utilities like bg-space / text-fg / text-cyan / font-display keep working. */
+@theme {
+  --color-space: #0b0a07;
+  --color-space2: #100d09;
+  --color-fg: #f1ebdf;
+  --color-mute: #a59b86;
+  --color-cyan: #ffd24a;
+  --color-magenta: #ff9d2f;
+  --color-violet: #d4a017;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: Heebo, sans-serif;
+  --font-mono: Orbitron, sans-serif;
+}
 
 html {
   scroll-behavior: smooth;
