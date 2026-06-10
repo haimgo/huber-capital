@@ -2,6 +2,9 @@ import { defineMiddleware } from 'astro:middleware';
 import WebSocketImpl from 'ws';
 import { serverClient } from './lib/supabase';
 import { isAdmin } from './lib/admin';
+import { securityHeaders } from './lib/security';
+
+const SECURITY_HEADERS = securityHeaders(import.meta.env.DEV);
 
 // @supabase/realtime-js (pulled in by supabase-js) throws at client construction
 // when there is no global WebSocket — which is the case on Vercel's serverless
@@ -37,9 +40,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const res = await next();
 
+  // Security headers (CSP, anti-clickjacking, hardening) on every response.
+  for (const [key, value] of Object.entries(SECURITY_HEADERS)) res.headers.set(key, value);
+
   // Cache public content briefly at the CDN; never cache admin or API.
   if (!isAdminArea && !isApi && context.request.method === 'GET') {
     res.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
+  } else if (isAdminArea || isApi) {
+    // Authenticated admin HTML / API JSON must never be cached by a shared cache.
+    res.headers.set('Cache-Control', 'private, no-store');
   }
   return res;
 });
