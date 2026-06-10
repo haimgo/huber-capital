@@ -47,6 +47,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Deploy (Vercel)
 - מחובר ל-GitHub repo (`haimgo/huber-capital`); Vercel בונה ופורס אוטומטית ב-push. הגדר את שלושת ה-env vars ב-Vercel → Settings → Environment Variables.
 - (היסטורי) `.github/workflows/deploy.yml` פרס את הגרסה הסטטית ל-GitHub Pages.
+- **סקירת אבטחה (CI)**: `.github/workflows/security.yml` מריץ את `anthropics/claude-code-security-review@main` על כל PR ומפרסם ממצאים כתגובות. דורש secret `CLAUDE_API_KEY` (מפתח Anthropic עם הרשאות Claude API + Claude Code). `_legacy/` ו-`docs/` מוחרגים (`exclude-directories`) כדי למקד את הסריקה ב-`src/`.
 
 ## TODO לפני העלאה
 - `CONTENT-TODO.md`, `ASSETS.md`. החלף `REPLACE_ME` ב-Formspree. הגדר `SUPABASE_SERVICE_ROLE_KEY` ב-Vercel כדי לאפשר הזמנת מנהלים.
